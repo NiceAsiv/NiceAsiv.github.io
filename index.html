@@ -1,390 +1,215 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head prefix="og: https://ogp.me/ns#">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  
-  <title>Asiv&#39;s Blog</title>
-  
-    <link rel="shortcut icon" href="/img/avatar.jpg">
-  
-  
-    <link rel='manifest' href='/manifest.json'>
-  
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Asiv's Blog - Nice Asiv</title><meta name="author" content="Asiv"><meta name="copyright" content="Asiv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="生如逆旅，一苇以航">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Asiv&#39;s Blog">
+<meta property="og:url" content="http://niceasiv.cn/index.html">
+<meta property="og:site_name" content="Asiv&#39;s Blog">
+<meta property="og:description" content="生如逆旅，一苇以航">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://niceasiv.cn/img/avatar.jpg">
+<meta property="article:author" content="Asiv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://niceasiv.cn/img/avatar.jpg"><link rel="shortcut icon" href="/img/avatar.jpg"><link rel="canonical" href="http://niceasiv.cn/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Asiv\'s Blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-09-09 21:56:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-  
-  
-  
-  <meta property="og:title" content="Asiv&#39;s Blog" />
-  
-  <meta property="og:type" content="website" />
-  
-  <meta property="og:url" content="http://niceasiv.cn/index.html" />
-  
-  <meta property="og:image" content="/favicon.png" />
-  
-  
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-  
-<link rel="stylesheet" href="/css/var.css">
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-  
-<link rel="stylesheet" href="/css/main.css">
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-<link rel="stylesheet" href="/css/typography.css">
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-<link rel="stylesheet" href="/css/code-highlighting.css">
-
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
   
-<link rel="stylesheet" href="/css/components.css">
-
-  
-<link rel="stylesheet" href="/css/nav.css">
-
-  
-<link rel="stylesheet" href="/css/paginator.css">
-
-  
-<link rel="stylesheet" href="/css/footer.css">
-
-  
-<link rel="stylesheet" href="/css/post-list.css">
-
-  
-  
-<link rel="stylesheet" href="/css/rainbow-banner.css">
-
-  
-  
-  
-<link rel="stylesheet" href="/css/toc.css">
-
-  
-  
-  
-  
-<link rel="stylesheet" href="/css/index.css">
-
-  
-  
-  
-  
-  
-  
-
-  
-<!-- hexo injector head_end start -->
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
-    <body
-        data-color-scheme="auto"
-        data-uppercase-categories="true"
-        
-        data-rainbow-banner="true"
-        data-rainbow-banner-shown="auto"
-        data-rainbow-banner-month="3"
-        data-rainbow-banner-colors="#e50000,#ff8d00,#ffee00,#008121,#004cff,#760188"
-        
-        data-config-root="/"
-        
-        data-toc="true"
-        data-toc-max-depth="3"
-        
-        
-    >
-        <nav id="theme-nav">
-    <div class="inner">
-        <a class="title" href="/">Asiv&#39;s Blog</a>
-        <div class="nav-arrow"></div>
-        <div class="nav-items">
-            <a class="nav-item nav-item-home" href="/">Home</a>
-            
-            
-            <a class="nav-item" href="/archives">Archives</a>
-            
-            
-            
-            <a class="nav-item" href="/friends">Friends</a>
-            
-            
-            
-            <a class="nav-item" href="/essay">Essay</a>
-            
-            
-            
-            <a class="nav-item" href="/about">About</a>
-            
-            
-            
-            <a class="nav-item nav-item-github nav-item-icon" href="https://github.com/NiceAsiv" target="_blank" aria-label="GitHub">&nbsp;</a>
-            
-            
-            
-            <a class="nav-item nav-item-search nav-item-icon" href="/search" target="_blank" aria-label="Search">&nbsp;</a>
-            
-            
-        </div>
-    </div>
-</nav>
-        <div class="container">
-    
-    <div class="hero">
-        <div class="group">
-            <h2 class="sub">Nice Asiv</h2>
-            <h2 class="large">生如逆旅，一苇以航⭐</h2>
-        </div>
-    </div>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Asiv's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> Friends</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Asiv's Blog"><img class="site-icon" src="/img/avatar.jpg"/><span class="site-name">Asiv's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> Friends</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Asiv's Blog</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/NiceAsiv" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:axiwuhe@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/03/29/CVE20200601/" title="CVE2020-06-01复现">CVE2020-06-01复现</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-03-29T10:16:09.000Z" title="发表于 2023-03-29 18:16:09">2023-03-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/course/">course</a></span></div><div class="content"></div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/03/10/pythonNote/" title="Python复习">Python复习</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-03-10T10:16:09.000Z" title="发表于 2023-03-10 18:16:09">2023-03-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/course/">course</a></span></div><div class="content"> 数据类型
+ 字符串类
+删除空白
+rstrip 删除右边空格
+lstrip 删除左边空格
+strip 删除两边空格
+12345678910In [1]: str=&quot; python &quot;In [2]: str.rstrip()Out[2]: &#x27; python&#x27;In [3]: str.lstrip()Out[3]: &#x27;python &#x27;In [4]: str.strip()Out[4]: &#x27;python&#x27;
+ 列表
+列表的索引从0开始
+ 元素添加和删除
+1.在列表末尾添加元素
+123456In [5]: bicycles = [&#x27;trek&#x27;, &#x27;cannondale&#x27;, &#x27;redline&#x27;, &#x27;specialized&#x27;]In [6]: bicycles[1]Out[6]: &#x27;cannondale&#x27;In [7]: bicycles.append(&quot;app&quot;)In [8]: bicyclesOut[8] ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/03/04/reinforment_learning/" title="强化学习笔记">强化学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-03-04T09:06:09.000Z" title="发表于 2023-03-04 17:06:09">2023-03-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Machine-Learning/">Machine Learning</a></span></div><div class="content"> 基础
+ 马尔科夫决策(MDP)
+在随机过程中某时刻ttt的状态用StS_tSt​表示，所以可能的状态组成了状态空间SSS。
+如果已知历史的状态信息即(S1,...,St)(S_1,...,S_t)(S1​,...,St​),那么下一个时刻状态为St+1S_{t+1}St+1​的概率为P(St+1∣S1,...,St)P(S_{t+1}\mid S_1,...,S_t)P(St+1​∣S1​,...,St​)
+当且仅当某时刻的状态只取决于上一时刻的状态时，一个随机过程被称为具有马尔可夫性质
+P(St+1∣St)=P(St+1∣S1,...,St)P(S_{t+1}\mid S_t)=P(S_{t+1}\mid S_1,...,S_t)
+P(St+1​∣St​)=P(St+1​∣S1​,...,St​)
+也就是说当前状态是未来的充分统计量，即下一个状态只取决于当前状态，而不会受到过去状态的影响。
+注意：
+虽然t+1t+1t+1时刻的状态只与ttt时刻的状态有关，但是ttt时刻的状态其实包含了t−1t-1t−1时刻的状态的信息，通过这种链式的关系，历史的信息被传递到了现在。
+ Markov ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/03/04/Policy_Distillation/" title="策略蒸馏">策略蒸馏</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-03-04T08:06:09.000Z" title="发表于 2023-03-04 16:06:09">2023-03-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Machine-Learning/">Machine Learning</a></span></div><div class="content">为了理解蒸馏的含义，我们先以DQN为例
+DQN（Deep Q-Network）是一种强化学习算法，它通过深度神经网络来近似Q函数，从而实现智能体的行为决策。下面我们将介绍一个针对DQN网络的案例。
+假设我们有一个小型的迷宫环境，智能体的任务是通过左、右、上、下四个动作来找到宝藏并获得最高的奖励。我们可以使用DQN算法来训练智能体。
+首先，我们需要定义状态空间、动作空间、奖励函数以及转移函数。在这个案例中，状态空间是迷宫中每个位置的坐标，动作空间是四个方向，奖励函数是在找到宝藏时获得的奖励，转移函数是在智能体执行一个动作后转移到下一个状态的过程。
+然后，我们可以使用深度神经网络来近似Q函数。在这个案例中，我们可以使用一个简单的全连接神经网络，它的输入是当前状态，输出是四个动作的Q值。我们使用均方误差损失函数来度量Q值的预测误差，并使用梯度下降算法来优化神经网络参数。
+接下来，我们可以使用经验回放机制来训练DQN网络。经验回放是一种存储智能体的经验，并从中随机抽样的机制。这样可以使得训练数据更加丰富、稳定，并且可以避免连续的训练样本之间的相关性。在每次训练中，我们随机从经验池中选择一个批次 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/11/28/PE_DLL/" title="通过修改 PE 装载 DLL 实验">通过修改 PE 装载 DLL 实验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-28T10:16:09.000Z" title="发表于 2022-11-28 18:16:09">2022-11-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/course/">course</a></span></div><div class="content">
+参考课件 chap06.pdf 中“通过修改PE装载DLL”一节的内容，以及课本第 5.5节的 内容，实现对notepad.exe（修復並下載Notepad.exe）的修改，使得修改后的 notepad.exe 在双击运行时，能够自动隐式装载 MyDll3.dll，并进而 将一个网页下载到本地index.html 文件。
+本上机作业的目的是让大家深入理解 PE 文件中的导入表、导入地址表等关键结构及相关的功能。
 
-    <h2 class="section-title">Latest Posts</h2>
-    
+本实验所使用的notepad.exe 是 Windows 7系统（最好32位版）中的可执行程序，MyDll3.dll 也仅保证在 Windows 7下能正常工作，因此，建议在 Windows 7环境（可预先安装虚拟机）下进行修改。请在虚拟机中禁用所有杀毒软件，确保修改过程不会受到杀毒软件的干扰。保证虚拟机能联网，以便DLL装载后的网页下载动作能正常完成。
+下载notepad.exe可能与课本中所描述的notepad.exe版本不一致，应主要参考课件中的修改流程。
+使用PEview分析PE文件，使用HxD编辑器修改PE文件。
+直接使用本书所附代码编译生成 MyDll3.dll ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/11/01/RSAattack/" title="RSA 加密体制破译">RSA 加密体制破译</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-01T10:16:09.000Z" title="发表于 2022-11-01 18:16:09">2022-11-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/course/">course</a></span></div><div class="content"> 题目摘要
+ 赛题名称： RSA 加密体制破译
+ 赛题描述
+RSA密码算法是使用最为广泛的公钥密码体制。该体制简单且易于实现，只需要选择5个参数即可（两个素数𝑝𝑝p和𝑞𝑞q、模数𝑁=𝑝𝑞𝑁=𝑝𝑞N=pq、加密指数𝑒𝑒e和解密指数𝑑𝑑d。设𝑚为待加密消息RSA体制破译相当于已知𝑚𝑒𝑚^𝑒me modmodmod 𝑁𝑁N能否还原𝑚的数论问题。目前模数规模为1024比特的RSA算法一般情况下是安全的，但是如果参数选取不当，同样存在被破译的可能。有人制作了一个RSA加解密软件采用的RSA体制的参数特点描述见密码背景部分）。
+已知该软件发送某个明文的所有参数和加密过程的全部数据（加密案例文件详见附件3-1。Alice使用该软件发送了一个通关密语，且所有加密数据已经被截获，请问能否仅从加密数据恢复该通关密语及RSA体制参数？如能请给出原文和参数，如不能请给出已恢复部分并说明剩余部分不能恢复的理由？
+ 加密过程
 
-    <div class="post-list">
-        
-        <article class="post-list-item">
-            <a href="/2023/03/29/CVE20200601/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>course</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        CVE2020-06-01复现
-                    </div>
-                    
-                    <div class="time">
-                        <span>March</span>
-                        <span>&nbsp;29,&nbsp;</span>
-                        <span>2023</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2023/03/10/pythonNote/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>course</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        Python复习
-                    </div>
-                    
-                    <div class="time">
-                        <span>March</span>
-                        <span>&nbsp;10,&nbsp;</span>
-                        <span>2023</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2023/03/04/reinforment_learning/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>Machine Learning</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        强化学习笔记
-                    </div>
-                    
-                    <div class="time">
-                        <span>March</span>
-                        <span>&nbsp;4,&nbsp;</span>
-                        <span>2023</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2023/03/04/Policy_Distillation/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>Machine Learning</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        策略蒸馏
-                    </div>
-                    
-                    <div class="time">
-                        <span>March</span>
-                        <span>&nbsp;4,&nbsp;</span>
-                        <span>2023</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2022/11/28/PE_DLL/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>course</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        通过修改 PE 装载 DLL 实验
-                    </div>
-                    
-                    <div class="time">
-                        <span>November</span>
-                        <span>&nbsp;28,&nbsp;</span>
-                        <span>2022</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2022/11/01/RSAattack/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>course</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        RSA 加密体制破译
-                    </div>
-                    
-                    <div class="time">
-                        <span>November</span>
-                        <span>&nbsp;1,&nbsp;</span>
-                        <span>2022</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2022/10/31/Week6%20quiz/">
-                
-                <div class="content">
-                    
-                    <div class="categories text-uppercase">
-                    
-                        <span>course</span>
-                    
-                    </div>
-                    
-                    <div class="title">
-                        Week 6 - Programming Assignment
-                    </div>
-                    
-                    <div class="time">
-                        <span>October</span>
-                        <span>&nbsp;31,&nbsp;</span>
-                        <span>2022</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-    </div>
+原始明文
 
-    
-</div>
-        <footer>
-    <div class="inner">
-        <div class="links">
-            
-            <div class="group">
-                <h2 class="title">Blog</h2>
-                
-                <a href="/" class="item">Blog</a>
-                
-                <a href="/archives" class="item">Archives</a>
-                
-                <a href="/search" class="item">Search</a>
-                
-                <a href="/friends" class="item">Friends</a>
-                
-            </div>
-            
-            <div class="group">
-                <h2 class="title">Me</h2>
-                
-                <a target="_blank" rel="noopener" href="https://github.com/NiceAsiv" class="item">GitHub</a>
-                
-                <a href="mailto:asiwuhe@hotmail.com" class="item">mail</a>
-                
-                <a href="/about" class="item">About</a>
-                
-            </div>
-            
-        </div>
-        <span>&copy; 2023 Asiv<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> </span>
-        
-        
-            <br>
-            <div class="color-scheme-toggle" role="radiogroup" id="theme-color-scheme-toggle">
-                <label>
-                    <input type="radio" value="light">
-                    <span>Light</span>
-                </label>
-                <label>
-                    <input type="radio" value="dark">
-                    <span>Dark</span>
-                </label>
-                <label>
-                    <input type="radio" value="auto">
-                    <span>Auto</span>
-                </label>
-            </div>
-        
-    </div>
-</footer>
-
-
-        
-<script src="/js/main.js"></script>
-
-        
-        
-        
-
-        
-        <script src="https://unpkg.com/scrollreveal"></script>
-        <script>
-            window.addEventListener('load', () => {
-                ScrollReveal({ delay: 250, reset: true, easing: 'cubic-bezier(0, 0, 0, 1)' })
-                ScrollReveal().reveal('.post-list-item .cover-img img')
-                ScrollReveal().reveal('.post-list-item, .card, .content p img, .content .block-large img', { distance: '60px', origin: 'bottom', duration: 800 })
-            })
-        </script>
-        
-    </body>
-</html>
+1This is a test of my RSA system.
+Frame0
+1A5F51EB02EA9C0CC9B96926A ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/10/31/Week6%20quiz/" title="Week 6 - Programming Assignment">Week 6 - Programming Assignment</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-31T10:16:09.000Z" title="发表于 2022-10-31 18:16:09">2022-10-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/course/">course</a></span></div><div class="content"> Content
+更好的效果PDF:pdf文章列表 | Asiv's Blog (niceasiv.cn)
+ Factoring challenge #1:
+Your goal in this project is to break RSA when the public modulus NNN is generated incorrectly. This should serve as yet another reminder not to implement crypto primitives yourself.
+Normally, the primes that comprise an RSA modulus are generated independently of one another. But suppose a developer decides to generate the first prime ppp by choosing a random number RRR and scanning for a prime close by. The second pr ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Asiv</div><div class="author-info__description">生如逆旅，一苇以航</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/NiceAsiv" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:axiwuhe@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Crypto/" style="font-size: 1.5em; color: #99a9bf">Crypto</a> <a href="/tags/Distillation/" style="font-size: 1.1em; color: #999">Distillation</a> <a href="/tags/Reinforcement-learning/" style="font-size: 1.5em; color: #99a9bf">Reinforcement learning</a> <a href="/tags/Machine-Learning/" style="font-size: 1.1em; color: #999">Machine Learning</a> <a href="/tags/Python/" style="font-size: 1.1em; color: #999">Python</a> <a href="/tags/Reverse/" style="font-size: 1.5em; color: #99a9bf">Reverse</a></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Asiv</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

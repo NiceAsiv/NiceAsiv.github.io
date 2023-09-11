@@ -4,7 +4,7 @@
   <url>
     <loc>http://niceasiv.cn/friends/index.html</loc>
     
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -121,7 +121,7 @@
 
   <url>
     <loc>http://niceasiv.cn/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -129,42 +129,42 @@
   
   <url>
     <loc>http://niceasiv.cn/tags/Reverse/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://niceasiv.cn/tags/Distillation/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://niceasiv.cn/tags/Reinforcement-learning/</loc>
-    <lastmod>2023-09-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://niceasiv.cn/tags/Crypto/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://niceasiv.cn/tags/Python/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://niceasiv.cn/tags/Crypto/</loc>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://niceasiv.cn/tags/Machine-Learning/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -173,14 +173,14 @@
   
   <url>
     <loc>http://niceasiv.cn/categories/course/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://niceasiv.cn/categories/Machine-Learning/</loc>
-    <lastmod>2023-09-08</lastmod>
+    <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

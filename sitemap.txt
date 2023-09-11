@@ -15,8 +15,8 @@ http://niceasiv.cn/
 http://niceasiv.cn/tags/Reverse/
 http://niceasiv.cn/tags/Distillation/
 http://niceasiv.cn/tags/Reinforcement-learning/
-http://niceasiv.cn/tags/Crypto/
 http://niceasiv.cn/tags/Python/
+http://niceasiv.cn/tags/Crypto/
 http://niceasiv.cn/tags/Machine-Learning/
 http://niceasiv.cn/categories/course/
 http://niceasiv.cn/categories/Machine-Learning/
