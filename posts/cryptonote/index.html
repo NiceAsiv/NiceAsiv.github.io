@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<script type="text/javascript"
+        async
+        src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+<title>现代密码学期末复习 | Asiv&#39;s Blog</title>
+<meta name="keywords" content="Crypto">
+<meta name="description" content="基于斯坦福大学 密码学一
+密码分析的四个手段 唯密文攻击（Ciphtext Only Attack，COA） 定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。
+假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。
+简单理解：只知道密文，推出明文或密钥，一般用穷举攻击。
+已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全） 定义：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和加密算法。
+简单理解：知道部分的明文和密文对，推出密钥和加密算法。
+选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全） 定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。
+简单理解：知道明文就知道密文，目标为推出密钥。
+选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全） 定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。
+若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。
+简单理解：知道密文就知道明文，目标为推出密钥。 当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。 其中，四种攻击方式对应的攻击强度为：
+攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA) 难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)
+离散概率 异或性质 （1）交换律：$ A \oplus B = B \oplus A$
+（2）结合律： $( A \oplus B ) \oplus C = A \oplus ( B \oplus C )$
+（3）自反性：$ A \oplus B \oplus B = A $（由结合律可推：$ A \oplus B \oplus B = A \oplus ( B \oplus B ) = A \oplus 0 = A)$
+Birthday Paradox 每个人生日都不相同的概率: $$ \bar{p}(n)=1 \cdot\left(1-\frac{1}{365}\right) \cdot\left(1-\frac{2}{365}\right) \cdots\left(1-\frac{n-1}{365}\right)=\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \cdots \frac{365-n&#43;1}{365} $$ 阶乘形式为 $\frac{365 !}{365^n(365-n) !}$ 至少两人生日相同的概率就是这个结果的补 $$ p(n)=1-\bar{p}(n)=1-\frac{365 !}{365^n(365-n) !} $$
+secure cipher perfect secrecy
+For every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \in M$ and every cipher text $c \in C$, the following holds: $$ \operatorname{Pr}\left[C=c \mid M=m_0\right]=\operatorname{Pr}\left[C=c \mid M=m_1\right] $$ 此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布">
+<meta name="author" content="Asiv">
+<link rel="canonical" href="https://niceasiv.cn/posts/cryptonote/">
+<meta name="google-site-verification" content="NiceAsiv.cn">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://niceasiv.cn/img/logo.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://niceasiv.cn/img/logo.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://niceasiv.cn/img/logo.jpg">
+<link rel="apple-touch-icon" href="https://niceasiv.cn/img/logo.jpg">
+<link rel="mask-icon" href="https://niceasiv.cn/img/logo.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="现代密码学期末复习" />
+<meta property="og:description" content="基于斯坦福大学 密码学一
+密码分析的四个手段 唯密文攻击（Ciphtext Only Attack，COA） 定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。
+假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。
+简单理解：只知道密文，推出明文或密钥，一般用穷举攻击。
+已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全） 定义：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和加密算法。
+简单理解：知道部分的明文和密文对，推出密钥和加密算法。
+选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全） 定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。
+简单理解：知道明文就知道密文，目标为推出密钥。
+选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全） 定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。
+若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。
+简单理解：知道密文就知道明文，目标为推出密钥。 当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。 其中，四种攻击方式对应的攻击强度为：
+攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA) 难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)
+离散概率 异或性质 （1）交换律：$ A \oplus B = B \oplus A$
+（2）结合律： $( A \oplus B ) \oplus C = A \oplus ( B \oplus C )$
+（3）自反性：$ A \oplus B \oplus B = A $（由结合律可推：$ A \oplus B \oplus B = A \oplus ( B \oplus B ) = A \oplus 0 = A)$
+Birthday Paradox 每个人生日都不相同的概率: $$ \bar{p}(n)=1 \cdot\left(1-\frac{1}{365}\right) \cdot\left(1-\frac{2}{365}\right) \cdots\left(1-\frac{n-1}{365}\right)=\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \cdots \frac{365-n&#43;1}{365} $$ 阶乘形式为 $\frac{365 !}{365^n(365-n) !}$ 至少两人生日相同的概率就是这个结果的补 $$ p(n)=1-\bar{p}(n)=1-\frac{365 !}{365^n(365-n) !} $$
+secure cipher perfect secrecy
+For every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \in M$ and every cipher text $c \in C$, the following holds: $$ \operatorname{Pr}\left[C=c \mid M=m_0\right]=\operatorname{Pr}\left[C=c \mid M=m_1\right] $$ 此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://niceasiv.cn/posts/cryptonote/" /><meta property="og:image" content="https://niceasiv.cn/images/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-07T18:16:09+00:00" />
+<meta property="article:modified_time" content="2022-12-07T18:16:09+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://niceasiv.cn/images/papermod-cover.png"/>
+
+<meta name="twitter:title" content="现代密码学期末复习"/>
+<meta name="twitter:description" content="基于斯坦福大学 密码学一
+密码分析的四个手段 唯密文攻击（Ciphtext Only Attack，COA） 定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。
+假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。
+简单理解：只知道密文，推出明文或密钥，一般用穷举攻击。
+已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全） 定义：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和加密算法。
+简单理解：知道部分的明文和密文对，推出密钥和加密算法。
+选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全） 定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。
+简单理解：知道明文就知道密文，目标为推出密钥。
+选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全） 定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。
+若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。
+简单理解：知道密文就知道明文，目标为推出密钥。 当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。 其中，四种攻击方式对应的攻击强度为：
+攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA) 难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)
+离散概率 异或性质 （1）交换律：$ A \oplus B = B \oplus A$
+（2）结合律： $( A \oplus B ) \oplus C = A \oplus ( B \oplus C )$
+（3）自反性：$ A \oplus B \oplus B = A $（由结合律可推：$ A \oplus B \oplus B = A \oplus ( B \oplus B ) = A \oplus 0 = A)$
+Birthday Paradox 每个人生日都不相同的概率: $$ \bar{p}(n)=1 \cdot\left(1-\frac{1}{365}\right) \cdot\left(1-\frac{2}{365}\right) \cdots\left(1-\frac{n-1}{365}\right)=\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \cdots \frac{365-n&#43;1}{365} $$ 阶乘形式为 $\frac{365 !}{365^n(365-n) !}$ 至少两人生日相同的概率就是这个结果的补 $$ p(n)=1-\bar{p}(n)=1-\frac{365 !}{365^n(365-n) !} $$
+secure cipher perfect secrecy
+For every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \in M$ and every cipher text $c \in C$, the following holds: $$ \operatorname{Pr}\left[C=c \mid M=m_0\right]=\operatorname{Pr}\left[C=c \mid M=m_1\right] $$ 此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+
+        {
+          "@type": "ListItem",
+          "position":  2 ,
+          "name": "Posts",
+          "item": "https://niceasiv.cn/posts/"
+        }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "现代密码学期末复习",
+      "item": "https://niceasiv.cn/posts/cryptonote/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "现代密码学期末复习",
+  "name": "现代密码学期末复习",
+  "description": "基于斯坦福大学 密码学一\n密码分析的四个手段 唯密文攻击（Ciphtext Only Attack，COA） 定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。\n假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。\n简单理解：只知道密文，推出明文或密钥，一般用穷举攻击。\n已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全） 定义：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和加密算法。\n简单理解：知道部分的明文和密文对，推出密钥和加密算法。\n选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全） 定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。\n简单理解：知道明文就知道密文，目标为推出密钥。\n选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全） 定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。\n若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。\n简单理解：知道密文就知道明文，目标为推出密钥。 当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。 其中，四种攻击方式对应的攻击强度为：\n攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA) 难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)\n离散概率 异或性质 （1）交换律：$ A \\oplus B = B \\oplus A$\n（2）结合律： $( A \\oplus B ) \\oplus C = A \\oplus ( B \\oplus C )$\n（3）自反性：$ A \\oplus B \\oplus B = A $（由结合律可推：$ A \\oplus B \\oplus B = A \\oplus ( B \\oplus B ) = A \\oplus 0 = A)$\nBirthday Paradox 每个人生日都不相同的概率: $$ \\bar{p}(n)=1 \\cdot\\left(1-\\frac{1}{365}\\right) \\cdot\\left(1-\\frac{2}{365}\\right) \\cdots\\left(1-\\frac{n-1}{365}\\right)=\\frac{365}{365} \\cdot \\frac{364}{365} \\cdot \\frac{363}{365} \\cdot \\frac{362}{365} \\cdots \\frac{365-n+1}{365} $$ 阶乘形式为 $\\frac{365 !}{365^n(365-n) !}$ 至少两人生日相同的概率就是这个结果的补 $$ p(n)=1-\\bar{p}(n)=1-\\frac{365 !}{365^n(365-n) !} $$\nsecure cipher perfect secrecy\nFor every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \\in M$ and every cipher text $c \\in C$, the following holds: $$ \\operatorname{Pr}\\left[C=c \\mid M=m_0\\right]=\\operatorname{Pr}\\left[C=c \\mid M=m_1\\right] $$ 此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布",
+  "keywords": [
+    "Crypto"
+  ],
+  "articleBody": "基于斯坦福大学 密码学一\n密码分析的四个手段 唯密文攻击（Ciphtext Only Attack，COA） 定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。\n假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。\n简单理解：只知道密文，推出明文或密钥，一般用穷举攻击。\n已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全） 定义：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和加密算法。\n简单理解：知道部分的明文和密文对，推出密钥和加密算法。\n选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全） 定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。\n简单理解：知道明文就知道密文，目标为推出密钥。\n选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全） 定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。\n若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。\n简单理解：知道密文就知道明文，目标为推出密钥。 当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。 其中，四种攻击方式对应的攻击强度为：\n攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA) 难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)\n离散概率 异或性质 （1）交换律：$ A \\oplus B = B \\oplus A$\n（2）结合律： $( A \\oplus B ) \\oplus C = A \\oplus ( B \\oplus C )$\n（3）自反性：$ A \\oplus B \\oplus B = A $（由结合律可推：$ A \\oplus B \\oplus B = A \\oplus ( B \\oplus B ) = A \\oplus 0 = A)$\nBirthday Paradox 每个人生日都不相同的概率: $$ \\bar{p}(n)=1 \\cdot\\left(1-\\frac{1}{365}\\right) \\cdot\\left(1-\\frac{2}{365}\\right) \\cdots\\left(1-\\frac{n-1}{365}\\right)=\\frac{365}{365} \\cdot \\frac{364}{365} \\cdot \\frac{363}{365} \\cdot \\frac{362}{365} \\cdots \\frac{365-n+1}{365} $$ 阶乘形式为 $\\frac{365 !}{365^n(365-n) !}$ 至少两人生日相同的概率就是这个结果的补 $$ p(n)=1-\\bar{p}(n)=1-\\frac{365 !}{365^n(365-n) !} $$\nsecure cipher perfect secrecy\nFor every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \\in M$ and every cipher text $c \\in C$, the following holds: $$ \\operatorname{Pr}\\left[C=c \\mid M=m_0\\right]=\\operatorname{Pr}\\left[C=c \\mid M=m_1\\right] $$ 此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布\nOTP是Perfect Security 证明:\n$\\forall m \\in M, \\forall c \\in C \\quad \\operatorname{Pr}[E(k, m)=c]=\\frac{# k e y, k \\in K \\text { s.t. } E(k, m)=c}{|K|}$\n，在OTP中 $k=m \\oplus c$ ，因此对于任意的 $m, c$ 使得 $E(k, m)=c$ 的 $k$ 的个数为 1 。\n所以，在OTP中对于 任意的 $m, c ， \\operatorname{Pr}[E(k, m)=c]$ 是一个常数。因此OTP是perfect security。\n流密码 PRG unpredictable 可忽略函数 在数学中，可忽略函数 (英语: Negligible function) 是指 对于一个函数 $\\mu(x): \\mathbb{N} \\rightarrow \\mathbb{R}$ ，如果对于任意一个正多项式 $p o l y()$ ，存在一个 $N_c\u003e0$ ，使得对于所有的 $x\u003eN_c$ $$ \\mu(x)\u003c\\frac{1}{\\operatorname{poly}(x)} $$ 那么这个函数便是可忽略的 (negligible)。通常我们把 “存在一个 $N_c\u003e0$ ，使得对于所有的 $x\u003eN_c$ \" 简化为 “对于所有足够大的 $x^{\\prime \\prime}$ 。\n语义安全 攻击者自己任意选择两个消息m0、m1（注意，这个m0、m1是攻击者自己选的） 攻击者把这两个消息发送给挑战者。 挑战者运行加密算法，加密mb，把加密结果发送给攻击者。 $\\operatorname{Adv}_{S S}[A, E]=\\left|\\operatorname{Pr}\\left[c \\leftarrow E\\left(k, m_0\\right)\\right]-\\operatorname{Pr}\\left[c \\leftarrow E\\left(k, m_1\\right)\\right]\\right|=0$\nOTP是语义安全的,因为任意的$m_i \\oplus k $ 都是均匀分布的，无法区分两个实验\n流密码是语义安全的\n定理1: 如果一个流密码 $\\mathcal{E}$ 使用的PRG $\\mathcal{G}$ 是安全的，那么 $\\mathcal{E}$ 是语义安全的，并且在给定 $\\mathcal{E}$ 的敌手 $\\mathcal{A}$ 的情况下存在对于 $\\mathcal{G}$ 的敌手 $\\mathcal{B}$ 满足 $S S a d v^*[\\mathcal{A}, \\mathcal{E}]=P R G a d v[\\mathcal{B}, \\mathcal{G}]_{\\text {。 }}$\n分组密码 PRF和PRP PRF 取一个密钥 $K$ 和集合$X$中的元素作为输入，输出值在集合$Y$中，现在唯一要求的是存在一个有效的算法来实现这个函数。也就是说，要有 一个有效的函数来实现 $K \\times X \\rightarrow Y$ 的映射。 PRP 与PRF不同的是，多了一个条件，那就是要有一个算法D可以实现逆运算。 在PRP中，存在一个有效算法，能够实现映射关系 $K \\times X \\rightarrow X$ ，也就是说该算法能够将随机密钥 $k$ 与集合 $K \\mathrm{X}$ 中的元素作为输入，同时 输出值也是集合X中的元素，那么就要求每个元素一一对应。\n从本质上来说， $E(k, x)$ 是对元素 $\\mathrm{x}$ 的置换，为了解密的需要，就要求E是可逆的。\n安全性证明 DES Feistel结构 令 $\\mathrm{F}$ 为轮函数，并令 $K_0, K_1, \\ldots, K_n$ 分别为轮 $0,1, \\ldots, n$ 的子密钥。 基本操作如下: 将明文块拆分为两个等长的块， $\\left(L_0, R_0\\right)$ 对每轮 $i=0,1, \\ldots, n$ ，计算 $$ \\begin{aligned} L_{i+1} \u0026 =R_i \\ R_{i+1} \u0026 =L_i \\oplus \\mathrm{F}\\left(R_i, K_i\\right) . \\end{aligned} $$ 则密文为 $\\left(R_{n+1}, L_{n+1}\\right)$ 。 解密密文 $\\left(R_{n+1}, L_{n+1}\\right)$ 则通过计算 $i=n, n-1, \\ldots, 0$ $$ \\begin{aligned} \u0026 R_i=L_{i+1} \\ \u0026 L_i=R_{i+1} \\oplus \\mathrm{F}\\left(L_{i+1}, K_i\\right) . \\end{aligned} $$ 则 $\\left(L_0, R_0\\right)$ 就是明文。\n如果轮函数是一个密码安全的伪随机函数，使用$K_i$作为种子，那么3轮足以使这种分组密码成为伪随机置换，而4轮可使它成为“强”伪随机置换（这意味着，对可以得到其逆排列谕示的攻击者，它仍然是伪随机的）。\nFeistel结构轮函数 （1）、将64bit的明文右半部分(IP置换的产物，左右各有32bit)即32bit扩展为48bit：采用的是4个bit一组，分为8组，每一组前后各加1bit（增加的bit数=$218=16bit$）。其增加按照下表进行（虚线以外的为增加的bit所在位置，如：第一组前是32，即在第一组前加一个bit为整个右半部分的32bit的第32位的bit值{0,1}）： （2）、得到的48bit扩充信息，和子密钥$K_i$进行异或操作，得到48bit的结果； （3）、将扩充信息和子密钥异或后的结果进行压缩（48bit压缩到32bit），压缩的方式是经过S盒（4*16的矩阵）进行替换，S盒函数是经过严格计算获得的，其S1盒的替换表与流程如下所示：\n一个组6bit，共8组（6bit*8=48bit），即有8个S盒，每个S盒是固定的但是都是不相同的\nS盒的实现就像一个编码器，只不过是6-4线的。原来的6bit作为索引，转换为索引到的4bit。\nS盒的设计原则是遵循了F函数的要求来设计的，比如非线性、雪崩性、比特统计独立性等\n（4）、置换运算P（经过一个P盒进行置换）：指的是将32bit压缩后的信息进行bit置换操作，改换位操作目的是打乱其原有排序规律（F函数的混乱性原则）\nDES介绍 DES是使用对称秘钥的分组加密算法。具体的算法流程如下\n因为加密和解密的密钥是一样的，所以称之为对称密钥。另外分组加密，是因为这种算法把明文划分为许多个等长的块(block)或分组,对每个块进行加密，最后拼接在一起。\n从本质上来说，DES的安全性依赖于虚假表象，从密码学的术语来讲就是依赖于“混淆和扩散”的原则。混淆的目的是为隐藏任何明文同密文、或者密钥之间的关系，而扩散的目的是使明文中的有效位和密钥一起组成尽可能多的密文。\nDES的功能是:给定64bits的Plaintext和8字节64bits的key，输出一个64bits的ciphertext。这些ciphertext可以用相同的key进行解密。\n虽然 DES 一次只能加密 8 个字节，但我们只需要把明文划分成每 8 个字节一组的块，就可以实现任意长度明文的加密。如果明文长度不是 8 个字节的倍数，常用PKCS7 / PKCS5进行填充，用于把任意长度的文本填充成 8 字节的倍数长，也能方便地恢复原文。\nDES算法框架 IP置换目的是将输入的64位数据块按位重新组合，并把输出分为L0、R0两部分，每部分各长32位\n子秘钥生成\nDES的密钥每个字节的第8位作为奇偶校验位，密钥由64位减至56位。这56位的密钥由一下的密钥置换表获得。\n密钥置换表：（没有8,16,24，32,40,48,56和64这8位）\n在DES的每一轮的子密钥，从这56位密钥产生出不同的48位子密钥，确定这些子密钥的方式如下：\n将56位的密钥分成两部分，每部分28位。 根据轮数，这两部分分别循环左移1位或2位。每轮移动的位数如下表： 移动后，又从56位中选出48位。置换了每位的顺序，最终确定子密钥。此过程称为密钥压缩置换。压缩置换规则如下表（注意表中没有9，18，22，25，35，38，43和54这8位）：\n3DES 3DES也是个一般的分组密码，有三元组$(K,M,C)$\n定义三重加密,使用三个秘独立的密钥，和之前DES一样加密明文分组，它先使用密钥k3，然后用密钥k2解密，然后再用密钥k1加密\nE-\u003eD-\u003eE\n如果三密钥相等，k1=k2=k3，最终的效果是一个加密和一个解密抵消，又变成了正常的DES\nwhy no 2DES 存在meet-in-the-middle attack\n假设 $E$ 和 $D$ 分别是加密函数和解密函数， $k 1$ 和 $k 2$ 分别是两次加密使用的密钥，则我们有 $$ \\begin{aligned} \u0026 C=E_{k_2}\\left(E_{k_1}(P)\\right) \\ \u0026 P=D_{k_1}\\left(D_{k_2}(C)\\right) \\end{aligned} $$ 则我们可以推出 $$ E_{k_1}(P)=D_{k_2}(C) $$ 那么，当用户知道一对明文和密文时\n攻击者可以枚举所有的 $k 1$ ，将 $P$ 所有加密后的结果存储起来，并按照密文的大小进行排序。 攻击者进一步枚举所有的 $k 2$ ，将密文C进行解密得到 C1，在第一步加密后的结果中搜索 $C 1$ ，如果搜索到，则我们在一定程度上可以认为我们找到了正确的 $k 1$ 和 $k 2$ 。 如果觉得第二步中得到的结果不保险，则我们还可以再找一些明密文对进行验证。 假设 $\\mathrm{k} 1$ 和 $\\mathrm{k} 2$ 的密钥长度都为 $\\mathrm{n}$ ，则原先我们暴力枚举需要 $O\\left(n^2\\right)$ ，现在我们只需要 $O\\left(n \\log _2 n\\right)_0$ 实际上2DES中的中间相遇是穷举中间产物即k2加密-\u003e应该是k1解密得到的，所以分别双向进行穷举\nDESX 我们使用密钥k1,k2,k3，然后在加密前，用k3异或明文分组，然后用k2加密明文，然后将加密结果异或k1\n更多的对于分组密码的攻击 侧信道攻击，直接检测你加密ID卡的细微电流，然后还原出秘钥\n错误攻击，报错泄露原来的信息\n线性分析(linear cryptanalysis)方法本质上是一种已知明文攻击方法。这种方法可用 221 个已知明文破译8-轮DES，可用 247 个已知明文破译16轮DES。该种方法在某些情况下，可用于唯密文攻击，线性分析的基本思想是通过寻找一个给定密码算法的有效的线性近似表达式来降低密钥的熵，，从而破译密码系统。\nAES 第一步:轮秘钥加\n加密第二步：字节代替\n字节代替也叫做S盒变换 AES有个固定的S盒，下图即为S盒\n把第一步轮密钥加后产生的每一个字节用十六进制表示 然后以十六进制的第一个数字为行，第二个数字为列，在S盒表中查找对应的数字，用这个数字来代替原先的数字，这样就完成了字节变换。（比如原字节为0x1a，就以1为行，a为列，找到表中对应的0xa2来代替0x1a的位置）\n加密第三步：行移位\n就是把上一步得到的矩阵每行左环移，第一行不变，第二行环移1位，第三行环移2位，第三行环移3位。\n加密第四步：列混淆\n将上一步得到的矩阵a左乘矩阵c，得到新的矩阵b。 这里的矩阵c是固定的(AES规定的)\n如果需要加密任意长度的明文，需要对分组密码进行迭代,分组密码的迭代方式叫做分组密码的模式\n模式 详细 ECB Electronic Code Book mode(电子密码本模式) CBC Cipher Block Chaining mode(分组密码链接模式) CFB Cipher Feedback mode OFB Output Feedback mode CTR Couter mode XTS XEX(\\oplus Encrypt \\oplus)Tweakable Block Cipher with CipherText Stealing ECB 此外，独立地对每个块加密，最后直接拼起来是不行的（这种方式称为“电子密码本”，ECB 模式。但如果明文当中有多个相同的分组，则这些明文分组就会产生相同的密文分组，这对于图片之类的数据来说几乎是致命的）。\nECB不是语义安全的\nDeterministic counter mode Many times多次使用的CPA 知道明文就知道密文，目标为推出密钥。\n对于选择明文攻击，攻击者可以重复这个询问多次。\n选择明文攻击的本质，如果攻击者想知道特定明文信息m的加密结果，比如使用询问J，查明文J的加密结果。他把信息0和1都设为一样的信息m，左边和右边的信息是一样的都是m，这时由于两个m一样，攻击者会收到他感兴趣的信息m的加密结果，这就是选择明文攻击的意思。攻击者可以提交信息m，收到m的加密结果。\nCBC Cipher Block Chaining mode(分组密码链接模式)\n1）所有分组的加密都链接在一起，使得某一分组的密文不再仅依赖于该分组的明文，而是依赖于该分组之前（包含该分组）的所有明文分组；\n2）加密过程使用了初始化向量（IV）进行了随机化。\n带IV的CBC模式对于CPA攻击是语义安全的\nCBC是安全的，最好是q^2*L^2远远小于|x|的值\nL是加密的明文长度\nq是在CPA攻击下，攻击者获得的密文数\n在现实中，q的意义是我们使用密钥k加密的次数\n基于新鲜值的CBC加密\n这种模式里，IV被某个不随机但是唯一的新鲜值取代\n好处是， 如果接受方知道新鲜值是多少，就没必要把新鲜值包含在密文里了，密文就和明文一样长了。\n这种模式，需要两个独立的k和k1，k加密分组，k1加密新鲜值\n用k1加密新鲜值是非常重要的\n如果用k加密新鲜值，也不是CPA安全的。\nCBC padding orcle\n1 CBC字节翻转攻击原理 对于CBC模式的解密算法，每一组明文进行分组算法解密之后，需要和前一组的密文异或才能得到明文。第一组则是和初始向量IV进行异或。 $\\mathrm{CBC}$ 字节翻转攻击的核心原理是通过破坏一个比特的密文来簛改一个比特的明文。 对于异或运算, 有以下逻辑: 相同字符之间异或运算的结果为 0 , 即 $1 \\oplus 1=0$ 任何字符与 0 异或运算结果为原字符, 即 $1 \\oplus 0=1$ 假设现在我们有第 $N-1$ 组密文某一位的值 $A$, 以及第 $N$ 组密文相同位置经过分组解密后的值 $B$, 于是我们能够很容易得到第 $N$ 组该位置上的明文 $C$ $$ A \\oplus B=C $$ 如果我们破坏第 $N-1$ 组的密文 $A$, 将其与明文 $C$ 进行异或运算 $A \\oplus C$, 由异或的性质可以得到下式 $$ A \\oplus C \\oplus B=C \\oplus C=0 $$ 可以看见, 现在计算出的明文变成 $了$ 了, 现在我们可以将明文随意更改成我们想要的字符。只需要在上一组的密文异或我们想要的字符即可, 假设我们想将明 文 $C$ 更改为 $X$, 可以由下式得出 $$ A \\oplus C \\oplus X \\oplus B=C \\oplus C \\oplus X=X $$ CTR CTR模式还有一种基于新鲜值的计数器模式\nIV不是真随机的，是一个新鲜值，可计数的\n把AES的128位分组，左64位作为新鲜值，计数器是0到2的64次方\nCTR：一个AES密钥可以用2的64次\nCBC：一个AES密钥可以用2的48次\n消息完整性Message integrity S(k,m) outputs t in T\n安全的MAC系统\n⇒ attacker cannot produce a valid tag for a newmessage\n⇒ given (m,t)attacker cannot even produce (m,t’) for t’ ≠ t\n如何把短的MAC转化为长的MAC\n两种方法：\nECBC-MAC 应用在银行业又叫CMAC HMAC应用在网络协议 加密的CBC-MAC。简称ECBC\n我们把最大信息长度界定为L取信息，分割成分组。每个分组和底层函数f的分组一样长。CBC运行，但不输出中间值。\n这种情况下标签为N位长。截断标签。\n最后一步加密是干什么的。\n如果没有最后一步，叫做raw CBC 函数,原CBC并不安全。最后一步对于MAC的安全性很重要\n而MAC在生成时会使用一个密钥附加在消息之前：这确保不仅消息未被修改，而且发送者也是我们所期望的：否则攻击者无法知道用于生成的code的密钥。【考虑发送方和接收方共享一个密钥，在hash时附上密钥一起进行哈希】\nMAC padding CMAC CMAC，使用一个随机的补齐函数，不用加假分组。\n用了三个密钥，也称三密钥机制。\n如果是有补位，用k1异或，没有补位用k2异或\n先用ISO的方法，补100….但是我们还要把最后一个分组和密钥k1xor\n好处是没有最后的加密步骤，不用加假分组。\nCMAC 和CBC-MAC有同样的安全性。\nCollision Resistance 条件1，有一个MAC可以加密短信息，比如AES\n条件2，有一个哈希函数是抗碰撞的。 SHA256\n这种方式和MAC相比较，如果用MAC，我们需要一个密钥来验证单个文件的标签，但我们不需要一个只读的公共空间。\n用抗碰撞的哈希函数，我们不需要一个密钥来验证，任何人都可以验证。\n数字签名可以在完整性和资源（不需要只读公共空间）两方面都达到最优\nHash(不需要key)， MAC（带key），HMAC(带key)\n这种生日攻击可以在2的n/2次内找到可能的碰撞，低于2的64次是危险的。\n所以我们一般不用128位输出的哈希。用256。\nThe Merkle-Damgard Paradigm 其中，基于Merkle-Damgard paradigm的迭代哈希函数如图1所示。首先对待发送消息 $M$ 进行 处理，对它进行填充（ $\\hat{M} \\leftarrow M | \\mathrm{PB})$ ，使得 $M$ 的长度为 $l$ 的整数倍，随后被分割为多个 -块，即 $\\hat{M}=m_1\\left|m_2\\right| \\cdots | m_s$ ，其中 $m_1, \\ldots, m_s \\in{0,1}^{\\ell} \\space h: \\mathcal{X} \\times \\mathcal{Y} \\rightarrow \\mathcal{X}$ 是一个 哈希函数，被称为 $H$ 的压缩函数(compression functions)。 $\\mathcal{Y}$ 是每个数据块 $m_i$ 的变量空间。 常数 $I V$ 为initial value。\n消息被分成了很多个block，最开始的初始化向量和第一个block进行f操作，得到了的结果再和第二个block进行操作，如此循环进行，最终得到了最后的结果。\n构建安全压缩函数，使得压缩函数是抗碰撞的。\n现在的问题就是如何构造冲突避免的压缩函数 ℎ 。目前使用最频繁的构造方法是Davies-Meyer。\n综上，当 |X| 足够大时，在ideal cipher model下，Davies-Meyer哈希函数 ℎ(DM)是冲突避免的。\nSHA-256 SHA-256是Merkel-Damgard机制，还使用了Davies-Mayer压缩函数。\n对于任意长度的消息，SHA256都会产生一个256位的哈希值，称作消息摘要。这个摘要相当于是个长度为32个字节的数组，通常有一个长度为64的十六进制字符串来表示，其中1个字节=8位，一个十六进制的字符的长度为4位。\n哈希长度拓展攻击（Hash Length Extension Attack）是一种利用哈希函数的特性，在已知哈希值的情况下，计算出原始数据的扩展值的攻击方式。\n攻击者可以通过构造特定的数据块，使得这些块的处理结果可以被利用来计算出原始数据的扩展值。\n攻击步骤如下：\n攻击者获取原始数据的哈希值和部分原始数据。 攻击者利用哈希函数的工作方式，计算出原始数据的哈希值中的中间状态，并将该中间状态保存下来。 攻击者构造一段数据块，使得这段数据块可以被加到原始数据的后面，并且构造的数据块中包含攻击者想要添加到原始数据末尾的内容。 攻击者利用保存的中间状态和构造的数据块，计算出原始数据加上构造数据块后的哈希值，从而得到原始数据的扩展值。 由于哈希函数的工作方式和输出长度是公开的，攻击者可以通过简单的计算来生成有效的扩展值，而不需要知道原始数据的内容。\nHMAC $$ \\text { HMAC: } \\quad S(k, m)=H(k \\oplus o p a d | H(k \\oplus i p a d ~ |m ~) ~) $$\n这些密码本ipad 和opad，是固定的常数。标准中给出了。512位常数，永不改变。\nAuthenticated Encryption 认证加密是一个密码，通常是一个加密算法，取密钥，信息为输入，还可选一个新鲜值，输出一个密文，解密算法通常输出一个信息。但是这个解密算法可以输出一个特殊符号叫做底，当解密算法输出底时，意味着密文是无效的，应当被忽略，唯一的要求是这个底不在信息空间里，这个唯一的符号表示密文应当被拒绝。\n证明，认证加密可以抵抗选择密文攻击。\n他是一个极为强大的攻击者，他可以获得除了挑战密文外，任意密文的解密结果，但他依然不能区分他是在实验0还是实验中。\n第一个例子在SSL协议里，SSL组合加密和MAC，希望能获得认证加密，组合方法如下：取密文m，然后计算明文m和MAC，使用MAC密钥kI，计算明文m的标签，然后你可以将标签附在明文后面，然后加密这个明文和标签的联结，得到最终的密文。这是一号方案。\n第二个方案是在IPsec中，取明文，首先加密这个明文，然后计算得到的密文的标签，大家注意到这个标签是基于得到的密文计算的。\n第三个方案是来自SSH协议的，这里，SSH取明文，使用CPA安全的加密机制加密明文。然后，把明文标签附在后面。IPsec与SSH不同之处在于，IPsec中，标签是根据密文计算的，在SSH中，标签是根据明文计算的。\nSSH这种，因为MAC前面算法的输出会泄露明文中的一些位，不建议使用。\nIPsec更为推荐。计算密文的标签时，我们用这个标签给密文上锁，确保没有人可以产生一个不同的密文，可以确保任何对密文的修改都会被解密者检测出来，因为MAC无法验证。\nSSL, mac-then-enc\nIPsec, enc-then-mac\nSSH, enc-and-mac`\nTLS 下面来看记录协议的工作细节，这里展示这个强制性的密码套件，加密使用 AES-CBC，MAC 使用 HMAC-SHA1。记住 TLS 使用了一个 MAC，然后加密。\n我们看浏览器给服务器发送数据，使用的是从浏览器到服务器的密钥，这个密钥本身是由一个 MAC 密钥和一个加密秘钥组成，两个单独的密钥在会话起始阶段就被协商好了。所以总共来说有四个密钥，两个是 MAC 密钥，两个是加密秘钥，每个被使用在合适的方向。\n蓝色部分是 TLS 数据包的结构图，它以一个报文头开始，包含了数据包的类型、协议版本号以及数据包的长度，注意到数据包的长度是以明文形式发送的。加密数据、加密特定记录时，\n加密流程如下：取密钥，数据，当前状态为输入，然后如下工作。\n首先是取 MAC 的实际的封装操作，可以看到报文头也在 MAC 的计算中，另外计数器的当前值也在 MAC 的计算中，当然所有计数器增加以表示有一个记录被发送了。及时计数器的值包含在标签里，但计数器的值实际上永远不会在记录中发送。他不用被放在记录里发送的原因是，另一端的服务器已经知道了计数器的值，所以它不需要在记录中被告知计数器的值，它隐性的知道这个值。当它要验证这个 MAC 时，它可以使用它认为的计数器的值来验证这个 MAC。\n这些计数器具备新鲜值的功能，没有理由把新鲜值放在记录里，因为双方实际上都知道每个收到的记录的计数器。\n标签计算的范围是图上这个三元组数据。\n第二步是把标签附在数据后面，是先 MAC 加密，所以先计算了 MAC，这里会把数据和标签一并加密。所以报文头、数据和标签被补齐到 AES 分组。如果补齐的长度是 5 个字节，那么补齐就是简单的写 5 个 5。\n第三步是用加密密钥来进行 CBC 加密，我们计算数据和标签的 CBC 加密，我们使用一个新鲜的随机 IV，它待会被嵌入到密文中。\n最后，我们在结果前附上报文头、报文类型、版本号和长度。\nCBC padding attacks 记得认证加密意味着系统提供 CPA 安全性，以及密文完整性。认证加密还意味着我们可以在有主动给攻击者存在的情况下，保持私密性，攻击者甚至不能以任何方式修改密文，且不被检测到。\n我们还证明了认证加密可以阻止这些非常强大的选择密文攻击。不幸的是，认证加密有一个很重要的局限性，那就是它不能承受不好的实现。如果不正确的实现认证加密，那么你的实现对主动攻击将是脆弱的。\n我们看标准机制，之前提到过这三个标准可以提供认证加密。实际中，当你需要使用认证加密时，你应该就使用这三个标准中的一个。我们不应该试图去自己实现认证加密。\n一般情况下，当你想提供认证加密时，正确的方法是先加密然后再计算 MAC，因为无论你组合什么加密和 MAC 算法得到的结果将是认证加密。\n首先，到来的密文是 CBC 加密的，然后接下来实现的程序会检查补齐格式是否正确，比如说，如果补齐长度是 5 个字节，格式应为 55555，如果格式不正确，那么密文被拒绝，这就是检查解密后的记录的末尾是否含有正确的补齐。如果补齐格式正确，那么接下来检查 MAC，检查信息标签，如果标签不正确，这个记录也会被拒绝。如果标签有效，那么剩下的数据被认为是可被认证的，于是交给应用。\n由图中可以看出，在 21 毫秒内，密文会被拒绝，但是如果补齐有效，那么就要检查 MAC 了，发现 MAC 是无效的，警告仅在这点生成。换句话说，在这种情况下，会花稍微多一点的时间直到生成警告，可以看到，这平均花掉 23 毫秒。所以即使对付返回同样的警告，攻击者可以观察警告信息生成的用时，如果时间较短，他就知道补齐是无效的，如果时间较长，他就知道补齐有效，但 MAC 无效\nssh攻击 想法如下：假设攻击者截获了一个密文分组，即直接用 AES 加密的分组 m，现在攻击者想还原这个 m，强调一下，这个截获的密文只有一个分组长，一个 AES 分组。攻击者怎么办，向服务器发送一个数据包，数据包的开头是正常的，以一个序列号开头，然后他把他截获的密文 c 作为第一个分组，发送给服务器。现在，服务器该怎么办？服务器会解密第一个 AES 分组的前几个字节，他会把这前几个字节解读成数据包的长度域。接下来，服务器将期待着 len 这么多字节，在验证 MAC 之前，攻击者将一次只给服务器一个字节，这样服务器会一个字节，一个字节地读，最终，服务器会读到长度域里说的那么多的字节，他会检测 MAC 是否有效。当然，攻击者给服务器的字节都是随便弄的，因此 MAC 不会通过验证，服务器会发送一个 MAC 错误，但可以发现，攻击者在数他发送给服务器多少给字节。它能严格的知道他发送了多少个字节，当他接收到了服务器发来的 MAC 错误，这就告诉攻击者，密文 c 的前 32 位的解密结果，正好等于已经发送的字节数在看到 MAC 错误之前。那么这是一个非常聪明的攻击。\n攻击者有一个密文分组 c，他想解密 c，我们假定 c 解密后，得到的明文的高 32 位是数字 5，在这种情况下，攻击者会看到如下的事情。服务器会解密挑战分组 c，会得到数字 5，并把 5 当作长度域。那么现在，攻击者会给服务器一次一个字节，在攻击者给服务器 5 个字节后，服务器说：我刚刚还原了整个数据包，让我检查 MAC。MAC 很可能是错的，服务器会发送一个坏 MAC 的错误。那么在读了 5 个字节后，攻击者会看到一个坏 MAC 的错误，然后攻击者就知道了解密后的分组的高 32 位等于数字 5. 那么就知道了 c 的高 32 位。这是一个非常重要的攻击，因为攻击者刚刚知道了密文分组解密后的高 32 位，他可以对任何他想要的密文分组实施这个攻击，他可以知道一条长信息的每个密文分组的高 32 位。\n密码设计里有两个错误，第一个是，解密操作不是原子操作，换句话说，解密算法不取整个数据包作为输入，而返回整个明文作为输出，或者返回 “拒绝”，解密算法部分的解密了密文获得了长度域，然后等待指定数量的字节去还愿，然后完成了加密过程。这些非原子解密操作是很危险的，一般来说，需要避免使用他们。在这个例子里，这个非原子操作正好破坏了认证加密。\n另一个问题在于，在正确的认证之前，就使用了长度域，这是另一个错误之处，不应该这么做的。所以加密的数据域不应该被使用在这个域被正确认证之前。\n秘钥分发 KDF HMAC\nHMAC ·\nPBKDF 首先，我们讨论密钥推导时，HKDF机制在2010年Hugo Krawczyk的文章里有所描述。\n确定性加密，SIV模式在第二篇论文里有所讨论。\n我们描述了EME模式，可以让我们构建一个宽分组的伪随机置换，EME模式在Halvi和Rogaway的论文里描述。\n微调分组密码，引入了用于硬盘加密的XTS模式，在第四篇论文里描述。\n最后，保格式加密在最后一篇论文里描述。\n数论 乘法逆元 在中国剩余定理的计算里，需要求一个数字在一个模下的逆元，也就是对于给定的 $a ， b$ ，找到方 程 $a a^* \\equiv 1(\\bmod b)$ 的一个整数解 $a^$ 。接下来我们分析一下这个方程背后隐藏着什么。 根据同余的定义，有 $b \\mid\\left(a a^-1\\right)$ ，也就是存在整数 $k$ 使得 $b k=a a^-1$ 。移一下项，就得 到了 $a a^-b k=1$ 。 这个形式恰好符合裴蜀定理 $a x+b y=1$ 的形式，于是 $(a, b)=1$ ，这表明 $\\mathbf{a}$ ， $\\mathbf{b}$ 互质是逆元 存在的必要条件。同样可以证明： $a$,b互质是 $a$ 在模 $b$ 下存在逆元的充分条件。\n扩展欧几里得 费马小定理 费马小定理: $p$ 为质数， $a$ 为任意自然数，则\n$a^p \\equiv a(\\bmod p)$\n陷门函数PK加密 公钥与私钥的产生 叚设Alice想要通过不可靠的媒体接收Bob的私人信息。她可以用以下的方式来产生一个公钥和一个私钥:\n随意选择两个大的素数 $p$ 和 $q ， p$ 不等于 $q$ ，计算 $N=p q$ 。\n根据欧拉函数，求得 $r=\\varphi(N)=\\varphi(p) \\times \\varphi(q)=(p-1)(q-1)$\n选择一个小于 $r$ 的整数 $e$ ，使 $e$ 与 $r$ 互质。并求得 $e$ 关于 $r$ 的模逆元，命名为 $d$ (求 $d$ 令 $e d \\equiv 1(\\bmod r)$ )。 (模逆元存在，当且仅当 $e$ 与 $r$ 互质)\n将 $p$ 和 $q$ 的记录销毁。 $(N, e)$ 是公钥， $(N, d)$ 是私钥。Alice将她的公钥 $(N, e)$ 传给Bob，而将她的私钥 $(N, d)$ 藏起来。\n加密消息 叚设Bob想给Alice送消息 $m$ ，他知道Alice产生的 $N$ 和 $e$ 。他使用起先与Alice约好的格式将 $m$ 转换为一个小于 $N$ 的非负整数 $n$ ，比如他可以将每一个字转换为这个字的Unicode码，然后将这些数字连在一起组成一个数字。 叚如他的信息非常长的话，他可以将这个信息分为几段，然后将每一段转换为 $n$ 。用下面这个公式他可以将 $n$ 加密为 $c$ : $$ c=n^e \\bmod N $$ 计算 $c$ 并不复杂。Bob算出 $c$ 后就可以将它传递给Alice。 解密消息 Alice得到Bob的消息 $c$ 后就可以利用她的密钥 $d$ 来解码。她可以用以下这个公式来将 $c$ 转换为 $n$ : $$ n=c^d \\bmod N $$ 得到 $n$ 后，她可以将原来的信息 $m$ 重新复原。 解码的原理是 $$ c^d \\equiv n^{e \\cdot d}(\\bmod N) $$ 已知 $e d \\equiv 1(\\bmod r)$ ，即 $e d=1+h \\varphi(N)$ 。那么有 $$ n^{e d}=n^{1+h \\varphi(N)}=n \\cdot n^{h \\varphi(N)}=n\\left(n^{\\varphi(N)}\\right)^h $$ 若 $n$ 与 $N$ 互素，则由欧拉定理得: $$ n^{e d} \\equiv n\\left(n^{\\varphi(N)}\\right)^h \\equiv n(1)^h \\equiv n \\quad(\\bmod N) $$ 若 $n$ 与 $N$ 不互素，则不失一般性考虑 $n=p h$ ，以及 $e d-1=k(q-1)$ ，得: $$ \\begin{aligned} \u0026 n^{e d}=(p h)^{e d} \\equiv 0 \\equiv p h \\equiv n \\quad(\\bmod p) \\ \u0026 n^{e d}=n^{e d-1} n=n^{k(q-1)} n=\\left(n^{q-1}\\right)^k n \\equiv 1^k n \\equiv n \\quad(\\bmod q) \\end{aligned} $$ 故 $n^{e d} \\equiv n \\quad(\\bmod N)$ 得证。\nBleichenbacher 攻击过程如下：\n攻击者选择一个明文 M，并将其用 PKCS#1 v1.5 方式进行填充，得到一个长度为 k 的消息 m。攻击者将该消息使用 RSA 加密算法进行加密，得到密文 c。 攻击者通过 padding oracle 来判断密文是否符合 padding 方式。padding oracle 可以是一个网络服务器或者其他的加密解密设备，能够根据密文是否符合 padding 方式返回不同的信息，例如返回错误码或者异常。 攻击者使用二分法来逐位猜测密文中的每一个字节。具体来说，攻击者将密文 c 解密得到明文 m’，并检查其是否符合 PKCS#1 v1.5 的填充规则。如果符合，说明攻击者已经猜测到了正确的字节，否则说明攻击者猜错了。 攻击者利用 padding oracle 来判断 m’ 是否符合 PKCS#1 v1.5 的填充规则。如果符合，说明攻击者已经还原出了正确的明文 M，否则说明攻击者猜错了。 重复步骤 3 和步骤 4，直到攻击者还原出了明文 M。 Padding: RSA加密时，要对明文m填充到与模数 $n$ 一样长，才能加密 Ciphertext manipulation： RSA 在乘法上是同态的，即 $\\operatorname{Enc}\\left(P_1 * P_2\\right)=\\operatorname{Enc}\\left(P_1\\right) * \\operatorname{Enc}\\left(P_2\\right)$ ，通常的实现都没有对RSA的 密文做完整性校验 (MAC)，使得攻击者可以通过修改密文来操纵解 密后的明文 Information leakage: 攻击者可以通过一些侧信道信息来获知解密 后的明文是否符合特定的填充格式 Elgamal 密钥生成 [编辑] 密钥生成步骤如下:\nAlice利用生成元 $g$ 产生一个 $q$ 阶循环群 $G$ 的有效描述。该循环群需要满足一定的安全性质。\nAlice从 ${1, \\ldots, q-1}$ 中随机选择一个 $x$ 。\nAlice计算 $h:=g^x$ 。\nAlice公开 $h$ 以及 $G, q, g$ 的描述作为其公钥，并保留 $x$ 作为其私钥。私钥必须保密。\n加密\n使用Alice的公钥 $(G, q, g, h)$ 向她加密一条消息 $m$ 的加密算法工作方式如下:\nBob从 ${1, \\ldots, q-1}$ 随机选择一个 $y$ ，然后计算 $c_1:=g^y$ 。\nBobi十算共享秘密 $s:=h^y$ 。\nBob把他要发送的秘密消息 $m$ 映射为 $G$ 上的一个元素 $m^{\\prime}$ 。\nBobi计算 $c_2:=m^{\\prime} \\cdot s$ 。\nBob将密文 $\\left(c_1, c_2\\right)=\\left(g^y, m^{\\prime} \\cdot h^y\\right)=\\left(g^y, m^{\\prime} \\cdot\\left(g^x\\right)^y\\right)$ 发送给Alice。 值得注意的是，如果一个人知道了 $m^{\\prime}$ ，那么它很容易就能知道 $h^y$ 的值。因此对每一条信息都产生一个新的 $y$ 可以提高安全性。所以 $y$ 也被称作临时密钥。 解密 利用私钥 $x$ 对密文 $\\left(c_1, c_2\\right)$ 进行解密的算法工作方式如下:\nAlice计算共享秘密 $s:=c_1^x$\n然后计算 $m^{\\prime}:=c_2 \\cdot s^{-1}$ ，并将其映射回明文 $m$ ，其中 $s^{-1}$ 是 $s$ 在群 $G$ 上的逆元。（例如：如果 $G$ 是整数模n乘去群的一个子群，那么逆元就是模逆元) 。 解密算法是能够正确解密出明文的，因为\n$$ c_2 \\cdot s^{-1}=m^{\\prime} \\cdot h^y \\cdot\\left(g^{x y}\\right)^{-1}=m^{\\prime} \\cdot g^{x y} \\cdot g^{-x y}=m^{\\prime} . $$\nDF Diffie-Hellman密钥交换算法 Diffie-Hellman密钥交换算法的目的是使两个用户能安全交换密钥，以便在后续的通信中用该密钥对消息加密。所以这个算法本身只限于密钥交换。\nDiffie-Hellman密钥交换算法的有效性建立在离散对数上，在计算离散对数是困难的才能确保秘密交换。\nDiffie-Hellman密钥交换算法如图所示\n有素数 $q$ 和本原根 $\\alpha$ ，为公开的整数，Alice选择随机整数 $X_A ，$ Bob选择 $X_B$ ，分别计算，其中 $X_A$ 和 $X_B$ 保密，对算出的 $Y_A$ 和 $Y_B$ 公开。Alice和Bob通过计算 $K$ ，将 $K$ 作为共享的密钥。这样Alice和Bob就 完成了密钥的交换。 $X_A$ 和 $X_B$ 是私有的，攻击者只能通过 $q, \\alpha, Y_A$ 和 $Y_B$ 来攻击，所以只能求离散对数 来确定密钥。 如果攻击者要对Bob进行攻击，攻击者就要求离散对数算出 $X_B=d \\log _{\\alpha, q}\\left(Y_B\\right)$ ，然后算出密钥 $K$ 。 Diffie-Hellman密钥交换算法的安全性建立在下列事实上:\n计算素数模的幂运算相对容易，计算离散对数却非常困难\n对大素数，求离散对数被认为是困难的\n基于这样的事实，保证了Diffie-Hellman密钥交换算法的保密性。\n中间人攻击 上图的协议，不能抵御中间人攻击，中间人攻击的过程如下图所示\n通过上述协议，Bob和Alice以为各自共享了密钥，实际上他们都是与Darth共享密钥，所以如果Alice和Bob通过共享密钥加密传输，将会泄露各自的明文\n密钥交换不能抵御上述攻击，是因为没有对通信的参与方进行认证。\n扩展域GF(2^m) 加法 假设A(x)、B(x)∈GF(2^m)，计算两个元素之和的方法就是： $$ C(x)=A(x)+B(x)=\\sum_{i=0}^{m-1} C_i x^i \\quad c_i \\equiv\\left(a_i+b_i\\right) \\bmod 2 $$ 而两个元素之差的计算公式就是: $$ C(x)=A(x)-B(x)=\\sum_{i=0}^{m-1} c_i x^i \\quad c_i \\equiv\\left(a_i-b_i\\right) \\bmod 2 \\equiv\\left(a_i+b_i\\right) \\bmod 2 $$\n乘法 不可约多项式 参考文献 1.ECB模式解读_chengqiuming的博客-CSDN博客_ecb模式\n2.密码算法 之三：分组密码工作模式 （ECB \\ CBC \\ CFB \\ OFB \\ CTR \\ XTS）浅析_cbc工作模式_KXue0703的博客-CSDN博客\n3.密码学小知识(5)：唯密文攻击(COA)、已知明文攻击(KPA)、选择明文攻击(CPA)，选择密文攻击(CCA)_crypto_cxf的博客-CSDN博客\n4.Feistel网络结构与DES加密算法的框架简单分析_Apollon_krj的博客-CSDN博客\n5.Python——加密算法DES_python des_羽丶千落的博客-CSDN博客\n",
+  "wordCount" : "1574",
+  "inLanguage": "zh",
+  "datePublished": "2022-12-07T18:16:09Z",
+  "dateModified": "2022-12-07T18:16:09Z",
+  "author":{
+    "@type": "Person",
+    "name": "Asiv"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://niceasiv.cn/posts/cryptonote/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Asiv's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://niceasiv.cn/img/logo.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    (function () {
+        let  arr,reg = new RegExp("(^| )"+"change-themes"+"=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)) {
+        } else {
+            if (new Date().getHours() >= 19 || new Date().getHours() < 6) {
+                document.body.classList.add('dark');
+                localStorage.setItem("pref-theme", 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem("pref-theme", 'light');
+            }
+        }
+    })()
+
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://niceasiv.cn" accesskey="h" title="Asiv&#39;s Blog (Alt + H)">
+            <img src="https://niceasiv.cn/img/logo.jpg" alt="logo" aria-label="logo"
+                 height="35">Asiv&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://niceasiv.cn/search/" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                <span>🔍 搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://niceasiv.cn/" title="🏠 主页">
+                <span>🏠 主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://niceasiv.cn/posts" title="📚 文章">
+                <span>📚 文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://niceasiv.cn/tags" title="🧩 标签">
+                <span>🧩 标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://niceasiv.cn/archives/" title="⏱️ 时间轴">
+                <span>⏱️ 时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://niceasiv.cn/friends/" title="🤝 友链">
+                <span>🤝 友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+</style>
+
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="https://niceasiv.cn">🏠 主页</a>&nbsp;»&nbsp;<a href="https://niceasiv.cn/posts/">Posts</a></div>
+            <h1 class="post-title">
+                现代密码学期末复习
+            </h1>
+            <div class="post-meta">
+
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2022-12-07
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    
+    
+    
+    
+    
+    
+    
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>1574字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>8分钟
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>Asiv
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+            <span class="post-tags-meta">
+                <a href="https://niceasiv.cn/tags/crypto/" style="color: var(--secondary)!important;">Crypto</a>
+            </span>
+            &nbsp;&nbsp;
+        </span>
+    </span>
+</span>
+<span style="opacity: 0.8;">
+                    <span id="post_meta_style_8">
+                        <span class="fa fa-commenting-o"></span>
+                        <span>
+                            <script src="https://cdn.staticfile.org/twikoo/1.5.8/twikoo.all.min.js"></script>
+                            <script>
+                                let url = document.documentURI
+                                
+                                let dnsUrl = "https://niceasiv.cn"
+                                let urlSplit = url.split(dnsUrl)
+                                let finalUrl = urlSplit[1]
+                                if (finalUrl[0] !== '/') {
+                                    finalUrl = '/'+finalUrl
+                                }
+                                twikoo.getCommentsCount({
+                                    envId: "https://twikoocdn.vercel.app/", 
+                                region:  null , 
+                                urls: [ 
+                                    
+                                    finalUrl,
+                                ],
+                                    includeReply: false 
+                                }).then(function (res) {
+                                    let count = res[0].count
+                                    const obj = document.getElementById("comment_count");
+                                    obj.innerText = count
+                                    
+                                    
+                                    
+                                }).catch(function (err) {
+                                    
+                                    console.error(err);
+                                });
+                            </script>
+                            <span id="comment_count"></span>
+                        </span>
+                    </span>
+                </span>
+
+</div>
+        </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%af%86%e7%a0%81%e5%88%86%e6%9e%90%e7%9a%84%e5%9b%9b%e4%b8%aa%e6%89%8b%e6%ae%b5" aria-label="密码分析的四个手段">密码分析的四个手段</a><ul>
+                        
+                <li>
+                    <a href="#%e5%94%af%e5%af%86%e6%96%87%e6%94%bb%e5%87%bbciphtext-only-attackcoa" aria-label="唯密文攻击（Ciphtext Only Attack，COA）">唯密文攻击（Ciphtext Only Attack，COA）</a></li>
+                <li>
+                    <a href="#%e5%b7%b2%e7%9f%a5%e6%98%8e%e6%96%87%e6%94%bb%e5%87%bbknown-plaintext-attackkpa%e4%b9%9f%e5%8f%af%e7%a7%b0%e4%b8%bakpa%e5%ae%89%e5%85%a8" aria-label="已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全）">已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全）</a></li>
+                <li>
+                    <a href="#%e9%80%89%e6%8b%a9%e6%98%8e%e6%96%87%e6%94%bb%e5%87%bbchosen-plaintext-attackcpa%e4%b9%9f%e5%8f%af%e7%a7%b0%e4%b8%bacpa%e5%ae%89%e5%85%a8" aria-label="选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全）">选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全）</a></li>
+                <li>
+                    <a href="#%e9%80%89%e6%8b%a9%e5%af%86%e6%96%87%e6%94%bb%e5%87%bbchosen-ciphertext-attackcca%e4%b9%9f%e5%8f%af%e7%a7%b0%e4%b8%bacca%e5%ae%89%e5%85%a8" aria-label="选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全）">选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全）</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e7%a6%bb%e6%95%a3%e6%a6%82%e7%8e%87" aria-label="离散概率">离散概率</a><ul>
+                        
+                <li>
+                    <a href="#%e5%bc%82%e6%88%96%e6%80%a7%e8%b4%a8" aria-label="异或性质">异或性质</a></li>
+                <li>
+                    <a href="#birthday-paradox" aria-label="Birthday Paradox">Birthday Paradox</a></li></ul>
+                </li>
+                <li>
+                    <a href="#secure-cipher" aria-label="secure cipher">secure cipher</a></li>
+                <li>
+                    <a href="#%e6%b5%81%e5%af%86%e7%a0%81" aria-label="流密码">流密码</a><ul>
+                        
+                <li>
+                    <a href="#prg-unpredictable" aria-label="PRG unpredictable">PRG unpredictable</a></li>
+                <li>
+                    <a href="#%e5%8f%af%e5%bf%bd%e7%95%a5%e5%87%bd%e6%95%b0" aria-label="可忽略函数">可忽略函数</a></li>
+                <li>
+                    <a href="#%e8%af%ad%e4%b9%89%e5%ae%89%e5%85%a8" aria-label="语义安全">语义安全</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%88%86%e7%bb%84%e5%af%86%e7%a0%81" aria-label="分组密码">分组密码</a><ul>
+                        
+                <li>
+                    <a href="#prf%e5%92%8cprp" aria-label="PRF和PRP">PRF和PRP</a><ul>
+                        
+                <li>
+                    <a href="#%e5%ae%89%e5%85%a8%e6%80%a7%e8%af%81%e6%98%8e" aria-label="安全性证明">安全性证明</a></li></ul>
+                </li>
+                <li>
+                    <a href="#des" aria-label="DES">DES</a><ul>
+                        
+                <li>
+                    <a href="#feistel%e7%bb%93%e6%9e%84" aria-label="Feistel结构">Feistel结构</a></li>
+                <li>
+                    <a href="#feistel%e7%bb%93%e6%9e%84%e8%bd%ae%e5%87%bd%e6%95%b0" aria-label="Feistel结构轮函数">Feistel结构轮函数</a></li>
+                <li>
+                    <a href="#des%e4%bb%8b%e7%bb%8d" aria-label="DES介绍">DES介绍</a></li>
+                <li>
+                    <a href="#des%e7%ae%97%e6%b3%95%e6%a1%86%e6%9e%b6" aria-label="DES算法框架">DES算法框架</a></li>
+                <li>
+                    <a href="#3des" aria-label="3DES">3DES</a></li>
+                <li>
+                    <a href="#why-no-2des" aria-label="why no 2DES">why no 2DES</a></li>
+                <li>
+                    <a href="#desx" aria-label="DESX">DESX</a></li>
+                <li>
+                    <a href="#%e6%9b%b4%e5%a4%9a%e7%9a%84%e5%af%b9%e4%ba%8e%e5%88%86%e7%bb%84%e5%af%86%e7%a0%81%e7%9a%84%e6%94%bb%e5%87%bb" aria-label="更多的对于分组密码的攻击">更多的对于分组密码的攻击</a></li></ul>
+                </li>
+                <li>
+                    <a href="#aes" aria-label="AES">AES</a></li>
+                <li>
+                    <a href="#ecb" aria-label="ECB">ECB</a></li>
+                <li>
+                    <a href="#deterministic-counter-mode" aria-label="Deterministic counter mode">Deterministic counter mode</a></li>
+                <li>
+                    <a href="#many-times%e5%a4%9a%e6%ac%a1%e4%bd%bf%e7%94%a8%e7%9a%84cpa" aria-label="Many times多次使用的CPA">Many times多次使用的CPA</a></li>
+                <li>
+                    <a href="#cbc" aria-label="CBC">CBC</a></li>
+                <li>
+                    <a href="#ctr" aria-label="CTR">CTR</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%b6%88%e6%81%af%e5%ae%8c%e6%95%b4%e6%80%a7message-integrity" aria-label="消息完整性Message integrity">消息完整性Message integrity</a><ul>
+                        
+                <li>
+                    <a href="#mac-padding" aria-label="MAC padding">MAC padding</a></li>
+                <li>
+                    <a href="#cmac" aria-label="CMAC">CMAC</a></li>
+                <li>
+                    <a href="#collision-resistance" aria-label="Collision Resistance">Collision Resistance</a></li>
+                <li>
+                    <a href="#the-merkle-damgard-paradigm" aria-label="The Merkle-Damgard Paradigm">The Merkle-Damgard Paradigm</a></li>
+                <li>
+                    <a href="#sha-256" aria-label="SHA-256"><strong>SHA-256</strong></a></li>
+                <li>
+                    <a href="#hmac" aria-label="HMAC">HMAC</a></li></ul>
+                </li>
+                <li>
+                    <a href="#authenticated-encryption" aria-label="Authenticated Encryption">Authenticated Encryption</a><ul>
+                        
+                <li>
+                    <a href="#tls" aria-label="TLS">TLS</a></li>
+                <li>
+                    <a href="#cbc-padding-attacks" aria-label="CBC padding attacks"><strong>CBC padding attacks</strong></a></li>
+                <li>
+                    <a href="#ssh%e6%94%bb%e5%87%bb" aria-label="ssh攻击">ssh攻击</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e7%a7%98%e9%92%a5%e5%88%86%e5%8f%91-kdf" aria-label="秘钥分发 KDF">秘钥分发 KDF</a><ul>
+                        
+                <li>
+                    <a href="#hmac-1" aria-label="HMAC">HMAC</a></li>
+                <li>
+                    <a href="#pbkdf" aria-label="PBKDF">PBKDF</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%95%b0%e8%ae%ba" aria-label="数论">数论</a><ul>
+                        
+                <li>
+                    <a href="#%e4%b9%98%e6%b3%95%e9%80%86%e5%85%83" aria-label="乘法逆元">乘法逆元</a></li>
+                <li>
+                    <a href="#%e6%89%a9%e5%b1%95%e6%ac%a7%e5%87%a0%e9%87%8c%e5%be%97" aria-label="扩展欧几里得">扩展欧几里得</a></li>
+                <li>
+                    <a href="#%e8%b4%b9%e9%a9%ac%e5%b0%8f%e5%ae%9a%e7%90%86" aria-label="费马小定理">费马小定理</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e9%99%b7%e9%97%a8%e5%87%bd%e6%95%b0pk%e5%8a%a0%e5%af%86" aria-label="陷门函数PK加密">陷门函数PK加密</a><ul>
+                        
+                <li>
+                    <a href="#bleichenbacher" aria-label="Bleichenbacher">Bleichenbacher</a></li></ul>
+                </li>
+                <li>
+                    <a href="#elgamal" aria-label="Elgamal">Elgamal</a></li>
+                <li>
+                    <a href="#df" aria-label="DF">DF</a></li>
+                <li>
+                    <a href="#%e6%89%a9%e5%b1%95%e5%9f%9fgf2m" aria-label="扩展域GF(2^m)">扩展域GF(2^m)</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8a%a0%e6%b3%95" aria-label="加法">加法</a></li>
+                <li>
+                    <a href="#%e4%b9%98%e6%b3%95" aria-label="乘法">乘法</a></li>
+                <li>
+                    <a href="#%e4%b8%8d%e5%8f%af%e7%ba%a6%e5%a4%9a%e9%a1%b9%e5%bc%8f" aria-label="不可约多项式">不可约多项式</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae" aria-label="参考文献">参考文献</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        if (elements) {
+            activeElement = Array.from(elements).find((element) => {
+                if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                    (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                    return element;
+                }
+            }) || activeElement
+
+            elements.forEach(element => {
+                const id = encodeURI(element.getAttribute('id')).toLowerCase();
+                if (element === activeElement){
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+                } else {
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+                }
+            })
+        }
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        <div class="post-content"><p>基于斯坦福大学 密码学一</p>
+<h2 id="密码分析的四个手段">密码分析的四个手段<a hidden class="anchor" aria-hidden="true" href="#密码分析的四个手段">#</a></h2>
+<h3 id="唯密文攻击ciphtext-only-attackcoa">唯密文攻击（Ciphtext Only Attack，COA）<a hidden class="anchor" aria-hidden="true" href="#唯密文攻击ciphtext-only-attackcoa">#</a></h3>
+<p>定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。</p>
+<p>假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。</p>
+<p><strong>简单理解</strong>：<code>只知道密文，推出明文或密钥，一般用穷举攻击。</code></p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303121035581.png" alt="在这里插入图片描述"  />
+</p>
+<h3 id="已知明文攻击known-plaintext-attackkpa也可称为kpa安全">已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全）<a hidden class="anchor" aria-hidden="true" href="#已知明文攻击known-plaintext-attackkpa也可称为kpa安全">#</a></h3>
+<p><strong>定义</strong>：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和<a href="https://so.csdn.net/so/search?q=%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95&amp;spm=1001.2101.3001.7020">加密算法</a>。</p>
+<p><strong>简单理解</strong>：知道部分的明文和密文对，推出<code>密钥和加密算法。</code></p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303121035760.png" alt="在这里插入图片描述"  />
+</p>
+<h3 id="选择明文攻击chosen-plaintext-attackcpa也可称为cpa安全">选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全）<a hidden class="anchor" aria-hidden="true" href="#选择明文攻击chosen-plaintext-attackcpa也可称为cpa安全">#</a></h3>
+<p>定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。</p>
+<p>简单理解：知道明文就知道密文，目标为推出密钥。</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303121035351.png" alt="在这里插入图片描述"  />
+</p>
+<h3 id="选择密文攻击chosen-ciphertext-attackcca也可称为cca安全">选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全）<a hidden class="anchor" aria-hidden="true" href="#选择密文攻击chosen-ciphertext-attackcca也可称为cca安全">#</a></h3>
+<p>定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。</p>
+<p>若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。</p>
+<p>简单理解：<code>知道密文就知道明文，目标为推出密钥</code>。
+<img loading="lazy" src="https://cdn.niceasiv.cn/202303121035880.png" alt="在这里插入图片描述"  />
+</p>
+<p>当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。
+其中，四种攻击方式对应的攻击强度为：</p>
+<p>攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA)
+难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)</p>
+<h2 id="离散概率">离散概率<a hidden class="anchor" aria-hidden="true" href="#离散概率">#</a></h2>
+<h3 id="异或性质">异或性质<a hidden class="anchor" aria-hidden="true" href="#异或性质">#</a></h3>
+<p>（1）交换律：$ A  \oplus B = B  \oplus A$</p>
+<p>（2）结合律： $( A  \oplus B )  \oplus C = A  \oplus ( B  \oplus C )$</p>
+<p>（3）自反性：$ A  \oplus B  \oplus B = A $（由结合律可推：$ A  \oplus B  \oplus B = A  \oplus ( B  \oplus B ) = A  \oplus 0 = A)$</p>
+<h3 id="birthday-paradox">Birthday Paradox<a hidden class="anchor" aria-hidden="true" href="#birthday-paradox">#</a></h3>
+<p>每个人生日都不相同的概率:
+$$
+\bar{p}(n)=1 \cdot\left(1-\frac{1}{365}\right) \cdot\left(1-\frac{2}{365}\right) \cdots\left(1-\frac{n-1}{365}\right)=\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \cdots \frac{365-n+1}{365}
+$$
+阶乘形式为 $\frac{365 !}{365^n(365-n) !}$
+至少两人生日相同的概率就是这个结果的补
+$$
+p(n)=1-\bar{p}(n)=1-\frac{365 !}{365^n(365-n) !}
+$$</p>
+<h2 id="secure-cipher">secure cipher<a hidden class="anchor" aria-hidden="true" href="#secure-cipher">#</a></h2>
+<p>perfect secrecy</p>
+<p>For every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \in M$ and every cipher text $c \in C$, the following holds:
+$$
+\operatorname{Pr}\left[C=c \mid M=m_0\right]=\operatorname{Pr}\left[C=c \mid M=m_1\right]
+$$
+此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布</p>
+<p>OTP是Perfect Security
+证明:</p>
+<p>$\forall m \in M, \forall c \in C \quad \operatorname{Pr}[E(k, m)=c]=\frac{# k e y, k \in K \text { s.t. } E(k, m)=c}{|K|}$</p>
+<p>，在OTP中 $k=m \oplus c$ ，因此对于任意的 $m, c$ 使得 $E(k, m)=c$ 的 $k$ 的个数为 1 。</p>
+<p>所以，在OTP中对于 任意的 $m, c ， \operatorname{Pr}[E(k, m)=c]$ 是一个常数。因此OTP是perfect security。</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011135643.png" alt="image-20230301110621796"  />
+</p>
+<h2 id="流密码">流密码<a hidden class="anchor" aria-hidden="true" href="#流密码">#</a></h2>
+<h3 id="prg-unpredictable">PRG unpredictable<a hidden class="anchor" aria-hidden="true" href="#prg-unpredictable">#</a></h3>
+<h3 id="可忽略函数">可忽略函数<a hidden class="anchor" aria-hidden="true" href="#可忽略函数">#</a></h3>
+<p>在数学中，可忽略函数 (英语: Negligible function) 是指
+对于一个函数 $\mu(x): \mathbb{N} \rightarrow \mathbb{R}$ ，如果对于任意一个正多项式 $p o l y()$ ，存在一个 $N_c&gt;0$ ，使得对于所有的 $x&gt;N_c$
+$$
+\mu(x)&lt;\frac{1}{\operatorname{poly}(x)}
+$$
+那么这个函数便是可忽略的 (negligible)。通常我们把 “存在一个 $N_c&gt;0$ ，使得对于所有的 $x&gt;N_c$ &quot; 简化为 &ldquo;对于所有足够大的 $x^{\prime \prime}$ 。</p>
+<h3 id="语义安全">语义安全<a hidden class="anchor" aria-hidden="true" href="#语义安全">#</a></h3>
+<ol>
+<li>攻击者自己任意选择两个消息m0、m1（注意，这个m0、m1是攻击者自己选的）</li>
+<li>攻击者把这两个消息发送给挑战者。</li>
+<li>挑战者运行加密算法，<strong>加密mb</strong>，把加密结果发送给攻击者。</li>
+</ol>
+<p>$\operatorname{Adv}_{S S}[A, E]=\left|\operatorname{Pr}\left[c \leftarrow E\left(k, m_0\right)\right]-\operatorname{Pr}\left[c \leftarrow E\left(k, m_1\right)\right]\right|=0$</p>
+<p>OTP是语义安全的,因为任意的$m_i \oplus k $ 都是均匀分布的，无法区分两个实验</p>
+<p>流密码是语义安全的</p>
+<p>定理1: 如果一个流密码 $\mathcal{E}$ 使用的PRG $\mathcal{G}$ 是安全的，那么 $\mathcal{E}$ 是语义安全的，并且在给定 $\mathcal{E}$ 的敌手 $\mathcal{A}$ 的情况下存在对于 $\mathcal{G}$ 的敌手 $\mathcal{B}$ 满足 $S S a d v^*[\mathcal{A}, \mathcal{E}]=P R G a d v[\mathcal{B}, \mathcal{G}]_{\text {。 }}$</p>
+<h2 id="分组密码">分组密码<a hidden class="anchor" aria-hidden="true" href="#分组密码">#</a></h2>
+<h3 id="prf和prp">PRF和PRP<a hidden class="anchor" aria-hidden="true" href="#prf和prp">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011135987.png" alt="img"  />
+</p>
+<p>PRF
+取一个密钥 $K$ 和集合$X$中的元素作为输入，输出值在集合$Y$中，现在唯一要求的是存在一个有效的算法来实现这个函数。也就是说，要有 一个有效的函数来实现 $K \times X \rightarrow Y$ 的映射。
+PRP
+与PRF不同的是，多了一个条件，那就是要有一个算法D可以实现逆运算。
+在PRP中，存在一个有效算法，能够实现映射关系 $K \times X \rightarrow X$ ，也就是说该算法能够将随机密钥 $k$ 与集合 $K \mathrm{X}$ 中的元素作为输入，同时 输出值也是集合X中的元素，那么就要求每个元素一一对应。</p>
+<p>从本质上来说， $E(k, x)$ 是对元素 $\mathrm{x}$ 的置换，为了解密的需要，就要求E是可逆的。</p>
+<h4 id="安全性证明">安全性证明<a hidden class="anchor" aria-hidden="true" href="#安全性证明">#</a></h4>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011520003.png" alt="image-20230301152019049"  />
+</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011520496.png" alt="image-20230301152040358"  />
+</p>
+<h3 id="des">DES<a hidden class="anchor" aria-hidden="true" href="#des">#</a></h3>
+<h4 id="feistel结构">Feistel结构<a hidden class="anchor" aria-hidden="true" href="#feistel结构">#</a></h4>
+<img src="https://cdn.niceasiv.cn/202303011256787.png" alt="image-20230301125605761" style="zoom:50%;" />
+<p>令 $\mathrm{F}$ 为轮函数，并令 $K_0, K_1, \ldots, K_n$ 分别为轮 $0,1, \ldots, n$ 的子密钥。 基本操作如下:
+将明文块拆分为两个等长的块， $\left(L_0, R_0\right)$
+对每轮 $i=0,1, \ldots, n$ ，计算
+$$
+\begin{aligned}
+L_{i+1} &amp; =R_i \
+R_{i+1} &amp; =L_i \oplus \mathrm{F}\left(R_i, K_i\right) .
+\end{aligned}
+$$
+则密文为 $\left(R_{n+1}, L_{n+1}\right)$ 。
+解密密文 $\left(R_{n+1}, L_{n+1}\right)$ 则通过计算 $i=n, n-1, \ldots, 0$
+$$
+\begin{aligned}
+&amp; R_i=L_{i+1} \
+&amp; L_i=R_{i+1} \oplus \mathrm{F}\left(L_{i+1}, K_i\right) .
+\end{aligned}
+$$
+则 $\left(L_0, R_0\right)$ 就是明文。</p>
+<p>如果轮函数是一个密码安全的伪随机函数，使用$K_i$作为种子，那么3轮足以使这种分组密码成为伪随机置换，而4轮可使它成为“强”伪随机置换（这意味着，对可以得到其逆排列谕示的攻击者，它仍然是伪随机的）。</p>
+<h4 id="feistel结构轮函数">Feistel结构轮函数<a hidden class="anchor" aria-hidden="true" href="#feistel结构轮函数">#</a></h4>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011315177.png" alt="image-20230301131529932"  />
+</p>
+<p>（1）、将64bit的明文右半部分(IP置换的产物，左右各有32bit)即32bit扩展为48bit：采用的是4个bit一组，分为8组，每一组前后各加1bit（增加的bit数=$2<em>1</em>8=16bit$）。其增加按照下表进行（虚线以外的为增加的bit所在位置，如：第一组前是32，即在第一组前加一个bit为整个右半部分的32bit的第32位的bit值{0,1}）：
+<img loading="lazy" src="https://cdn.niceasiv.cn/202303011321238.png" alt="这里写图片描述"  />
+</p>
+<p>（2）、得到的48bit扩充信息，和子密钥$K_i$进行异或操作，得到48bit的结果；
+（3）、将扩充信息和子密钥异或后的结果进行压缩（48bit压缩到32bit），压缩的方式是经过S盒（4*16的矩阵）进行替换，S盒函数是经过严格计算获得的，其S1盒的替换表与流程如下所示：</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011323649.png" alt="这里写图片描述"  />
+</p>
+<p>一个组6bit，共8组（6bit*8=48bit），即有8个S盒，每个S盒是固定的但是都是不相同的</p>
+<p><strong>S盒的实现就像一个编码器，只不过是6-4线的。原来的6bit作为索引，转换为索引到的4bit。</strong></p>
+<p>S盒的设计原则是遵循了F函数的要求来设计的，比如非线性、雪崩性、比特统计独立性等</p>
+<p>（4）、置换运算P（经过一个P盒进行置换）：指的是将32bit压缩后的信息进行bit置换操作，改换位操作目的是打乱其原有排序规律（F函数的混乱性原则）</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011327653.png" alt="这里写图片描述"  />
+</p>
+<h4 id="des介绍">DES介绍<a hidden class="anchor" aria-hidden="true" href="#des介绍">#</a></h4>
+<p><code>DES</code>是使用对称秘钥的分组加密算法。具体的算法流程如下</p>
+<p>因为加密和解密的密钥是一样的，所以称之为对称密钥。另外分组加密，是因为这种算法把明文划分为许多个等长的块(<code>block</code>)或分组,对每个块进行加密，最后拼接在一起。</p>
+<p>从本质上来说，DES的安全性依赖于虚假表象，从密码学的术语来讲就是依赖于“混淆和扩散”的原则。混淆的目的是为隐藏任何明文同密文、或者密钥之间的关系，而扩散的目的是使明文中的有效位和密钥一起组成尽可能多的密文。</p>
+<p>DES的功能是:给定<code>64bits</code>的Plaintext和8字节<code>64bits</code>的key，输出一个64bits的ciphertext。这些ciphertext可以用相同的key进行解密。</p>
+<p>虽然 DES 一次只能加密 8 个字节，但我们只需要把明文划分成每 8 个字节一组的块，就可以实现任意长度明文的加密。如果明文长度不是 8 个字节的倍数，常用<code>PKCS7</code> / <code>PKCS5</code>进行填充，用于把任意长度的文本填充成 8 字节的倍数长，也能方便地恢复原文。</p>
+<h4 id="des算法框架">DES算法框架<a hidden class="anchor" aria-hidden="true" href="#des算法框架">#</a></h4>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303121036251.png" alt="img"  />
+</p>
+<p>IP置换目的是将输入的64位数据块按位重新组合，并把输出分为L0、R0两部分，每部分各长32位</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011338126.png" alt="image-20230301133819950"  />
+</p>
+<p>子秘钥生成</p>
+<p>DES的密钥每个字节的第8位作为奇偶校验位，密钥由64位减至56位。这56位的密钥由一下的密钥置换表获得。</p>
+<p>密钥置换表：（没有8,16,24，32,40,48,56和64这8位）</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011342295.png" alt="image-20230301134206267"  />
+</p>
+<p>在DES的每一轮的子密钥，从这56位密钥产生出不同的48位子密钥，确定这些子密钥的方式如下：</p>
+<ol>
+<li>将56位的密钥分成两部分，每部分28位。</li>
+<li>根据轮数，这两部分分别循环左移1位或2位。每轮移动的位数如下表：</li>
+</ol>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011342992.png" alt="image-20230301134255264"  />
+</p>
+<p>移动后，又从56位中选出48位。置换了每位的顺序，最终确定子密钥。此过程称为密钥压缩置换。压缩置换规则如下表（注意表中没有9，18，22，25，35，38，43和54这8位）：</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011343817.png" alt="image-20230301134330603"  />
+</p>
+<h4 id="3des">3DES<a hidden class="anchor" aria-hidden="true" href="#3des">#</a></h4>
+<p>3DES也是个一般的分组密码，有三元组$(K,M,C)$</p>
+<p>定义三重加密,使用三个秘独立的密钥，和之前DES一样加密明文分组，它先使用密钥k3，然后用密钥k2解密，然后再用密钥k1加密</p>
+<p>E-&gt;D-&gt;E</p>
+<p>如果三密钥相等，k1=k2=k3，最终的效果是一个加密和一个解密抵消，又变成了正常的DES</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011415490.png" alt="image-20230301141511041"  />
+</p>
+<h4 id="why-no-2des">why no 2DES<a hidden class="anchor" aria-hidden="true" href="#why-no-2des">#</a></h4>
+<p>存在meet-in-the-middle attack</p>
+<p>假设 $E$ 和 $D$ 分别是加密函数和解密函数， $k 1$ 和 $k 2$ 分别是两次加密使用的密钥，则我们有
+$$
+\begin{aligned}
+&amp; C=E_{k_2}\left(E_{k_1}(P)\right) \
+&amp; P=D_{k_1}\left(D_{k_2}(C)\right)
+\end{aligned}
+$$
+则我们可以推出
+$$
+E_{k_1}(P)=D_{k_2}(C)
+$$
+那么，当用户知道一对明文和密文时</p>
+<ol>
+<li>攻击者可以枚举所有的 $k 1$ ，将 $P$ 所有加密后的结果存储起来，并按照密文的大小进行排序。</li>
+<li>攻击者进一步枚举所有的 $k 2$ ，将密文C进行解密得到 C1，在第一步加密后的结果中搜索 $C 1$ ，如果搜索到，则我们在一定程度上可以认为我们找到了正确的 $k 1$ 和 $k 2$ 。</li>
+<li>如果觉得第二步中得到的结果不保险，则我们还可以再找一些明密文对进行验证。
+假设 $\mathrm{k} 1$ 和 $\mathrm{k} 2$ 的密钥长度都为 $\mathrm{n}$ ，则原先我们暴力枚举需要 $O\left(n^2\right)$ ，现在我们只需要 $O\left(n \log _2 n\right)_0$</li>
+</ol>
+<p>实际上2DES中的中间相遇是穷举中间产物即k2加密-&gt;应该是k1解密得到的，所以分别双向进行穷举</p>
+<h4 id="desx">DESX<a hidden class="anchor" aria-hidden="true" href="#desx">#</a></h4>
+<p>我们使用密钥k1,k2,k3，然后在加密前，用k3异或明文分组，然后用k2加密明文，然后将加密结果异或k1</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011433818.png" alt="image-20230301143324275"  />
+</p>
+<h4 id="更多的对于分组密码的攻击">更多的对于分组密码的攻击<a hidden class="anchor" aria-hidden="true" href="#更多的对于分组密码的攻击">#</a></h4>
+<p>侧信道攻击，直接检测你加密ID卡的细微电流，然后还原出秘钥</p>
+<p>错误攻击，报错泄露原来的信息</p>
+<p>线性分析(linear cryptanalysis)方法本质上是一种已知明文攻击方法。这种方法可用 221 个已知明文破译8-轮DES，可用 247 个已知明文破译16轮DES。该种方法在某些情况下，可用于唯密文攻击，线性分析的基本思想是通过寻找一个给定密码算法的有效的线性近似表达式来降低密钥的熵，，从而破译密码系统。</p>
+<h3 id="aes">AES<a hidden class="anchor" aria-hidden="true" href="#aes">#</a></h3>
+<img src="https://cdn.niceasiv.cn/202303011457211.jpeg" alt="img" style="zoom:50%;" />
+<p>第一步:轮秘钥加</p>
+<img src="https://cdn.niceasiv.cn/202303011505777.jpeg" alt="img" style="zoom:50%;" />
+<p>加密第二步：字节代替</p>
+<p>字节代替也叫做S盒变换 AES有个固定的S盒，下图即为S盒</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011505870.png" alt="image-20230301150525878"  />
+</p>
+<p>把第一步轮密钥加后产生的每一个字节用十六进制表示 然后以十六进制的第一个数字为行，第二个数字为列，在S盒表中查找对应的数字，用这个数字来代替原先的数字，这样就完成了字节变换。（比如原字节为0x1a，就以1为行，a为列，找到表中对应的0xa2来代替0x1a的位置）</p>
+<p>加密第三步：行移位</p>
+<p>就是把上一步得到的矩阵每行左环移，第一行不变，第二行环移1位，第三行环移2位，第三行环移3位。</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011504430.png" alt="image-20230301150432784"  />
+</p>
+<p>加密第四步：列混淆</p>
+<p>将上一步得到的矩阵a左乘矩阵c，得到新的矩阵b。 这里的矩阵c是固定的(AES规定的)</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011507011.png" alt="image-20230301150722163"  />
+</p>
+<p>如果需要加密任意长度的明文，需要对分组密码进行迭代,分组密码的迭代方式叫做分组密码的<code>模式</code></p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>详细</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECB</td>
+<td>Electronic Code Book mode(电子密码本模式)</td>
+</tr>
+<tr>
+<td>CBC</td>
+<td>Cipher Block Chaining mode(分组密码链接模式)</td>
+</tr>
+<tr>
+<td>CFB</td>
+<td>Cipher Feedback mode</td>
+</tr>
+<tr>
+<td>OFB</td>
+<td>Output Feedback mode</td>
+</tr>
+<tr>
+<td>CTR</td>
+<td>Couter mode</td>
+</tr>
+<tr>
+<td>XTS</td>
+<td>XEX(\oplus Encrypt \oplus)Tweakable Block Cipher with CipherText Stealing</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ecb">ECB<a hidden class="anchor" aria-hidden="true" href="#ecb">#</a></h3>
+<p>此外，独立地对每个块加密，最后直接拼起来是不行的（这种方式称为“电子密码本”，<code>ECB</code> 模式。但如果明文当中有多个相同的分组，则这些明文分组就会产生相同的密文分组，这对于图片之类的数据来说几乎是致命的）。</p>
+<img src="https://cdn.niceasiv.cn/202303011511917.png" alt="img" style="zoom:50%;" />
+<p>ECB不是语义安全的</p>
+<h3 id="deterministic-counter-mode">Deterministic counter mode<a hidden class="anchor" aria-hidden="true" href="#deterministic-counter-mode">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011552223.webp" alt="AES的计数器模式（CTR）_技术"  />
+</p>
+<h3 id="many-times多次使用的cpa">Many times多次使用的CPA<a hidden class="anchor" aria-hidden="true" href="#many-times多次使用的cpa">#</a></h3>
+<p>知道明文就知道密文，目标为推出密钥。</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011558956.png" alt="image-20230301155843273"  />
+</p>
+<p>对于选择明文攻击，攻击者可以重复这个询问多次。</p>
+<p>选择明文攻击的本质，如果攻击者想知道特定明文信息m的加密结果，比如使用询问J，查明文J的加密结果。他把信息0和1都设为一样的信息m，左边和右边的信息是一样的都是m，这时由于两个m一样，攻击者会收到他感兴趣的信息m的加密结果，这就是选择明文攻击的意思。攻击者可以提交信息m，收到m的加密结果。</p>
+<h3 id="cbc">CBC<a hidden class="anchor" aria-hidden="true" href="#cbc">#</a></h3>
+<p>Cipher Block Chaining mode(分组密码链接模式)</p>
+<p>1）所有分组的加密都链接在一起，使得某一分组的密文不再仅依赖于该分组的明文，而是依赖于该分组之前（包含该分组）的所有明文分组；</p>
+<p>2）加密过程使用了初始化向量（IV）进行了随机化。</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011622391.png" alt="在这里插入图片描述"  />
+</p>
+<p>带IV的CBC模式对于CPA攻击是语义安全的</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011635853.png" alt="image-20230301163511140"  />
+</p>
+<p>CBC是安全的，最好是q^2*L^2远远小于|x|的值</p>
+<p>L是加密的明文长度</p>
+<p>q是在CPA攻击下，攻击者获得的密文数</p>
+<p>在现实中，q的意义是我们使用密钥k加密的次数</p>
+<p>基于新鲜值的CBC加密</p>
+<img src="https://cdn.niceasiv.cn/202303011633373.jpeg" alt="img" style="zoom:67%;" />
+<p>这种模式里，IV被某个不随机但是唯一的新鲜值取代</p>
+<p>好处是， 如果接受方知道新鲜值是多少，就没必要把新鲜值包含在密文里了，密文就和明文一样长了。</p>
+<p>这种模式，需要两个独立的k和k1，k加密分组，k1加密新鲜值</p>
+<p>用k1加密新鲜值是非常重要的</p>
+<p>如果用k加密新鲜值，也不是CPA安全的。</p>
+<p>CBC padding orcle</p>
+<p>1 CBC字节翻转攻击原理
+对于CBC模式的解密算法，每一组明文进行分组算法解密之后，需要和前一组的密文异或才能得到明文。第一组则是和初始向量IV进行异或。
+$\mathrm{CBC}$ 字节翻转攻击的核心原理是通过破坏一个比特的密文来簛改一个比特的明文。
+对于异或运算, 有以下逻辑:
+相同字符之间异或运算的结果为 0 , 即 $1 \oplus 1=0$
+任何字符与 0 异或运算结果为原字符, 即 $1 \oplus 0=1$
+假设现在我们有第 $N-1$ 组密文某一位的值 $A$, 以及第 $N$ 组密文相同位置经过分组解密后的值 $B$, 于是我们能够很容易得到第 $N$ 组该位置上的明文 $C$
+$$
+A \oplus B=C
+$$
+如果我们破坏第 $N-1$ 组的密文 $A$, 将其与明文 $C$ 进行异或运算 $A \oplus C$, 由异或的性质可以得到下式
+$$
+A \oplus C \oplus B=C \oplus C=0
+$$
+可以看见, 现在计算出的明文变成 $了$ 了, 现在我们可以将明文随意更改成我们想要的字符。只需要在上一组的密文异或我们想要的字符即可, 假设我们想将明 文 $C$ 更改为 $X$, 可以由下式得出
+$$
+A \oplus C \oplus X \oplus B=C \oplus C \oplus X=X
+$$
+<img loading="lazy" src="https://cdn.niceasiv.cn/202303020802674.jpeg" alt="img"  />
+</p>
+<h3 id="ctr">CTR<a hidden class="anchor" aria-hidden="true" href="#ctr">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011630464.png" alt="image-20230301162957085"  />
+</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011631010.png" alt="image-20230301163059199"  />
+</p>
+<p>CTR模式还有一种基于新鲜值的计数器模式</p>
+<p>IV不是真随机的，是一个新鲜值，可计数的</p>
+<p>把AES的128位分组，左64位作为新鲜值，计数器是0到2的64次方</p>
+<p>CTR：一个AES密钥可以用2的64次</p>
+<p>CBC：一个AES密钥可以用2的48次</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011638095.png" alt="image-20230301163801677"  />
+</p>
+<h2 id="消息完整性message-integrity">消息完整性Message integrity<a hidden class="anchor" aria-hidden="true" href="#消息完整性message-integrity">#</a></h2>
+<p>S(k,m) outputs t in  T</p>
+<p>安全的MAC系统</p>
+<p>⇒ attacker cannot produce a valid tag for a newmessage</p>
+<p>⇒ given (m,t)attacker cannot even produce (m,t’) for t’ ≠  t</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011750386.png" alt="image-20230301175013302"  />
+</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011918853.png" alt="image-20230301191811253"  />
+</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011755242.png" alt="image-20230301175459569"  />
+</p>
+<p>如何把短的MAC转化为长的MAC</p>
+<p>两种方法：</p>
+<ul>
+<li>ECBC-MAC 应用在银行业又叫CMAC</li>
+<li>HMAC应用在网络协议</li>
+</ul>
+<p>加密的CBC-MAC。简称ECBC</p>
+<p>我们把最大信息长度界定为L取信息，分割成分组。每个分组和底层函数f的分组一样长。CBC运行，但不输出中间值。</p>
+<p>这种情况下标签为N位长。截断标签。</p>
+<p>最后一步加密是干什么的。</p>
+<p>如果没有最后一步，叫做raw CBC 函数,原CBC并不安全。最后一步对于MAC的安全性很重要</p>
+<p><img src="https://cdn.niceasiv.cn/202303011803975.png" alt="image-20230301180329216" style="zoom: 67%;" /></p>
+<p><img src="https://cdn.niceasiv.cn/202303012035321.png" alt="image-20230301203544748" style="zoom: 67%;" /></p>
+<p>而MAC在生成时会使用一个密钥附加在消息之前：这确保不仅消息未被修改，而且发送者也是我们所期望的：否则攻击者无法知道用于生成的code的密钥。【考虑发送方和接收方共享一个密钥，在hash时附上密钥一起进行哈希】</p>
+<h3 id="mac-padding">MAC padding<a hidden class="anchor" aria-hidden="true" href="#mac-padding">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011912379.png" alt="image-20230301191220275"  />
+</p>
+<h3 id="cmac">CMAC<a hidden class="anchor" aria-hidden="true" href="#cmac">#</a></h3>
+<p>CMAC，使用一个随机的补齐函数，不用加假分组。</p>
+<p>用了三个密钥，也称三密钥机制。</p>
+<p>如果是有补位，用k1异或，没有补位用k2异或</p>
+<p>先用ISO的方法，补100….但是我们还要把最后一个分组和密钥k1xor</p>
+<p>好处是没有最后的加密步骤，不用加假分组。</p>
+<p>CMAC 和CBC-MAC有同样的安全性。</p>
+<p><img src="https://cdn.niceasiv.cn/202303011926161.png" alt="image-20230301192630323" style="zoom:50%;" /></p>
+<h3 id="collision-resistance">Collision Resistance<a hidden class="anchor" aria-hidden="true" href="#collision-resistance">#</a></h3>
+<p>条件1，有一个MAC可以加密<a href="https://cloud.tencent.com/product/sms?from=10680">短信</a>息，比如AES</p>
+<p>条件2，有一个哈希函数是抗碰撞的。 SHA256</p>
+<p>这种方式和MAC相比较，如果用MAC，我们需要一个密钥来验证单个文件的标签，但我们不需要一个只读的公共空间。</p>
+<p>用抗碰撞的哈希函数，我们不需要一个密钥来验证，任何人都可以验证。</p>
+<p>数字签名可以在完整性和资源（不需要只读公共空间）两方面都达到最优</p>
+<p><code>Hash(不需要key)， MAC（带key），HMAC(带key)</code></p>
+<p><img src="https://cdn.niceasiv.cn/202303011947655.png" alt="image-20230301194702363" style="zoom: 67%;" /></p>
+<p>这种生日攻击可以在2的n/2次内找到可能的碰撞，低于2的64次是危险的。</p>
+<p>所以我们一般不用128位输出的哈希。用256。</p>
+<h3 id="the-merkle-damgard-paradigm">The Merkle-Damgard Paradigm<a hidden class="anchor" aria-hidden="true" href="#the-merkle-damgard-paradigm">#</a></h3>
+<p>其中，基于Merkle-Damgard paradigm的迭代哈希函数如图1所示。首先对待发送消息 $M$ 进行 处理，对它进行填充（ $\hat{M} \leftarrow M | \mathrm{PB})$ ，使得 $M$ 的长度为 $l$ 的整数倍，随后被分割为多个 -块，即 $\hat{M}=m_1\left|m_2\right| \cdots | m_s$ ，其中 $m_1, \ldots, m_s \in{0,1}^{\ell} \space h: \mathcal{X} \times \mathcal{Y} \rightarrow \mathcal{X}$ 是一个 哈希函数，被称为 $H$ 的压缩函数(compression functions)。 $\mathcal{Y}$ 是每个数据块 $m_i$ 的变量空间。 常数 $I V$ 为initial value。</p>
+<p><img src="https://cdn.niceasiv.cn/202303011959267.png" alt="image-20230301195920097" style="zoom:50%;" /></p>
+<p>消息被分成了很多个block，最开始的初始化向量和第一个block进行f操作，得到了的结果再和第二个block进行操作，如此循环进行，最终得到了最后的结果。</p>
+<p>构建安全压缩函数，使得压缩函数是抗碰撞的。</p>
+<p>现在的问题就是如何构造冲突避免的压缩函数 ℎ 。目前使用最频繁的构造方法是Davies-Meyer。</p>
+<p><img src="https://cdn.niceasiv.cn/202303121037049.png" alt="image-20230301200318227" style="zoom:67%;" /></p>
+<p>综上，当 |X| 足够大时，在ideal cipher model下，Davies-Meyer哈希函数 ℎ(DM)是冲突避免的。</p>
+<h3 id="sha-256"><strong>SHA-256</strong><a hidden class="anchor" aria-hidden="true" href="#sha-256">#</a></h3>
+<p>SHA-256是Merkel-Damgard机制，还使用了Davies-Mayer压缩函数。</p>
+<p>对于任意长度的消息，SHA256都会产生一个256位的哈希值，称作消息摘要。这个摘要相当于是个长度为32个字节的数组，通常有一个长度为64的十六进制字符串来表示，其中1个字节=8位，一个十六进制的字符的长度为4位。</p>
+<p><img src="https://cdn.niceasiv.cn/202303012022772.jpeg" alt="一文读懂SHA256算法原理及其实现" style="zoom:67%;" /></p>
+<p>哈希长度拓展攻击（Hash Length Extension Attack）是一种利用哈希函数的特性，在已知哈希值的情况下，计算出原始数据的扩展值的攻击方式。</p>
+<p>攻击者可以通过构造特定的数据块，使得这些块的处理结果可以被利用来计算出原始数据的扩展值。</p>
+<p>攻击步骤如下：</p>
+<ol>
+<li>攻击者获取原始数据的哈希值和部分原始数据。</li>
+<li>攻击者利用哈希函数的工作方式，计算出原始数据的哈希值中的中间状态，并将该中间状态保存下来。</li>
+<li>攻击者构造一段数据块，使得这段数据块可以被加到原始数据的后面，并且构造的数据块中包含攻击者想要添加到原始数据末尾的内容。</li>
+<li>攻击者利用保存的中间状态和构造的数据块，计算出原始数据加上构造数据块后的哈希值，从而得到原始数据的扩展值。</li>
+</ol>
+<p>由于哈希函数的工作方式和输出长度是公开的，攻击者可以通过简单的计算来生成有效的扩展值，而不需要知道原始数据的内容。</p>
+<p><img src="https://cdn.niceasiv.cn/202303012032190.png" alt="image-20230301202845999" style="zoom:50%;" /></p>
+<h3 id="hmac">HMAC<a hidden class="anchor" aria-hidden="true" href="#hmac">#</a></h3>
+<p>$$
+\text { HMAC: } \quad S(k, m)=H(k \oplus o p a d | H(k \oplus i p a d ~ |m ~) ~)
+$$</p>
+<p>这些密码本ipad 和opad，是固定的常数。标准中给出了。512位常数，永不改变。</p>
+<p><img src="https://cdn.niceasiv.cn/202303012038393.png" alt="image-20230301203802788" style="zoom:67%;" /></p>
+<h2 id="authenticated-encryption">Authenticated Encryption<a hidden class="anchor" aria-hidden="true" href="#authenticated-encryption">#</a></h2>
+<p>认证加密是一个密码，通常是一个加密算法，取密钥，信息为输入，还可选一个新鲜值，输出一个密文，解密算法通常输出一个信息。但是这个解密算法可以输出一个特殊符号叫做底，当解密算法输出底时，意味着密文是无效的，应当被忽略，唯一的要求是这个底不在信息空间里，这个唯一的符号表示密文应当被拒绝。</p>
+<img src="https://cdn.niceasiv.cn/202303012103082.png" alt="image-20230301210324208" style="zoom:77%;" />
+<p>证明，认证加密可以抵抗选择密文攻击。</p>
+<p>他是一个极为强大的攻击者，他可以获得除了挑战密文外，任意密文的解密结果，但他依然不能区分他是在实验0还是实验中。</p>
+<p><img src="https://cdn.niceasiv.cn/202303012138543.png" alt="image-20230301213759851" style="zoom:67%;" /></p>
+<p>第一个例子在SSL协议里，SSL组合加密和MAC，希望能获得认证加密，组合方法如下：取密文m，然后计算明文m和MAC，使用MAC密钥kI，计算明文m的标签，然后你可以将标签附在明文后面，然后加密这个明文和标签的联结，得到最终的密文。这是一号方案。</p>
+<p>第二个方案是在IPsec中，取明文，首先加密这个明文，然后计算得到的密文的标签，大家注意到这个标签是基于得到的密文计算的。</p>
+<p>第三个方案是来自SSH协议的，这里，SSH取明文，使用CPA安全的加密机制加密明文。然后，把明文标签附在后面。IPsec与SSH不同之处在于，IPsec中，标签是根据密文计算的，在SSH中，标签是根据明文计算的。</p>
+<p>SSH这种，因为MAC前面算法的输出会泄露明文中的一些位，不建议使用。</p>
+<p>IPsec更为推荐。计算密文的标签时，我们用这个标签给密文上锁，确保没有人可以产生一个不同的密文，可以确保任何对密文的修改都会被解密者检测出来，因为MAC无法验证。</p>
+<p>SSL, mac-then-enc</p>
+<p>IPsec, enc-then-mac</p>
+<p>SSH, enc-and-mac`</p>
+<h3 id="tls">TLS<a hidden class="anchor" aria-hidden="true" href="#tls">#</a></h3>
+<p>下面来看记录协议的工作细节，这里展示这个强制性的密码套件，加密使用 AES-CBC，MAC 使用 HMAC-SHA1。记住 TLS 使用了一个 MAC，然后加密。</p>
+<p>我们看浏览器给服务器发送数据，使用的是从浏览器到服务器的密钥，这个密钥本身是由一个 MAC 密钥和一个加密秘钥组成，两个单独的密钥在会话起始阶段就被协商好了。所以总共来说有四个密钥，两个是 MAC 密钥，两个是加密秘钥，每个被使用在合适的方向。</p>
+<p>蓝色部分是 TLS 数据包的结构图，它以一个报文头开始，包含了数据包的类型、协议版本号以及数据包的长度，注意到数据包的长度是以明文形式发送的。加密数据、加密特定记录时，</p>
+<p>加密流程如下：取密钥，数据，当前状态为输入，然后如下工作。</p>
+<p>首先是取 MAC 的实际的封装操作，可以看到报文头也在 MAC 的计算中，另外计数器的当前值也在 MAC 的计算中，当然所有计数器增加以表示有一个记录被发送了。及时计数器的值包含在标签里，但计数器的值实际上永远不会在记录中发送。他不用被放在记录里发送的原因是，另一端的服务器已经知道了计数器的值，所以它不需要在记录中被告知计数器的值，它隐性的知道这个值。当它要验证这个 MAC 时，它可以使用它认为的计数器的值来验证这个 MAC。</p>
+<p>这些计数器具备新鲜值的功能，没有理由把新鲜值放在记录里，因为双方实际上都知道每个收到的记录的计数器。</p>
+<p>标签计算的范围是图上这个三元组数据。</p>
+<p>第二步是把标签附在数据后面，是先 MAC 加密，所以先计算了 MAC，这里会把数据和标签一并加密。所以报文头、数据和标签被补齐到 AES 分组。如果补齐的长度是 5 个字节，那么补齐就是简单的写 5 个 5。</p>
+<p>第三步是用加密密钥来进行 CBC 加密，我们计算数据和标签的 CBC 加密，我们使用一个新鲜的随机 IV，它待会被嵌入到密文中。</p>
+<p>最后，我们在结果前附上报文头、报文类型、版本号和长度。</p>
+<p><img src="https://cdn.niceasiv.cn/202303012144367.png" alt="image-20230301214440959" style="zoom:67%;" /></p>
+<p><img src="https://cdn.niceasiv.cn/202303012148489.png" alt="image-20230301214806962" style="zoom:67%;" /></p>
+<h3 id="cbc-padding-attacks"><strong>CBC padding attacks</strong><a hidden class="anchor" aria-hidden="true" href="#cbc-padding-attacks">#</a></h3>
+<p>记得认证加密意味着系统提供 CPA 安全性，以及密文完整性。认证加密还意味着我们可以在有主动给攻击者存在的情况下，保持私密性，攻击者甚至不能以任何方式修改密文，且不被检测到。</p>
+<p>我们还证明了认证加密可以阻止这些非常强大的选择密文攻击。不幸的是，认证加密有一个很重要的局限性，那就是它不能承受不好的实现。如果不正确的实现认证加密，那么你的实现对主动攻击将是脆弱的。</p>
+<p>我们看标准机制，之前提到过这三个标准可以提供认证加密。实际中，当你需要使用认证加密时，你应该就使用这三个标准中的一个。我们不应该试图去自己实现认证加密。</p>
+<p>一般情况下，当你想提供认证加密时，正确的方法是先加密然后再计算 MAC，因为无论你组合什么加密和 MAC 算法得到的结果将是认证加密。</p>
+<p>首先，到来的密文是 CBC 加密的，然后接下来实现的程序会检查补齐格式是否正确，比如说，如果补齐长度是 5 个字节，格式应为 55555，如果格式不正确，那么密文被拒绝，这就是检查解密后的记录的末尾是否含有正确的补齐。如果补齐格式正确，那么接下来检查 MAC，检查信息标签，如果标签不正确，这个记录也会被拒绝。如果标签有效，那么剩下的数据被认为是可被认证的，于是交给应用。</p>
+<p>由图中可以看出，在 21 毫秒内，密文会被拒绝，但是如果补齐有效，那么就要检查 MAC 了，发现 MAC 是无效的，警告仅在这点生成。换句话说，在这种情况下，会花稍微多一点的时间直到生成警告，可以看到，这平均花掉 23 毫秒。所以即使对付返回同样的警告，攻击者可以观察警告信息生成的用时，如果时间较短，他就知道补齐是无效的，如果时间较长，他就知道补齐有效，但 MAC 无效</p>
+<p><img src="https://cdn.niceasiv.cn/202303012152596.png" alt="image-20230301215224428" style="zoom:50%;" /></p>
+<h3 id="ssh攻击">ssh攻击<a hidden class="anchor" aria-hidden="true" href="#ssh攻击">#</a></h3>
+<p>想法如下：假设攻击者截获了一个密文分组，即直接用 AES 加密的分组 m，现在攻击者想还原这个 m，强调一下，这个截获的密文只有一个分组长，一个 AES 分组。攻击者怎么办，向服务器发送一个数据包，数据包的开头是正常的，以一个序列号开头，然后他把他截获的密文 c 作为第一个分组，发送给服务器。现在，服务器该怎么办？服务器会解密第一个 AES 分组的前几个字节，他会把这前几个字节解读成数据包的长度域。接下来，服务器将期待着 len 这么多字节，在验证 MAC 之前，攻击者将一次只给服务器一个字节，这样服务器会一个字节，一个字节地读，最终，服务器会读到长度域里说的那么多的字节，他会检测 MAC 是否有效。当然，攻击者给服务器的字节都是随便弄的，因此 MAC 不会通过验证，服务器会发送一个 MAC 错误，但可以发现，攻击者在数他发送给服务器多少给字节。它能严格的知道他发送了多少个字节，当他接收到了服务器发来的 MAC 错误，这就告诉攻击者，密文 c 的前 32 位的解密结果，正好等于已经发送的字节数在看到 MAC 错误之前。那么这是一个非常聪明的攻击。</p>
+<p>攻击者有一个密文分组 c，他想解密 c，我们假定 c 解密后，得到的明文的高 32 位是数字 5，在这种情况下，攻击者会看到如下的事情。服务器会解密挑战分组 c，会得到数字 5，并把 5 当作长度域。那么现在，攻击者会给服务器一次一个字节，在攻击者给服务器 5 个字节后，服务器说：我刚刚还原了整个数据包，让我检查 MAC。MAC 很可能是错的，服务器会发送一个坏 MAC 的错误。那么在读了 5 个字节后，攻击者会看到一个坏 MAC 的错误，然后攻击者就知道了解密后的分组的高 32 位等于数字 5. 那么就知道了 c 的高 32 位。这是一个非常重要的攻击，因为攻击者刚刚知道了密文分组解密后的高 32 位，他可以对任何他想要的密文分组实施这个攻击，他可以知道一条长信息的每个密文分组的高 32 位。</p>
+<p>密码设计里有两个错误，第一个是，解密操作不是原子操作，换句话说，解密算法不取整个数据包作为输入，而返回整个明文作为输出，或者返回 “拒绝”，解密算法部分的解密了密文获得了长度域，然后等待指定数量的字节去还愿，然后完成了加密过程。这些非原子解密操作是很危险的，一般来说，需要避免使用他们。在这个例子里，这个非原子操作正好破坏了认证加密。</p>
+<p>另一个问题在于，在正确的认证之前，就使用了长度域，这是另一个错误之处，不应该这么做的。所以加密的数据域不应该被使用在这个域被正确认证之前。</p>
+<h2 id="秘钥分发-kdf">秘钥分发 KDF<a hidden class="anchor" aria-hidden="true" href="#秘钥分发-kdf">#</a></h2>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303012204397.png" alt="image-20230301220448555"  />
+HMAC</p>
+<h3 id="hmac-1">HMAC<a hidden class="anchor" aria-hidden="true" href="#hmac-1">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303121038999.png" alt="image-20230301221116656"  />
+·</p>
+<h3 id="pbkdf">PBKDF<a hidden class="anchor" aria-hidden="true" href="#pbkdf">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303012214273.png" alt="image-20230301221415434"  />
+</p>
+<p>首先，我们讨论密钥推导时，HKDF机制在2010年Hugo Krawczyk的文章里有所描述。</p>
+<p>确定性加密，SIV模式在第二篇论文里有所讨论。</p>
+<p>我们描述了EME模式，可以让我们构建一个宽分组的伪随机置换，EME模式在Halvi和Rogaway的论文里描述。</p>
+<p>微调分组密码，引入了用于硬盘加密的XTS模式，在第四篇论文里描述。</p>
+<p>最后，保格式加密在最后一篇论文里描述。</p>
+<h2 id="数论">数论<a hidden class="anchor" aria-hidden="true" href="#数论">#</a></h2>
+<h3 id="乘法逆元">乘法逆元<a hidden class="anchor" aria-hidden="true" href="#乘法逆元">#</a></h3>
+<p>在中国剩余定理的计算里，需要求一个数字在一个模下的逆元，也就是对于给定的 $a ， b$ ，找到方 程 $a a^* \equiv 1(\bmod b)$ 的一个整数解 $a^<em>$ 。接下来我们分析一下这个方程背后隐藏着什么。
+根据同余的定义，有 $b \mid\left(a a^</em>-1\right)$ ，也就是存在整数 $k$ 使得 $b k=a a^<em>-1$ 。移一下项，就得 到了 $a a^</em>-b k=1$ 。
+这个形式恰好符合裴蜀定理 $a x+b y=1$ 的形式，于是 $(a, b)=1$ ，这表明 $\mathbf{a}$ ， $\mathbf{b}$ 互质是逆元 存在的必要条件。同样可以证明： $a$,b互质是 $a$ 在模 $b$ 下存在逆元的充分条件。</p>
+<h3 id="扩展欧几里得">扩展欧几里得<a hidden class="anchor" aria-hidden="true" href="#扩展欧几里得">#</a></h3>
+<img src="https://cdn.niceasiv.cn/202303012241318.png" alt="在这里插入图片描述" style="zoom:50%;" />
+<h3 id="费马小定理">费马小定理<a hidden class="anchor" aria-hidden="true" href="#费马小定理">#</a></h3>
+<p>费马小定理: $p$ 为质数， $a$ 为任意自然数，则</p>
+<p>$a^p \equiv a(\bmod p)$</p>
+<h2 id="陷门函数pk加密">陷门函数PK加密<a hidden class="anchor" aria-hidden="true" href="#陷门函数pk加密">#</a></h2>
+<p>公钥与私钥的产生
+叚设Alice想要通过不可靠的媒体接收Bob的私人信息。她可以用以下的方式来产生一个公钥和一个私钥:</p>
+<ol>
+<li>
+<p>随意选择两个大的素数 $p$ 和 $q ， p$ 不等于 $q$ ，计算 $N=p q$ 。</p>
+</li>
+<li>
+<p>根据欧拉函数，求得 $r=\varphi(N)=\varphi(p) \times \varphi(q)=(p-1)(q-1)$</p>
+</li>
+<li>
+<p>选择一个小于 $r$ 的整数 $e$ ，使 $e$ 与 $r$ 互质。并求得 $e$ 关于 $r$ 的模逆元，命名为 $d$ (求 $d$ 令 $e d \equiv 1(\bmod r)$ )。 (模逆元存在，当且仅当 $e$ 与 $r$ 互质)</p>
+</li>
+<li>
+<p>将 $p$ 和 $q$ 的记录销毁。
+$(N, e)$ 是公钥， $(N, d)$ 是私钥。Alice将她的公钥 $(N, e)$ 传给Bob，而将她的私钥 $(N, d)$ 藏起来。</p>
+</li>
+</ol>
+<p>加密消息
+叚设Bob想给Alice送消息 $m$ ，他知道Alice产生的 $N$ 和 $e$ 。他使用起先与Alice约好的格式将 $m$ 转换为一个小于 $N$ 的非负整数 $n$ ，比如他可以将每一个字转换为这个字的Unicode码，然后将这些数字连在一起组成一个数字。 叚如他的信息非常长的话，他可以将这个信息分为几段，然后将每一段转换为 $n$ 。用下面这个公式他可以将 $n$ 加密为 $c$ :
+$$
+c=n^e \bmod N
+$$
+计算 $c$ 并不复杂。Bob算出 $c$ 后就可以将它传递给Alice。
+解密消息
+Alice得到Bob的消息 $c$ 后就可以利用她的密钥 $d$ 来解码。她可以用以下这个公式来将 $c$ 转换为 $n$ :
+$$
+n=c^d \bmod N
+$$
+得到 $n$ 后，她可以将原来的信息 $m$ 重新复原。
+解码的原理是
+$$
+c^d \equiv n^{e \cdot d}(\bmod N)
+$$
+已知 $e d \equiv 1(\bmod r)$ ，即 $e d=1+h \varphi(N)$ 。那么有
+$$
+n^{e d}=n^{1+h \varphi(N)}=n \cdot n^{h \varphi(N)}=n\left(n^{\varphi(N)}\right)^h
+$$
+若 $n$ 与 $N$ 互素，则由欧拉定理得:
+$$
+n^{e d} \equiv n\left(n^{\varphi(N)}\right)^h \equiv n(1)^h \equiv n \quad(\bmod N)
+$$
+若 $n$ 与 $N$ 不互素，则不失一般性考虑 $n=p h$ ，以及 $e d-1=k(q-1)$ ，得:
+$$
+\begin{aligned}
+&amp; n^{e d}=(p h)^{e d} \equiv 0 \equiv p h \equiv n \quad(\bmod p) \
+&amp; n^{e d}=n^{e d-1} n=n^{k(q-1)} n=\left(n^{q-1}\right)^k n \equiv 1^k n \equiv n \quad(\bmod q)
+\end{aligned}
+$$
+故 $n^{e d} \equiv n \quad(\bmod N)$ 得证。</p>
+<h3 id="bleichenbacher">Bleichenbacher<a hidden class="anchor" aria-hidden="true" href="#bleichenbacher">#</a></h3>
+<p>攻击过程如下：</p>
+<ol>
+<li>攻击者选择一个明文 M，并将其用 PKCS#1 v1.5 方式进行填充，得到一个长度为 k 的消息 m。攻击者将该消息使用 RSA 加密算法进行加密，得到密文 c。</li>
+<li>攻击者通过 padding oracle 来判断密文是否符合 padding 方式。padding oracle 可以是一个网络服务器或者其他的加密解密设备，能够根据密文是否符合 padding 方式返回不同的信息，例如返回错误码或者异常。</li>
+<li>攻击者使用二分法来逐位猜测密文中的每一个字节。具体来说，攻击者将密文 c 解密得到明文 m&rsquo;，并检查其是否符合 PKCS#1 v1.5 的填充规则。如果符合，说明攻击者已经猜测到了正确的字节，否则说明攻击者猜错了。</li>
+<li>攻击者利用 padding oracle 来判断 m&rsquo; 是否符合 PKCS#1 v1.5 的填充规则。如果符合，说明攻击者已经还原出了正确的明文 M，否则说明攻击者猜错了。</li>
+<li>重复步骤 3 和步骤 4，直到攻击者还原出了明文 M。</li>
+</ol>
+<ul>
+<li>Padding: RSA加密时，要对明文m填充到与模数 $n$ 一样长，才能加密</li>
+<li>Ciphertext manipulation： RSA 在乘法上是同态的，即 $\operatorname{Enc}\left(P_1 * P_2\right)=\operatorname{Enc}\left(P_1\right) * \operatorname{Enc}\left(P_2\right)$ ，通常的实现都没有对RSA的 密文做完整性校验 (MAC)，使得攻击者可以通过修改密文来操纵解 密后的明文</li>
+<li>Information leakage: 攻击者可以通过一些侧信道信息来获知解密 后的明文是否符合特定的填充格式</li>
+</ul>
+<h2 id="elgamal">Elgamal<a hidden class="anchor" aria-hidden="true" href="#elgamal">#</a></h2>
+<p>密钥生成 [编辑]
+密钥生成步骤如下:</p>
+<ul>
+<li>
+<p>Alice利用生成元 $g$ 产生一个 $q$ 阶循环群 $G$ 的有效描述。该循环群需要满足一定的安全性质。</p>
+</li>
+<li>
+<p>Alice从 ${1, \ldots, q-1}$ 中随机选择一个 $x$ 。</p>
+</li>
+<li>
+<p>Alice计算 $h:=g^x$ 。</p>
+</li>
+<li>
+<p>Alice公开 $h$ 以及 $G, q, g$ 的描述作为其公钥，并保留 $x$ 作为其私钥。私钥必须保密。</p>
+<p>加密</p>
+</li>
+<li>
+<p>使用Alice的公钥 $(G, q, g, h)$ 向她加密一条消息 $m$ 的加密算法工作方式如下:</p>
+</li>
+<li>
+<p>Bob从 ${1, \ldots, q-1}$ 随机选择一个 $y$ ，然后计算 $c_1:=g^y$ 。</p>
+</li>
+<li>
+<p>Bobi十算共享秘密 $s:=h^y$ 。</p>
+</li>
+<li>
+<p>Bob把他要发送的秘密消息 $m$ 映射为 $G$ 上的一个元素 $m^{\prime}$ 。</p>
+</li>
+<li>
+<p>Bobi计算 $c_2:=m^{\prime} \cdot s$ 。</p>
+</li>
+<li>
+<p>Bob将密文 $\left(c_1, c_2\right)=\left(g^y, m^{\prime} \cdot h^y\right)=\left(g^y, m^{\prime} \cdot\left(g^x\right)^y\right)$ 发送给Alice。
+值得注意的是，如果一个人知道了 $m^{\prime}$ ，那么它很容易就能知道 $h^y$ 的值。因此对每一条信息都产生一个新的 $y$ 可以提高安全性。所以 $y$ 也被称作临时密钥。
+解密
+利用私钥 $x$ 对密文 $\left(c_1, c_2\right)$ 进行解密的算法工作方式如下:</p>
+</li>
+<li>
+<p>Alice计算共享秘密 $s:=c_1^x$</p>
+</li>
+<li>
+<p>然后计算 $m^{\prime}:=c_2 \cdot s^{-1}$ ，并将其映射回明文 $m$ ，其中 $s^{-1}$ 是 $s$ 在群 $G$ 上的逆元。（例如：如果 $G$ 是整数模n乘去群的一个子群，那么逆元就是模逆元) 。 解密算法是能够正确解密出明文的，因为</p>
+</li>
+</ul>
+<p>$$
+c_2 \cdot s^{-1}=m^{\prime} \cdot h^y \cdot\left(g^{x y}\right)^{-1}=m^{\prime} \cdot g^{x y} \cdot g^{-x y}=m^{\prime} .
+$$</p>
+<h2 id="df">DF<a hidden class="anchor" aria-hidden="true" href="#df">#</a></h2>
+<p>Diffie-Hellman密钥交换算法
+Diffie-Hellman密钥交换算法的目的是使两个用户能安全交换密钥，以便在后续的通信中用该密钥对消息加密。所以这个算法本身只限于密钥交换。</p>
+<p>Diffie-Hellman密钥交换算法的有效性建立在离散对数上，在计算离散对数是困难的才能确保秘密交换。</p>
+<p>Diffie-Hellman密钥交换算法如图所示</p>
+<img src="https://cdn.niceasiv.cn/202303020739977.png" alt="img" style="zoom:80%;" />
+<p>有素数 $q$ 和本原根 $\alpha$ ，为公开的整数，Alice选择随机整数 $X_A ，$ Bob选择 $X_B$ ，分别计算，其中 $X_A$ 和 $X_B$ 保密，对算出的 $Y_A$ 和 $Y_B$ 公开。Alice和Bob通过计算 $K$ ，将 $K$ 作为共享的密钥。这样Alice和Bob就 完成了密钥的交换。 $X_A$ 和 $X_B$ 是私有的，攻击者只能通过 $q, \alpha, Y_A$ 和 $Y_B$ 来攻击，所以只能求离散对数 来确定密钥。
+如果攻击者要对Bob进行攻击，攻击者就要求离散对数算出 $X_B=d \log _{\alpha, q}\left(Y_B\right)$ ，然后算出密钥 $K$ 。
+Diffie-Hellman密钥交换算法的安全性建立在下列事实上:</p>
+<ul>
+<li>
+<p>计算素数模的幂运算相对容易，计算离散对数却非常困难</p>
+</li>
+<li>
+<p>对大素数，求离散对数被认为是困难的</p>
+</li>
+</ul>
+<p>基于这样的事实，保证了Diffie-Hellman密钥交换算法的保密性。</p>
+<p>中间人攻击
+上图的协议，不能抵御中间人攻击，中间人攻击的过程如下图所示</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303020741609.png" alt="img"  />
+</p>
+<p>通过上述协议，Bob和Alice以为各自共享了密钥，实际上他们都是与Darth共享密钥，所以如果Alice和Bob通过共享密钥加密传输，将会泄露各自的明文</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303020741185.png" alt="img"  />
+</p>
+<p>密钥交换不能抵御上述攻击，是因为没有对通信的参与方进行认证。</p>
+<h2 id="扩展域gf2m">扩展域GF(2^m)<a hidden class="anchor" aria-hidden="true" href="#扩展域gf2m">#</a></h2>
+<h3 id="加法">加法<a hidden class="anchor" aria-hidden="true" href="#加法">#</a></h3>
+<p><strong>假设A(x)、B(x)∈GF(2^m)，计算两个元素之和的方法就是：</strong>
+$$
+C(x)=A(x)+B(x)=\sum_{i=0}^{m-1} C_i x^i \quad c_i \equiv\left(a_i+b_i\right) \bmod 2
+$$
+而两个元素之差的计算公式就是:
+$$
+C(x)=A(x)-B(x)=\sum_{i=0}^{m-1} c_i x^i \quad c_i \equiv\left(a_i-b_i\right) \bmod 2 \equiv\left(a_i+b_i\right) \bmod 2
+$$</p>
+<h3 id="乘法">乘法<a hidden class="anchor" aria-hidden="true" href="#乘法">#</a></h3>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011454980.png" alt="img"  />
+</p>
+<p><img loading="lazy" src="https://cdn.niceasiv.cn/202303011453692.jpeg" alt="img"  />
+</p>
+<h3 id="不可约多项式">不可约多项式<a hidden class="anchor" aria-hidden="true" href="#不可约多项式">#</a></h3>
+<h2 id="参考文献">参考文献<a hidden class="anchor" aria-hidden="true" href="#参考文献">#</a></h2>
+<p>1.<a href="https://blog.csdn.net/chengqiuming/article/details/82262417">ECB模式解读_chengqiuming的博客-CSDN博客_ecb模式</a></p>
+<p>2.<a href="https://blog.csdn.net/KXue0703/article/details/120095804">密码算法 之三：分组密码工作模式 （ECB \ CBC \ CFB \ OFB \ CTR \ XTS）浅析_cbc工作模式_KXue0703的博客-CSDN博客</a></p>
+<p>3.<a href="https://blog.csdn.net/A33280000f/article/details/118304531">密码学小知识(5)：唯密文攻击(COA)、已知明文攻击(KPA)、选择明文攻击(CPA)，选择密文攻击(CCA)_crypto_cxf的博客-CSDN博客</a></p>
+<p>4.<a href="https://blog.csdn.net/apollon_krj/article/details/75014218">Feistel网络结构与DES加密算法的框架简单分析_Apollon_krj的博客-CSDN博客</a></p>
+<p>5.<a href="https://blog.csdn.net/weixin_44034444/article/details/121055630">Python——加密算法DES_python des_羽丶千落的博客-CSDN博客</a></p>
+
+
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="prev" href="https://niceasiv.cn/posts/hello/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>hello</span>
+  </a>
+  <a class="next" href="https://niceasiv.cn/posts/pe_dll/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>通过修改 PE 装载 DLL 实验</span>
+  </a>
+</nav>
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 现代密码学期末复习 on twitter"
+       href="https://twitter.com/intent/tweet/?text=%e7%8e%b0%e4%bb%a3%e5%af%86%e7%a0%81%e5%ad%a6%e6%9c%9f%e6%9c%ab%e5%a4%8d%e4%b9%a0&amp;url=https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f&amp;hashtags=Crypto">
+    <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 现代密码学期末复习 on linkedin"
+       href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f&amp;title=%e7%8e%b0%e4%bb%a3%e5%af%86%e7%a0%81%e5%ad%a6%e6%9c%9f%e6%9c%ab%e5%a4%8d%e4%b9%a0&amp;summary=%e7%8e%b0%e4%bb%a3%e5%af%86%e7%a0%81%e5%ad%a6%e6%9c%9f%e6%9c%ab%e5%a4%8d%e4%b9%a0&amp;source=https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 现代密码学期末复习 on reddit"
+       href="https://reddit.com/submit?url=https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f&title=%e7%8e%b0%e4%bb%a3%e5%af%86%e7%a0%81%e5%ad%a6%e6%9c%9f%e6%9c%ab%e5%a4%8d%e4%b9%a0">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 现代密码学期末复习 on facebook"
+       href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 现代密码学期末复习 on whatsapp"
+       href="https://api.whatsapp.com/send?text=%e7%8e%b0%e4%bb%a3%e5%af%86%e7%a0%81%e5%ad%a6%e6%9c%9f%e6%9c%ab%e5%a4%8d%e4%b9%a0%20-%20https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share 现代密码学期末复习 on telegram"
+       href="https://telegram.me/share/url?text=%e7%8e%b0%e4%bb%a3%e5%af%86%e7%a0%81%e5%ad%a6%e6%9c%9f%e6%9c%ab%e5%a4%8d%e4%b9%a0&amp;url=https%3a%2f%2fniceasiv.cn%2fposts%2fcryptonote%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+        </footer>
+    </div>
+</article>
+</main>
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        2021-2023 Asiv&#39;s Blog
+    </span>
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;">陕ICP备2021000000号</a>&nbsp;
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        (function() {
+            document.cookie = "change-themes" + "="+ escape ("false");
+        })()
+
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    });
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"Asiv's Blog"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"Asiv's Blog"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script></body>
+
+</html>

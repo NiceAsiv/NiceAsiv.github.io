@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>漏洞复现 on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</link>
+    <description>Recent content in 漏洞复现 on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://niceasiv.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Log4j漏洞复现</title>
+      <link>https://niceasiv.cn/posts/log4j%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/log4j%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</guid>
+      <description>主要内容 CVE-2021-44228 Apache Log4j漏洞复现 0x01.漏洞情况 影响范围： Apache Log4j 2.x &amp;lt; 2.15.0-rc2
+Apache Log4j2某些功能存在递归解析功能，攻击者可直接构造恶意请求，触发远程代码执行漏洞。
+Spring-Boot-strater-log4j2、Apache Struts2、Apache Solr、Apache Flink、Apache Druid、ElasticSearch、Flume、Dubbo、Redis、Logstash、Kafka均受影响。
+0x02.组件介绍 RIM RMI ( Remote Method Invocation , 远程方法调用 ) 是分布式编程中的一个基本思想。实现远程方法调用的技术有很多，例如CORBA、WebService，这两种是独立于编程语言的。而Java RMI是专为Java环境设计的远程方法调用机制，远程服务器实现具体的Java方法并提供接口，客户端本地仅需根据接口类的定义，提供相应的参数即可调用远程方法并获取执行结果，使分布在不同的JVM中的对象的外表和行为都像本地对象一样。
+另外，需要知道注册表的概念，说简单一点就是，服务端那里有一个对象，客户端想要调用服务端里的那个对象的方法，而注册表就像一个中间人，服务端会将自己提供的服务的实现类交给这个中间人 , 并公开一个名称 . 任何客户端都可以通过公开的名称找到这个实现类 , 并调用它。
+LDAP LDAP（Light Directory Access Portocol），它是基于X.500标准的轻量级目录访问协议。
+目录是一个为查询、浏览和搜索而优化的数据库，它成树状结构组织数据，类似文件目录一样。
+目录数据库和关系数据库不同，它有优异的读性能，但写性能差，并且没有事务处理、回滚等复杂功能，不适于存储修改频繁的数据。所以目录天生是用来查询的，就好象它的名字一样。
+LDAP目录服务是由目录数据库和一套访问协议组成的系统。
+JNDI JNDI全称为Java Naming and Directory Interface，也就是Java命名和目录接口。
+既然是接口，那么就必定有其实现，而目前我们Java中使用最多的基本就是rmi和ldap的目录服务系统。
+而命名的意思就是，在一个目录系统，它实现了把一个服务名称和对象或命名引用相关联，在客户端，我们可以调用目录系统服务，并根据服务名称查询到相关联的对象或命名引用，然后返回给客户端。
+而目录的意思就是在命名的基础上，增加了属性的概念，我们可以想象一个文件目录中，每个文件和目录都会存在着一些属性，比如创建时间、读写执行权限等等，并且我们可以通过这些相关属性筛选出相应的文件和目录。
+而JNDI中的目录服务中的属性大概也与之相似，因此，我们就能在使用服务名称以外，通过一些关联属性查找到对应的对象。
+总结的来说：JNDI是一个接口，在这个接口下会有多种目录系统服务的实现，我们能通过名称等去找到相关的对象，并把它下载到客户端中来。
+注册中心服务
+抽象接口，他隔离了具体的资源,使得连接相关更便捷
+JNDI则是Java中用于访问LDAP的API ，开发人员使用JNDI完成与LDAP 服务器 之间的通信，即用JNDI来访问LDAP，而不需要和具体的目录服务产品特性打交道。
+JNDI动态协议转换 当我们调用lookup()方法时，如果lookup方法的参数像demo中那样是一个uri地址，那么客户端就会去lookup()方法参数指定的uri中加载远程对象
+JNDl Naming Reference命名引用 当有客户端通过lookup(&amp;ldquo;refObj&amp;rdquo;)获取远程对象时，获取的是一个Reference存根(Stub),由于是 Reference的存根，所以客户端会现在本地的 classpath中去检查是否存在类refClassName，如果不存在则去指定的url动态加载。
+当系统使用log4j通过$形式将用户输入的信息打印到日志时﹐那这就会出现JNDI注入漏洞
+0x03.漏洞利用原理 利用条件
+Java应用引入了log4j-api和log4j-core两个jar包
+当系统使用log4j通过$形式将用户输入的信息打印到日志时﹐那这就会出现JNDI注入漏洞
+黑客在自己的客户端启动一个带有恶意代码的rmi服务，通过服务端的log4j的漏洞，向服务端的jndi context lookup的时候连接自己的rmi服务器，服务端连接rmi服务器执行lookup的时候会通过rmi查询到该地址指向的引用并且本地实例化这个类，所以在类中的构造方法或者静态代码块中写入逻辑，就会在服务端（jndi rmi过程中的客户端）实例化的时候执行到这段逻辑，导致jndi注入。
+·
+0x04.漏洞复现 实验环境 Windows 11 jdk-8u212-windows jdk 1.8.121（理论上JDK 6u211、7u201、8u191之前的版本都行） JNDI-Injection-Exploit log4j-api&amp;amp;log4j-core 2.15.0-rc2 docker 本地复现 复现的流程 ·
+·
+server开启一个rmi import com.sun.jndi.rmi.registry.ReferenceWrapper; import javax.naming.NamingException; import javax.naming.Reference; import java.rmi.AlreadyBoundException; import java.rmi.RemoteException; import java.rmi.registry.LocateRegistry; import java.rmi.registry.Registry; public class RMIServer { public static void main(String[] args) { try { // 本地主机上的远程对象注册表Registry的实例,默认端口1099 LocateRegistry.createRegistry(1099); Registry registry = LocateRegistry.getRegistry(); System.out.println(&amp;#34;Create RMI registry on port 1099&amp;#34;); //返回的Java对象 Reference reference = new Reference(&amp;#34;HackCode&amp;#34;,&amp;#34;HackCode&amp;#34;,null); ReferenceWrapper referenceWrapper = new ReferenceWrapper(reference); // 把远程对象注册到RMI注册服务器上，并命名为hack registry.</description>
+    </item>
+    
+  </channel>
+</rss>

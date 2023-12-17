@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Crypto</title>
+      <link>https://niceasiv.cn/tags/crypto/</link>
+      <pubDate>Wed, 07 Dec 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/crypto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Reverse</title>
       <link>https://niceasiv.cn/tags/reverse/</link>
       <pubDate>Mon, 28 Nov 2022 18:16:09 +0000</pubDate>
@@ -30,11 +39,65 @@
     </item>
     
     <item>
-      <title>Crypto</title>
-      <link>https://niceasiv.cn/tags/crypto/</link>
-      <pubDate>Tue, 01 Nov 2022 18:16:09 +0000</pubDate>
+      <title>DBscan</title>
+      <link>https://niceasiv.cn/tags/dbscan/</link>
+      <pubDate>Tue, 22 Nov 2022 20:51:09 +0000</pubDate>
       
-      <guid>https://niceasiv.cn/tags/crypto/</guid>
+      <guid>https://niceasiv.cn/tags/dbscan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>K-means</title>
+      <link>https://niceasiv.cn/tags/k-means/</link>
+      <pubDate>Tue, 22 Nov 2022 20:51:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/k-means/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>KNN</title>
+      <link>https://niceasiv.cn/tags/knn/</link>
+      <pubDate>Tue, 22 Nov 2022 20:51:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/knn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://niceasiv.cn/tags/machine-learning/</link>
+      <pubDate>Tue, 22 Nov 2022 20:51:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Algorithm</title>
+      <link>https://niceasiv.cn/tags/algorithm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://niceasiv.cn/tags/c&#43;&#43;/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CSP</title>
+      <link>https://niceasiv.cn/tags/csp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/csp/</guid>
       <description></description>
     </item>
     
@@ -48,11 +111,20 @@
     </item>
     
     <item>
-      <title>Machine Learning</title>
-      <link>https://niceasiv.cn/tags/machine-learning/</link>
+      <title>life</title>
+      <link>https://niceasiv.cn/tags/life/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://niceasiv.cn/tags/machine-learning/</guid>
+      <guid>https://niceasiv.cn/tags/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Log4J</title>
+      <link>https://niceasiv.cn/tags/log4j/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/log4j/</guid>
       <description></description>
     </item>
     
@@ -71,6 +143,15 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://niceasiv.cn/tags/reinforcement-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>漏洞复现</title>
+      <link>https://niceasiv.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</guid>
       <description></description>
     </item>
     

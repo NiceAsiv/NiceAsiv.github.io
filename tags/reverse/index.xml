@@ -25,6 +25,22 @@
     </item>
     
     <item>
+      <title>调用惯例</title>
+      <link>https://niceasiv.cn/posts/calling_convention/</link>
+      <pubDate>Thu, 10 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/calling_convention/</guid>
+      <description>调用惯例 简要介绍 ==调用惯例(Calling Conventions)==指计算机程序执行时调用函数或过程的一些约定，包括：
+1.函数的参数是通过栈还是寄存器传递？ 2.如果通过栈传递，顺序是怎样的，是从左至右入栈还是相反。 3.谁负责清理栈，是调用者还是被调用者？ 针对这三个约定，不同的调用惯例有不同的实现，参考课本和搜索引擎，归纳如下
+调用惯例 调用场合 传参方式 入栈顺序 传返回值 清理栈者 名字修饰 cdecl Windows API 栈传参 从右至左压栈 寄存器(EAX) 调用者函数 _+函数名 stdcall C/C++ 栈传参 从右至左压栈 寄存器(EAX) 被调用者函数 _+函数名+@+参数的字节数 fastcall GCC/Microsoft 左DWORD用ECX和EDX，剩余栈传参 从右至左压栈 寄存器(EAX) 被调用者函数 @+函数名+@+参数字节数 程序分析 函数设置 main函数
+#include&amp;lt;stdio.h&amp;gt; int __cdecl add1(int a, int b); int __stdcall add2(int a, int b); int __fastcall add3(int a, int b); int main(int argc, char *argv[]) { //调用cdecl调用惯例下的add函数 add1(1,2); //调用stdcall调用惯例下的add函数 add2(1,2); //调用fastcall调用惯例下的add函数 add3(1,2); return 0; } add函数
+int __cdecl add1(int a, int b)//cdecl调用惯例下的add函数 { return a + b; } int __stdcall add2(int a, int b)//stdcall调用惯例下的add函数 { return a + b; } int __fastcall add3(int a, int b)//fastcall调用惯例下的add函数 { return a + b; } 分别对三种种调用惯例下的main（共用）和sub函数（区别所在）进行编译，生成二进制可执行文件，然后拖入ollydbg进行反汇编调试，观察main调用sub函数时栈状态的变化。
+gcc -g callfuction.c -o deg_work1 #生成debug信息 Ollydbg提示Not a valid PE file，****.exe‘ is probably not a 32-bit Portable Executable.
+发现Ollydbg只能编译32位的文件
+gcc -g -m32 callfuction.c -o deg_work1 #生成带debug信息的32位二进制文件 在Linux里面编译一直报错warning: implicit declaration of function ‘add’ [-Wimplicit-function-declaration]</description>
+    </item>
+    
+    <item>
       <title>CVE2020-06-01复现</title>
       <link>https://niceasiv.cn/posts/cve20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

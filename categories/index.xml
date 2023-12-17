@@ -10,13 +10,40 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 28 Nov 2022 18:16:09 +0000</lastBuildDate><atom:link href="https://niceasiv.cn/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 07 Dec 2022 18:16:09 +0000</lastBuildDate><atom:link href="https://niceasiv.cn/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>course</title>
       <link>https://niceasiv.cn/categories/course/</link>
-      <pubDate>Mon, 28 Nov 2022 18:16:09 +0000</pubDate>
+      <pubDate>Wed, 07 Dec 2022 18:16:09 +0000</pubDate>
       
       <guid>https://niceasiv.cn/categories/course/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CTF</title>
+      <link>https://niceasiv.cn/categories/ctf/</link>
+      <pubDate>Thu, 10 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/categories/ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Algorithm</title>
+      <link>https://niceasiv.cn/categories/algorithm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/categories/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>life</title>
+      <link>https://niceasiv.cn/categories/life/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/categories/life/</guid>
       <description></description>
     </item>
     

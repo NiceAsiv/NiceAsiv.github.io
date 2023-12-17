@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>KNN on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/knn/</link>
+    <description>Recent content in KNN on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 22 Nov 2022 20:51:09 +0000</lastBuildDate><atom:link href="https://niceasiv.cn/tags/knn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KNN&amp;DBscan&amp;K-means实现</title>
+      <link>https://niceasiv.cn/posts/cluster/</link>
+      <pubDate>Tue, 22 Nov 2022 20:51:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/cluster/</guid>
+      <description>Python集成开发环境(IDE)
+(1) Anaconda: https://www.continuum.io/ （推荐）
+(2) IDLE: Python解释器默认工具
+(3) PyCharm: https://www.jetbrains.com/pycharm/
+(4) 实验数据集：Python的scikit-learn库中自带的鸢尾花数据集，可使用datasets.load_iris()载入。
+需要描述清楚算法流程，包括加载数据、数据处理、创建模型，训练，预测，评估模型等。如果必须给出实现代码才能更好地说明问题时，也必须先有相关的文字叙述，然后才是代码，代码只是作为例证
+鸢尾花数据集共收集了三类鸢尾花，即Setosa鸢尾花、Versicolour鸢尾花和Virginica鸢尾花，每一类鸢尾花收集了50条样本记录，共计150条。
+数据集包括4个属性，分别为花萼的长、花萼的宽、花瓣的长和花瓣的宽。对花瓣我们可能比较熟悉，花萼是什么呢？花萼是花冠外面的绿色被叶，在花尚未开放时，保护着花蕾。四个属性的单位都是cm，属于数值变量，四个属性均不存在缺失值的情况，以下是各属性的一些统计值如下：
+属性 最大值 最小值 均值 方差 萼长 7.9 4.3 5.84 0.83 萼宽 4.4 2.0 3.05 0.43 瓣长 6.9 1.0 3.76 1.76 瓣宽 2.5 0.1 1.20 0.76 KNN算法 算法原理 存在一个样本数据集合，也称为训练样本集，并且样本集中每个数据都存在标签，即我们知道样本集中每一数据与所属分类对应的关系。输入没有标签的数据后，将新数据中的每个特征与样本集中数据对应的特征进行比较，提取出样本集中特征最相似数据（最近邻）的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据，这就是k近邻算法中k的出处，通常k是不大于20的整数。最后选择k个最相似数据中出现次数最多的分类作为新数据的分类。
+基本概念 计算距离 常用到的距离计算公式如下：
+欧几里得距离（欧氏距离）：
+$d=\sqrt{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}}$​
+曼哈顿距离
+闵可夫斯基距离
+切比雪夫距离
+马氏距离
+余弦相似度
+皮尔逊相关系数
+汉明距离
+寻找最近邻数据
+将所有距离进行升序排序，确定K值，最近的K个邻居即距离最短的K个数据。 关于K值得选择问题：
+K 值的选择会对算法的结果产生重大影响。 K值较小意味着只有与测试数据较近的训练实例才会对预测结果起作用，容易发生过拟合。 如果 K 值较大，优点是可以减少学习的估计误差，但缺点是学习的近似误差增大，这时与测试数据较远的训练实例也会对预测起作用，使预测发生错误。 在实际应用中，K 值一般选择一个较小的数值，通常采用交叉验证的方法来选择最优的 K 值。随着训练实例数目趋向于无穷和 K=1 时，误差率不会超过贝叶斯误差率的2倍，如果K也趋向于无穷，则误差率趋向于贝叶斯误差率。（贝叶斯误差可以理解为最小误差） 三种交叉验证方法：
+Hold-Out： 随机从最初的样本中选出部分，形成交叉验证数据，而剩余的就当做训练数据。 一般来说，少于原本样本三分之一的数据被选做验证数据。常识来说，Holdout 验证并非一种交叉验证，因为数据并没有交叉使用。 K-foldcross-validation：K折交叉验证，初始采样分割成K个子样本，一个单独的子样本被保留作为验证模型的数据，其他K-1个样本用来训练。交叉验证重复K次，每个子样本验证一次，平均K次的结果或者使用其它结合方式，最终得到一个单一估测。这个方法的优势在于，同时重复运用随机产生的子样本进行训练和验证，每次的结果验证一次，10折交叉验证是最常用的。 Leave-One-Out Cross Validation：正如名称所建议， 留一验证(LOOCV)意指只使用原本样本中的一项来当做验证资料， 而剩余的则留下来当做训练资料。 这个步骤一直持续到每个样本都被当做一次验证资料。 事实上，这等同于 K-fold 交叉验证是一样的，其中K为原本样本个数。 决策分类
+明确K个邻居中所有数据类别的个数，将测试数据划分给个数最多的那一类。即由输入实例的 K 个最临近的训练实例中的多数类决定输入实例的类别。 最常用的两种决策规则：
+多数表决法：多数表决法和我们日常生活中的投票表决是一样的，少数服从多数，是最常用的一种方法。 加权表决法：有些情况下会使用到加权表决法，比如投票的时候裁判投票的权重更大，而一般人的权重较小。所以在数据之间有权重的情况下，一般采用加权表决法。 说明：KNN没有显示的训练过程，它是“懒惰学习”的代表，它在训练阶段只是把数据保存下来，训练时间开销为0，等收到测试样本后进行处理。
+​	1）计算待分类点与已知类别的点之间的距离
+​	2）按照距离递增次序排序
+​	3）选取与待分类点距离最小的K个点
+​	4）确定前K个点所在类别的出现次数
+​	5）返回前K个点出现次数最高的类别作为待分类点的预测分类
+代码实现 初始化数据集 初始化训练集和测试集。训练集一般为两类或者多种类别的数据；测试集一般为一个数据。
+iris = load_iris() data = iris.data label = iris.target # 划分训练集和测试集 train_set, test_set, train_label, test_label = train_test_split(data, label, test_size=0.2) 数据处理 归一化处理
+train_set = (train_set - train_set.min(*axis*=0)) / (train_set.max(*axis*=0) - train_set.min(*axis*=0)) test_set = (test_set - test_set.</description>
+    </item>
+    
+  </channel>
+</rss>

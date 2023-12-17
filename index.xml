@@ -23,6 +23,41 @@ graph LR A[方形] --&gt;B(圆角) B --&gt; C{条件a} C --&gt;|a=1| D[结果1] 
     </item>
     
     <item>
+      <title>hello</title>
+      <link>https://niceasiv.cn/posts/hello/</link>
+      <pubDate>Wed, 26 Apr 2023 19:35:31 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/hello/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>现代密码学期末复习</title>
+      <link>https://niceasiv.cn/posts/cryptonote/</link>
+      <pubDate>Wed, 07 Dec 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/cryptonote/</guid>
+      <description>基于斯坦福大学 密码学一
+密码分析的四个手段 唯密文攻击（Ciphtext Only Attack，COA） 定义：唯密文攻击(COA)是指仅仅知道密文的情况下进行分析，求解明文或密钥的密码分析方法。
+假定密码分析者拥有密码算法及明文统计特性，并截获了一个或者多个用同一密钥加密的密文，通过对这些密文进行分析求出明文或密钥。COA已知条件最少，经不起唯密文攻击的密码是被认为不安全的。
+简单理解：只知道密文，推出明文或密钥，一般用穷举攻击。
+已知明文攻击（Known Plaintext Attack，KPA）（也可称为KPA安全） 定义：已知明文攻击(KPA)是指攻击者掌握了部分的明文M和对应的密文C，从而求解或破解出对应的密钥和加密算法。
+简单理解：知道部分的明文和密文对，推出密钥和加密算法。
+选择明文攻击（Chosen Plaintext Attack，CPA）（也可称为CPA安全） 定义：选择明文攻击(CPA)是指攻击者除了知道加密算法外，还可以选定明文消息，从而得到加密后的密文，即知道选择的明文和加密的密文，但是不能直接攻破密钥。
+简单理解：知道明文就知道密文，目标为推出密钥。
+选择密文攻击（Chosen Ciphertext Attack，CCA）（也可称为CCA安全） 定义：选择密文攻击(CCA)是指攻击者可以选择密文进行解密，除了知道已知明文攻击的基础上，攻击者可以任意制造或选择一些密文，并得到解密的明文，是一种比已知明文攻击更强的攻击方式。
+若一个密码系统能抵抗选择密文攻击，那必然能够抵抗COA和KPA攻击。密码分析者的目标是推出密钥，CCA主要应用于分析公钥密钥体制。
+简单理解：知道密文就知道明文，目标为推出密钥。 当密码系统只有承受住选择明文攻击(CPA)和选择密文攻击(CCA)，才能算是安全的。 其中，四种攻击方式对应的攻击强度为：
+攻击难度：选择密文攻击(CCA)＞选择明文攻击(CPA)＞已知明文攻击(KPA)＞唯密文攻击(COA) 难易程度：选择密文攻击(CCA)＜选择明文攻击(CPA)＜已知明文攻击(KPA)＜唯密文攻击(COA)
+离散概率 异或性质 （1）交换律：$ A \oplus B = B \oplus A$
+（2）结合律： $( A \oplus B ) \oplus C = A \oplus ( B \oplus C )$
+（3）自反性：$ A \oplus B \oplus B = A $（由结合律可推：$ A \oplus B \oplus B = A \oplus ( B \oplus B ) = A \oplus 0 = A)$
+Birthday Paradox 每个人生日都不相同的概率: $$ \bar{p}(n)=1 \cdot\left(1-\frac{1}{365}\right) \cdot\left(1-\frac{2}{365}\right) \cdots\left(1-\frac{n-1}{365}\right)=\frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \frac{362}{365} \cdots \frac{365-n+1}{365} $$ 阶乘形式为 $\frac{365 !}{365^n(365-n) !}$ 至少两人生日相同的概率就是这个结果的补 $$ p(n)=1-\bar{p}(n)=1-\frac{365 !}{365^n(365-n) !} $$
+secure cipher perfect secrecy
+For every probability distribution over $M$ and $K$, every plain-text $m_0, m_1 \in M$ and every cipher text $c \in C$, the following holds: $$ \operatorname{Pr}\left[C=c \mid M=m_0\right]=\operatorname{Pr}\left[C=c \mid M=m_1\right] $$ 此定义可被解释为，密文空间的概率分布独立于明文空间的概率分布</description>
+    </item>
+    
+    <item>
       <title>通过修改 PE 装载 DLL 实验</title>
       <link>https://niceasiv.cn/posts/pe_dll/</link>
       <pubDate>Mon, 28 Nov 2022 18:16:09 +0000</pubDate>
@@ -33,6 +68,63 @@ graph LR A[方形] --&gt;B(圆角) B --&gt; C{条件a} C --&gt;|a=1| D[结果1] 
 本实验所使用的notepad.exe 是 Windows 7系统（最好32位版）中的可执行程序，MyDll3.dll 也仅保证在 Windows 7下能正常工作，因此，建议在 Windows 7环境（可预先安装虚拟机）下进行修改。请在虚拟机中禁用所有杀毒软件，确保修改过程不会受到杀毒软件的干扰。保证虚拟机能联网，以便DLL装载后的网页下载动作能正常完成。 下载notepad.exe可能与课本中所描述的notepad.exe版本不一致，应主要参考课件中的修改流程。 使用PEview分析PE文件，使用HxD编辑器修改PE文件。 直接使用本书所附代码编译生成 MyDll3.dll。 PE文件静态注入 这里因为notepad一直注入不成功，换了个win7版本也不行，好像是安全策略的原因，就只好找另外一个textview.exe进行注入
 代码是李承远老师的逆向工程核心原理当中的
 // dllmain.cpp : 定义 DLL 应用程序的入口点。 #include &amp;#34;pch.h&amp;#34; #include &amp;#34;stdio.h&amp;#34; #include &amp;#34;windows.h&amp;#34; #include &amp;#34;shlobj.h&amp;#34; #include &amp;#34;Wininet.h&amp;#34; #include &amp;#34;tchar.h&amp;#34; #pragma comment(lib, &amp;#34;Wininet.lib&amp;#34;) #define DEF_BUF_SIZE (4096) #define DEF_URL L&amp;#34;http://www.baidu.com/index.html&amp;#34; #define DEF_INDEX_FILE L&amp;#34;index.html&amp;#34; HWND g_hWnd = NULL; #ifdef __cplusplus extern &amp;#34;C&amp;#34; { #endif // 导出函数，但是没有任何功能，仅仅保持dll文件的形式上完整。 __declspec(dllexport) void dummy() { return; } #ifdef __cplusplus } #endif //DownloadURL 下载 szURL 中指定网站的文件，并将其保存在 szFile 目录。 BOOL DownloadURL(LPCTSTR szURL, LPCTSTR szFile) { BOOL bRet = FALSE; HINTERNET hInternet = NULL, hURL = NULL; BYTE pBuf[DEF_BUF_SIZE] = { 0, }; DWORD dwBytesRead = 0; FILE* pFile = NULL; errno_t err = 0; hInternet = InternetOpen(L&amp;#34;ReverseCore&amp;#34;, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0); if (NULL == hInternet) { OutputDebugString(L&amp;#34;InternetOpen() failed!&amp;#34;); return FALSE; } hURL = InternetOpenUrl(hInternet, szURL, NULL, 0, INTERNET_FLAG_RELOAD, 0); if (NULL == hURL) { OutputDebugString(L&amp;#34;InternetOpenUrl() failed!</description>
+    </item>
+    
+    <item>
+      <title>KNN&amp;DBscan&amp;K-means实现</title>
+      <link>https://niceasiv.cn/posts/cluster/</link>
+      <pubDate>Tue, 22 Nov 2022 20:51:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/cluster/</guid>
+      <description>Python集成开发环境(IDE)
+(1) Anaconda: https://www.continuum.io/ （推荐）
+(2) IDLE: Python解释器默认工具
+(3) PyCharm: https://www.jetbrains.com/pycharm/
+(4) 实验数据集：Python的scikit-learn库中自带的鸢尾花数据集，可使用datasets.load_iris()载入。
+需要描述清楚算法流程，包括加载数据、数据处理、创建模型，训练，预测，评估模型等。如果必须给出实现代码才能更好地说明问题时，也必须先有相关的文字叙述，然后才是代码，代码只是作为例证
+鸢尾花数据集共收集了三类鸢尾花，即Setosa鸢尾花、Versicolour鸢尾花和Virginica鸢尾花，每一类鸢尾花收集了50条样本记录，共计150条。
+数据集包括4个属性，分别为花萼的长、花萼的宽、花瓣的长和花瓣的宽。对花瓣我们可能比较熟悉，花萼是什么呢？花萼是花冠外面的绿色被叶，在花尚未开放时，保护着花蕾。四个属性的单位都是cm，属于数值变量，四个属性均不存在缺失值的情况，以下是各属性的一些统计值如下：
+属性 最大值 最小值 均值 方差 萼长 7.9 4.3 5.84 0.83 萼宽 4.4 2.0 3.05 0.43 瓣长 6.9 1.0 3.76 1.76 瓣宽 2.5 0.1 1.20 0.76 KNN算法 算法原理 存在一个样本数据集合，也称为训练样本集，并且样本集中每个数据都存在标签，即我们知道样本集中每一数据与所属分类对应的关系。输入没有标签的数据后，将新数据中的每个特征与样本集中数据对应的特征进行比较，提取出样本集中特征最相似数据（最近邻）的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据，这就是k近邻算法中k的出处，通常k是不大于20的整数。最后选择k个最相似数据中出现次数最多的分类作为新数据的分类。
+基本概念 计算距离 常用到的距离计算公式如下：
+欧几里得距离（欧氏距离）：
+$d=\sqrt{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}}$​
+曼哈顿距离
+闵可夫斯基距离
+切比雪夫距离
+马氏距离
+余弦相似度
+皮尔逊相关系数
+汉明距离
+寻找最近邻数据
+将所有距离进行升序排序，确定K值，最近的K个邻居即距离最短的K个数据。 关于K值得选择问题：
+K 值的选择会对算法的结果产生重大影响。 K值较小意味着只有与测试数据较近的训练实例才会对预测结果起作用，容易发生过拟合。 如果 K 值较大，优点是可以减少学习的估计误差，但缺点是学习的近似误差增大，这时与测试数据较远的训练实例也会对预测起作用，使预测发生错误。 在实际应用中，K 值一般选择一个较小的数值，通常采用交叉验证的方法来选择最优的 K 值。随着训练实例数目趋向于无穷和 K=1 时，误差率不会超过贝叶斯误差率的2倍，如果K也趋向于无穷，则误差率趋向于贝叶斯误差率。（贝叶斯误差可以理解为最小误差） 三种交叉验证方法：
+Hold-Out： 随机从最初的样本中选出部分，形成交叉验证数据，而剩余的就当做训练数据。 一般来说，少于原本样本三分之一的数据被选做验证数据。常识来说，Holdout 验证并非一种交叉验证，因为数据并没有交叉使用。 K-foldcross-validation：K折交叉验证，初始采样分割成K个子样本，一个单独的子样本被保留作为验证模型的数据，其他K-1个样本用来训练。交叉验证重复K次，每个子样本验证一次，平均K次的结果或者使用其它结合方式，最终得到一个单一估测。这个方法的优势在于，同时重复运用随机产生的子样本进行训练和验证，每次的结果验证一次，10折交叉验证是最常用的。 Leave-One-Out Cross Validation：正如名称所建议， 留一验证(LOOCV)意指只使用原本样本中的一项来当做验证资料， 而剩余的则留下来当做训练资料。 这个步骤一直持续到每个样本都被当做一次验证资料。 事实上，这等同于 K-fold 交叉验证是一样的，其中K为原本样本个数。 决策分类
+明确K个邻居中所有数据类别的个数，将测试数据划分给个数最多的那一类。即由输入实例的 K 个最临近的训练实例中的多数类决定输入实例的类别。 最常用的两种决策规则：
+多数表决法：多数表决法和我们日常生活中的投票表决是一样的，少数服从多数，是最常用的一种方法。 加权表决法：有些情况下会使用到加权表决法，比如投票的时候裁判投票的权重更大，而一般人的权重较小。所以在数据之间有权重的情况下，一般采用加权表决法。 说明：KNN没有显示的训练过程，它是“懒惰学习”的代表，它在训练阶段只是把数据保存下来，训练时间开销为0，等收到测试样本后进行处理。
+​	1）计算待分类点与已知类别的点之间的距离
+​	2）按照距离递增次序排序
+​	3）选取与待分类点距离最小的K个点
+​	4）确定前K个点所在类别的出现次数
+​	5）返回前K个点出现次数最高的类别作为待分类点的预测分类
+代码实现 初始化数据集 初始化训练集和测试集。训练集一般为两类或者多种类别的数据；测试集一般为一个数据。
+iris = load_iris() data = iris.data label = iris.target # 划分训练集和测试集 train_set, test_set, train_label, test_label = train_test_split(data, label, test_size=0.2) 数据处理 归一化处理
+train_set = (train_set - train_set.min(*axis*=0)) / (train_set.max(*axis*=0) - train_set.min(*axis*=0)) test_set = (test_set - test_set.</description>
+    </item>
+    
+    <item>
+      <title>调用惯例</title>
+      <link>https://niceasiv.cn/posts/calling_convention/</link>
+      <pubDate>Thu, 10 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/calling_convention/</guid>
+      <description>调用惯例 简要介绍 ==调用惯例(Calling Conventions)==指计算机程序执行时调用函数或过程的一些约定，包括：
+1.函数的参数是通过栈还是寄存器传递？ 2.如果通过栈传递，顺序是怎样的，是从左至右入栈还是相反。 3.谁负责清理栈，是调用者还是被调用者？ 针对这三个约定，不同的调用惯例有不同的实现，参考课本和搜索引擎，归纳如下
+调用惯例 调用场合 传参方式 入栈顺序 传返回值 清理栈者 名字修饰 cdecl Windows API 栈传参 从右至左压栈 寄存器(EAX) 调用者函数 _+函数名 stdcall C/C++ 栈传参 从右至左压栈 寄存器(EAX) 被调用者函数 _+函数名+@+参数的字节数 fastcall GCC/Microsoft 左DWORD用ECX和EDX，剩余栈传参 从右至左压栈 寄存器(EAX) 被调用者函数 @+函数名+@+参数字节数 程序分析 函数设置 main函数
+#include&amp;lt;stdio.h&amp;gt; int __cdecl add1(int a, int b); int __stdcall add2(int a, int b); int __fastcall add3(int a, int b); int main(int argc, char *argv[]) { //调用cdecl调用惯例下的add函数 add1(1,2); //调用stdcall调用惯例下的add函数 add2(1,2); //调用fastcall调用惯例下的add函数 add3(1,2); return 0; } add函数
+int __cdecl add1(int a, int b)//cdecl调用惯例下的add函数 { return a + b; } int __stdcall add2(int a, int b)//stdcall调用惯例下的add函数 { return a + b; } int __fastcall add3(int a, int b)//fastcall调用惯例下的add函数 { return a + b; } 分别对三种种调用惯例下的main（共用）和sub函数（区别所在）进行编译，生成二进制可执行文件，然后拖入ollydbg进行反汇编调试，观察main调用sub函数时栈状态的变化。
+gcc -g callfuction.c -o deg_work1 #生成debug信息 Ollydbg提示Not a valid PE file，****.exe‘ is probably not a 32-bit Portable Executable.
+发现Ollydbg只能编译32位的文件
+gcc -g -m32 callfuction.c -o deg_work1 #生成带debug信息的32位二进制文件 在Linux里面编译一直报错warning: implicit declaration of function ‘add’ [-Wimplicit-function-declaration]</description>
     </item>
     
     <item>
@@ -95,12 +187,65 @@ Suppose you are given a composite(合数) $N$ and are told that $N$ is a product
     
     
     <item>
+      <title>Asiv的人生感悟</title>
+      <link>https://niceasiv.cn/posts/life/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/life/</guid>
+      <description>人们与我 3.28
+理查德·巴克斯特说: 我们时常妒忌比我们地位高的人,藐视地位不及我们的人; 垂涎别人的名望、财富, 或者傲慢、冷酷地看待别人的贫寒窘迫。看到外形姣好的人, 则诱发我们的情欲; 看见有残疾的人, 就引发我们的鄙夷之心……我们自己才是自己最大的网罗。
+我们时常嫉妒身边的比我们优秀的人，仰慕远处那些远比我们地位要高的人。面对他人的优秀，成功和社会地位，人本能地想要靠近，又远离；不停地挑他人错处，又不停追逐那样的生活。面对身边比自己困窘的人，人主动排斥，远远站开，生怕惹上一身腥臊。面对远处比自己困窘的人，又要轻声安慰，为之流泪，巴不得在观音菩萨跟前为人家祈福。人骨子里是一体两面的，既虚伪到不行又纯粹得彻底。
+3.29 读《圆圈正义》
+组织卖淫行为,和强迫卖淫不同, 在组织卖淫的情况下, 卖淫者往往是自愿的, 组织者利用了卖淫者经济上的不利地位或者道德上的缺陷。如果不考虑道德价值, 组织卖淫这种行为对卖淫者、嫖客、组织者都是有利的, 如果允许国家征税, 甚至会造成“四方共赢”的局面。但这种利用行为没有任何积极正面道德价值, 因此属于剥削, 值得谴责, 甚至可以犯罪论处。
+尼尔·波兹曼《娱乐至死》
+“娱乐至死”的可怕之处不在于娱乐本身，而在于人们日渐失去对社会事务的严肃思考和理智判断的能力，在于被轻佻的文化环境培养成了既无知且无畏的理性文盲而不自知。
+死亡 亲情 </description>
+    </item>
+    
+    <item>
       <title>CVE2020-06-01复现</title>
       <link>https://niceasiv.cn/posts/cve20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://niceasiv.cn/posts/cve20200601/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Log4j漏洞复现</title>
+      <link>https://niceasiv.cn/posts/log4j%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/log4j%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</guid>
+      <description>主要内容 CVE-2021-44228 Apache Log4j漏洞复现 0x01.漏洞情况 影响范围： Apache Log4j 2.x &amp;lt; 2.15.0-rc2
+Apache Log4j2某些功能存在递归解析功能，攻击者可直接构造恶意请求，触发远程代码执行漏洞。
+Spring-Boot-strater-log4j2、Apache Struts2、Apache Solr、Apache Flink、Apache Druid、ElasticSearch、Flume、Dubbo、Redis、Logstash、Kafka均受影响。
+0x02.组件介绍 RIM RMI ( Remote Method Invocation , 远程方法调用 ) 是分布式编程中的一个基本思想。实现远程方法调用的技术有很多，例如CORBA、WebService，这两种是独立于编程语言的。而Java RMI是专为Java环境设计的远程方法调用机制，远程服务器实现具体的Java方法并提供接口，客户端本地仅需根据接口类的定义，提供相应的参数即可调用远程方法并获取执行结果，使分布在不同的JVM中的对象的外表和行为都像本地对象一样。
+另外，需要知道注册表的概念，说简单一点就是，服务端那里有一个对象，客户端想要调用服务端里的那个对象的方法，而注册表就像一个中间人，服务端会将自己提供的服务的实现类交给这个中间人 , 并公开一个名称 . 任何客户端都可以通过公开的名称找到这个实现类 , 并调用它。
+LDAP LDAP（Light Directory Access Portocol），它是基于X.500标准的轻量级目录访问协议。
+目录是一个为查询、浏览和搜索而优化的数据库，它成树状结构组织数据，类似文件目录一样。
+目录数据库和关系数据库不同，它有优异的读性能，但写性能差，并且没有事务处理、回滚等复杂功能，不适于存储修改频繁的数据。所以目录天生是用来查询的，就好象它的名字一样。
+LDAP目录服务是由目录数据库和一套访问协议组成的系统。
+JNDI JNDI全称为Java Naming and Directory Interface，也就是Java命名和目录接口。
+既然是接口，那么就必定有其实现，而目前我们Java中使用最多的基本就是rmi和ldap的目录服务系统。
+而命名的意思就是，在一个目录系统，它实现了把一个服务名称和对象或命名引用相关联，在客户端，我们可以调用目录系统服务，并根据服务名称查询到相关联的对象或命名引用，然后返回给客户端。
+而目录的意思就是在命名的基础上，增加了属性的概念，我们可以想象一个文件目录中，每个文件和目录都会存在着一些属性，比如创建时间、读写执行权限等等，并且我们可以通过这些相关属性筛选出相应的文件和目录。
+而JNDI中的目录服务中的属性大概也与之相似，因此，我们就能在使用服务名称以外，通过一些关联属性查找到对应的对象。
+总结的来说：JNDI是一个接口，在这个接口下会有多种目录系统服务的实现，我们能通过名称等去找到相关的对象，并把它下载到客户端中来。
+注册中心服务
+抽象接口，他隔离了具体的资源,使得连接相关更便捷
+JNDI则是Java中用于访问LDAP的API ，开发人员使用JNDI完成与LDAP 服务器 之间的通信，即用JNDI来访问LDAP，而不需要和具体的目录服务产品特性打交道。
+JNDI动态协议转换 当我们调用lookup()方法时，如果lookup方法的参数像demo中那样是一个uri地址，那么客户端就会去lookup()方法参数指定的uri中加载远程对象
+JNDl Naming Reference命名引用 当有客户端通过lookup(&amp;ldquo;refObj&amp;rdquo;)获取远程对象时，获取的是一个Reference存根(Stub),由于是 Reference的存根，所以客户端会现在本地的 classpath中去检查是否存在类refClassName，如果不存在则去指定的url动态加载。
+当系统使用log4j通过$形式将用户输入的信息打印到日志时﹐那这就会出现JNDI注入漏洞
+0x03.漏洞利用原理 利用条件
+Java应用引入了log4j-api和log4j-core两个jar包
+当系统使用log4j通过$形式将用户输入的信息打印到日志时﹐那这就会出现JNDI注入漏洞
+黑客在自己的客户端启动一个带有恶意代码的rmi服务，通过服务端的log4j的漏洞，向服务端的jndi context lookup的时候连接自己的rmi服务器，服务端连接rmi服务器执行lookup的时候会通过rmi查询到该地址指向的引用并且本地实例化这个类，所以在类中的构造方法或者静态代码块中写入逻辑，就会在服务端（jndi rmi过程中的客户端）实例化的时候执行到这段逻辑，导致jndi注入。
+·
+0x04.漏洞复现 实验环境 Windows 11 jdk-8u212-windows jdk 1.8.121（理论上JDK 6u211、7u201、8u191之前的版本都行） JNDI-Injection-Exploit log4j-api&amp;amp;log4j-core 2.15.0-rc2 docker 本地复现 复现的流程 ·
+·
+server开启一个rmi import com.sun.jndi.rmi.registry.ReferenceWrapper; import javax.naming.NamingException; import javax.naming.Reference; import java.rmi.AlreadyBoundException; import java.rmi.RemoteException; import java.rmi.registry.LocateRegistry; import java.rmi.registry.Registry; public class RMIServer { public static void main(String[] args) { try { // 本地主机上的远程对象注册表Registry的实例,默认端口1099 LocateRegistry.createRegistry(1099); Registry registry = LocateRegistry.getRegistry(); System.out.println(&amp;#34;Create RMI registry on port 1099&amp;#34;); //返回的Java对象 Reference reference = new Reference(&amp;#34;HackCode&amp;#34;,&amp;#34;HackCode&amp;#34;,null); ReferenceWrapper referenceWrapper = new ReferenceWrapper(reference); // 把远程对象注册到RMI注册服务器上，并命名为hack registry.</description>
     </item>
     
     <item>
@@ -172,6 +317,16 @@ $\mathbb{E}\left[R_t \mid S_t=s\right]=r(s)$
 另一方面，等式中剩余部分 $\mathbb{E}\left[\gamma V\left(S_{t+1}\right) \mid S_t=s\right]$ 可以根据从状态$s$出发的转移概率得到，即可以得到 $$ V(s)=r(s)+\gamma\sum_{s^{\prime} \in S }{p(s^{\prime} \mid s)V(s^\prime)} $$ 上式就是马尔可夫奖励过程中非常有名的贝尔曼方程 (Bellman equation)，对每一个状态都成立。</description>
     </item>
     
+    
+    <item>
+      <title>算法与程序设计基础&amp;&amp;CSP入门学习</title>
+      <link>https://niceasiv.cn/posts/algorithm_basis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/algorithm_basis/</guid>
+      <description>程序设计 贪心算法 贪心算法采用贪心的策略，保证每次操作都是局部最优的，从而使最后的结果是全局最优的。
+参考 1.changgyhub/leetcode_101: LeetCode 101：和你一起你轻松刷题（C++） (github.com)</description>
+    </item>
     
   </channel>
 </rss>
