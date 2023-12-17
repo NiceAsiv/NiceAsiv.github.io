@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Distillation on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/distillation/</link>
+    <description>Recent content in Distillation on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://niceasiv.cn/tags/distillation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>策略蒸馏</title>
+      <link>https://niceasiv.cn/posts/policy_distillation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/policy_distillation/</guid>
+      <description>为了理解蒸馏的含义，我们先以DQN为例
+DQN（Deep Q-Network）是一种强化学习算法，它通过深度神经网络来近似Q函数，从而实现智能体的行为决策。下面我们将介绍一个针对DQN网络的案例。
+假设我们有一个小型的迷宫环境，智能体的任务是通过左、右、上、下四个动作来找到宝藏并获得最高的奖励。我们可以使用DQN算法来训练智能体。
+首先，我们需要定义状态空间、动作空间、奖励函数以及转移函数。在这个案例中，状态空间是迷宫中每个位置的坐标，动作空间是四个方向，奖励函数是在找到宝藏时获得的奖励，转移函数是在智能体执行一个动作后转移到下一个状态的过程。
+然后，我们可以使用深度神经网络来近似Q函数。在这个案例中，我们可以使用一个简单的全连接神经网络，它的输入是当前状态，输出是四个动作的Q值。我们使用均方误差损失函数来度量Q值的预测误差，并使用梯度下降算法来优化神经网络参数。
+接下来，我们可以使用经验回放机制来训练DQN网络。经验回放是一种存储智能体的经验，并从中随机抽样的机制。这样可以使得训练数据更加丰富、稳定，并且可以避免连续的训练样本之间的相关性。在每次训练中，我们随机从经验池中选择一个批次的样本，然后用它来更新神经网络参数。
+最后，我们可以通过迭代训练来提高DQN网络的性能。我们通过不断地与环境交互、收集经验、更新神经网络参数来提高DQN网络的预测性能。在训练的过程中，我们可以使用ε-greedy策略来平衡探索和利用，这样可以使得智能体在探索新状态和利用已有知识之间找到一个平衡点。
+通过以上的训练过程，我们可以得到一个训练好的DQN网络，它可以在迷宫环境中通过左、右、上、下四个动作来找到宝藏并获得最高的奖励。
+下面是一个基于DQN算法的伪代码：
+初始化神经网络 Q(s,a;θ) 的参数 θ 初始化目标网络 Q&amp;rsquo;(s,a;θ^-) 的参数 θ^-
+初始化经验池 D
+for episode = 1 to M do: 初始化状态 s for t = 1 to T do: 选择动作 a ： 如果随机数小于 ε，则选择一个随机动作 否则，选择 a = argmax Q(s,a;θ) 执行动作 a 并观察下一个状态 s&amp;#39; 和奖励 r 存储经验 (s, a, r, s&amp;#39;) 到经验池 D 从经验池 D 中随机抽取一个批次的经验 (s_i, a_i, r_i, s&amp;#39;_i) 对于批次中的每个样本 (s_i, a_i, r_i, s&amp;#39;_i) ，计算目标 Q 值： 如果 s&amp;#39;_i 是终止状态，则 Q_target = r_i 否则，Q_target = r_i + γ max Q&amp;#39;(s&amp;#39;_i, a&amp;#39;;θ^-) 使用 Q(s_i, a_i;θ) 和 Q_target 之间的均方误差来更新神经网络 Q(s,a;θ) 的参数 θ 如果 t mod C == 0，那么将目标网络的参数 θ^- 更新为 Q(s,a;θ) 的参数 θ 将状态更新为 s&amp;#39; 减小 ε 保存神经网络 Q(s,a;θ) 的参数 θ 其中，M 是迭代训练的次数，T 是每个 episode 的最大步数，ε 是 ε-greedy 策略中的探索率，γ 是折扣因子，C 是更新目标网络的间隔，D 是经验池，Q 和 Q&amp;rsquo; 分别是当前网络和目标网络。</description>
+    </item>
+    
+  </channel>
+</rss>

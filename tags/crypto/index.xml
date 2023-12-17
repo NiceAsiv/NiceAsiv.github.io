@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Crypto on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/crypto/</link>
+    <description>Recent content in Crypto on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 01 Nov 2022 18:16:09 +0000</lastBuildDate><atom:link href="https://niceasiv.cn/tags/crypto/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RSA 加密体制破译</title>
+      <link>https://niceasiv.cn/posts/rsaattack/</link>
+      <pubDate>Tue, 01 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/rsaattack/</guid>
+      <description>题目摘要 赛题名称： RSA 加密体制破译 赛题描述 RSA密码算法是使用最为广泛的公钥密码体制。该体制简单且易于实现，只需要选择5个参数即可（两个素数$𝑝$和$𝑞$、模数$𝑁=𝑝𝑞$、加密指数$𝑒$和解密指数$𝑑$。设𝑚为待加密消息RSA体制破译相当于已知$𝑚^𝑒$ $mod$ $𝑁$能否还原𝑚的数论问题。目前模数规模为1024比特的RSA算法一般情况下是安全的，但是如果参数选取不当，同样存在被破译的可能。有人制作了一个RSA加解密软件采用的RSA体制的参数特点描述见密码背景部分）。
+已知该软件发送某个明文的所有参数和加密过程的全部数据（加密案例文件详见附件3-1。Alice使用该软件发送了一个通关密语，且所有加密数据已经被截获，请问能否仅从加密数据恢复该通关密语及RSA体制参数？如能请给出原文和参数，如不能请给出已恢复部分并说明剩余部分不能恢复的理由？
+加密过程 原始明文 This is a test of my RSA system. Frame0
+A5F51EB02EA9C0CC9B96926A08A761FE3E7CDB6E5B348DBEAEC761DBCFCDB15A6C76F8EE08196008AE60E396D7E228C6DAFC3CC1127F16EC87576B89C151F20F99098621FD46872BC92CDA8C915B758E5C0CACB994F55B8705B938126E08589E2502A7B9019C9A62E82392E8449E00CFC7DA17B8CDE92F9516CE9A2009F42DD900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100019726C82FED1E6CD58DE825528AE5634653C9921CAE02AFF7325F20D6E7085B7C8E3DC78D7518A78A8BC7D07E2E837083324579510851827794AE3D1FB9BAB360B1413A8F171A83804CEA73DFBC1248139BB27EB7D5BAD724AD8B08F51888B90562AF950725ACDD698F817AE62746CEA09479A191A6552B0116830355C68D0F61 Frame1
+A5F51EB02EA9C0CC9B96926A08A761FE3E7CDB6E5B348DBEAEC761DBCFCDB15A6C76F8EE08196008AE60E396D7E228C6DAFC3CC1127F16EC87576B89C151F20F99098621FD46872BC92CDA8C915B758E5C0CACB994F55B8705B938126E08589E2502A7B9019C9A62E82392E8449E00CFC7DA17B8CDE92F9516CE9A2009F42DD90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001789018FDB800AD59A54D27A77F280515BB3BFAB1CD75CB0A255A116D4A44849459FD887FF091F87C0B3E6305F019700E4E4CB3646D1DF276DFB87C4F64245F77377508EC6A796236F8ABB125023D3F4B898F55E3342D0A852193AF890990EA82F12FC85917BF132F2A58C449648D6E934B24E80307AB092DB18110D77BBA0F8E Frame2
+BA645145D9DE58B0FFA6FC4624A2815092D2A2DC405E7A2515F985727D3C52F479A4D04694568CA9B08391BE79BD122808CF6034AB7251088687BFF5916A4F4723FE1372DCF9B069CAB269A9F8F47CB50078D3279B9452C9B3B65A07B49C793783EDB8EB8D8F1A220D9EFED33147483103A2551A96932738255493F13B5119530000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001534810A0D1B2F6FB257DC3BBDA30AA76157B89038E52D05EE1E5DB06C2D79FAE84892950EF5FD8ADC4F241C3741AD7C97002902C8CA4D96574F28EDCEF3BEF15303335FA8D250102B4EE77E3B405E30F6B81E92403A8881285B65F29668E05B9CD6AC44FC1CD193CF4A5811A2649BE0EDEFBA91FA7143266286C5EC6EE8077D6 Frame3
+BA645145D9DE58B0FFA6FC4624A2815092D2A2DC405E7A2515F985727D3C52F479A4D04694568CA9B08391BE79BD122808CF6034AB7251088687BFF5916A4F4723FE1372DCF9B069CAB269A9F8F47CB50078D3279B9452C9B3B65A07B49C793783EDB8EB8D8F1A220D9EFED33147483103A2551A96932738255493F13B51195300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100018805A937DABF25FE760F9F398C7D9D5955EF7468FEC89119F8DD69874FB009AB2C424BD6A8E85401C4CD130B48D0490586DFBD81C8154EDCEFC3AFC4F80338432197EB059AB54CF109B231416FB65E2F9BE4F01D455E25486D8E155A5874E8A910E8C65F73ACD953D316B35A148D5AC5834D86F66AD415EBA38AD3908B32780A 2.过程及参数
+RSA 密码算法描述如下，包含体制参数选取和加解密过程。
+1）RSA 体制参数选取
+​ Step1.每个使用者，任意选择两个大素数$𝑝$和$𝑞$，并求出其乘积$𝑁=𝑝𝑞$。
+​ Step2.令$𝜑(𝑁)=(𝑝−1)(𝑞−1)$选择整数$𝑒$，使得$GCD(𝑒,𝜑(𝑁))=1$，并求出$𝑒$模 $𝜑(𝑁)$的逆元$𝑑$，即$𝑒𝑑≡1 mod (𝜑(𝑁))$
+​ Step3.将数对$(𝑒,𝑁)$公布为公钥，$𝑑$保存为私钥。
+2）加解密过程
+​ Bob欲传递明文𝑚给 Alice，则Bob首先由公开途径找出 Alice 的公钥 $(𝑒,𝑁)$，Bob 计算加密的信息$𝑐$为:$𝑐 ≡ 𝑚^𝑒$ $mod$ $𝑁$。
+​ Bob 将密文$𝑐$传送给 Alice。 随后 Alice 利用自己的私钥$𝑑$解密： ​ $𝑐^e ≡ (𝑚^𝑒)^𝑑 ≡ 𝑚^{𝑒𝑑}≡ 𝑚\space mod\space 𝑁$
+Alice 使用的 RSA 密码体制有以下事项需要说明：
+​	1）模数𝑁=𝑝𝑞规模为1024比特，其中𝑝，𝑞为素数；
+​	2）素数𝑝由某一随机数发生器生成；
+​	3）素数𝑞可以随机选择，也可以由2）中的随机数发生器产生；
+​	4）可以对文本加密，每次加密最多8个明文字符；
+​	5）明文超过8个字符时，对明文分片，每个分片不超过8个字符；
+​	6）分片==明文填充为512比特消息后再进行加密，填充规则为高位添加64比特标志位，随后加上32比特通信序号==，再添加若干个0，最后64比特为明文分片字符对应的ASCII码（**注：填充方式参见加密案例，但注意每次通信的标志位可能变化）
+​	7）分片加密后发送一个加密帧数据，帧数据文件名称为FrameXX，其中XX表示接收序号，该序号不一定等于通信序号；
+​	8）帧数据的数据格式如下，其中数据都是16进制表示，结构如下==1024bit模数N | 1024bit加密指数e | 1024bit密文== $m^e\space mod \space N$。
+​	9）由于Alice初次使用该软件，可能会重复发送某一明文分片。
+符号说明： n 模数、p 素数、q素数、e加密指数、d 解密指数、m 明文分片、c 密文分片、“0X”十六进制数据表示
+明文： &amp;ldquo;This is a test of my RSA system.&amp;ldquo;将其分割为4个8字符长度消息(注意：空格也是一个字符)
+This is 该8字符对应的ASCII为	54	68	69	73	20	69	73	20	将其视为64比特整数为==&amp;gt;	0X5468697320697320 a test o	该8字符对应的ASCII为	61	20	74	65	73	74	20	6F	将其视为64比特整数为==&amp;gt;	0X612074657374206F f my RSA	该8字符对应的ASCII为	66	20	6D	79	20	52	53	41	将其视为64比特整数为==&amp;gt;	0X66206D7920525341 system.</description>
+    </item>
+    
+    <item>
+      <title>Week 6 - Programming Assignment</title>
+      <link>https://niceasiv.cn/posts/week6-quiz/</link>
+      <pubDate>Mon, 31 Oct 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/week6-quiz/</guid>
+      <description>Content 更好的效果PDF:pdf文章列表 | Asiv&amp;rsquo;s Blog (niceasiv.cn)
+Factoring challenge #1: Your goal in this project is to break RSA when the public modulus $N$ is generated incorrectly. This should serve as yet another reminder not to implement crypto primitives yourself.
+Normally, the primes that comprise an RSA modulus are generated independently of one another. But suppose a developer decides to generate the first prime $p$ by choosing a random number $R$ and scanning for a prime close by. The second prime $q$ is generated by scanning for some other random prime also close to $R$. We show that the resulting RSA modulus $N=p q$ can be easily factored.
+在公开的N没有被正确的生成时破解RSA。通常在RSA中构成模数N的素数q和p,应该独立生成。如果开发者使用一个随机数R,并选择R附近的两个素数作为q和p，那么这种情况情况下生成的RSA模数N就很容易被破解。
+Suppose you are given a composite(合数) $N$ and are told that $N$ is a product of two relatively close primes $p$ and $q$, namely $p$ and $q$ satisfy $$ |p-q|&amp;lt;2 N^{1 / 4} $$ Your goal is to factor $N$.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/</link>
+    <description>Recent content in Tags on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 17 Dec 2023 14:28:08 +0800</lastBuildDate><atom:link href="https://niceasiv.cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>helloword</title>
+      <link>https://niceasiv.cn/tags/helloword/</link>
+      <pubDate>Sun, 17 Dec 2023 14:28:08 +0800</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/helloword/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reverse</title>
+      <link>https://niceasiv.cn/tags/reverse/</link>
+      <pubDate>Mon, 28 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/reverse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Crypto</title>
+      <link>https://niceasiv.cn/tags/crypto/</link>
+      <pubDate>Tue, 01 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/crypto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Distillation</title>
+      <link>https://niceasiv.cn/tags/distillation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/distillation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://niceasiv.cn/tags/machine-learning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://niceasiv.cn/tags/python/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reinforcement learning</title>
+      <link>https://niceasiv.cn/tags/reinforcement-learning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/tags/reinforcement-learning/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

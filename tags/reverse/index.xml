@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Reverse on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/reverse/</link>
+    <description>Recent content in Reverse on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 28 Nov 2022 18:16:09 +0000</lastBuildDate><atom:link href="https://niceasiv.cn/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>通过修改 PE 装载 DLL 实验</title>
+      <link>https://niceasiv.cn/posts/pe_dll/</link>
+      <pubDate>Mon, 28 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/pe_dll/</guid>
+      <description>参考课件 chap06.pdf 中“通过修改PE装载DLL”一节的内容，以及课本第 5.5节的 内容，实现对notepad.exe（修復並下載Notepad.exe）的修改，使得修改后的 notepad.exe 在双击运行时，能够自动隐式装载 MyDll3.dll，并进而 将一个网页下载到本地index.html 文件。
+本上机作业的目的是让大家深入理解 PE 文件中的导入表、导入地址表等关键结构及相关的功能。
+本实验所使用的notepad.exe 是 Windows 7系统（最好32位版）中的可执行程序，MyDll3.dll 也仅保证在 Windows 7下能正常工作，因此，建议在 Windows 7环境（可预先安装虚拟机）下进行修改。请在虚拟机中禁用所有杀毒软件，确保修改过程不会受到杀毒软件的干扰。保证虚拟机能联网，以便DLL装载后的网页下载动作能正常完成。 下载notepad.exe可能与课本中所描述的notepad.exe版本不一致，应主要参考课件中的修改流程。 使用PEview分析PE文件，使用HxD编辑器修改PE文件。 直接使用本书所附代码编译生成 MyDll3.dll。 PE文件静态注入 这里因为notepad一直注入不成功，换了个win7版本也不行，好像是安全策略的原因，就只好找另外一个textview.exe进行注入
+代码是李承远老师的逆向工程核心原理当中的
+// dllmain.cpp : 定义 DLL 应用程序的入口点。 #include &amp;#34;pch.h&amp;#34; #include &amp;#34;stdio.h&amp;#34; #include &amp;#34;windows.h&amp;#34; #include &amp;#34;shlobj.h&amp;#34; #include &amp;#34;Wininet.h&amp;#34; #include &amp;#34;tchar.h&amp;#34; #pragma comment(lib, &amp;#34;Wininet.lib&amp;#34;) #define DEF_BUF_SIZE (4096) #define DEF_URL L&amp;#34;http://www.baidu.com/index.html&amp;#34; #define DEF_INDEX_FILE L&amp;#34;index.html&amp;#34; HWND g_hWnd = NULL; #ifdef __cplusplus extern &amp;#34;C&amp;#34; { #endif // 导出函数，但是没有任何功能，仅仅保持dll文件的形式上完整。 __declspec(dllexport) void dummy() { return; } #ifdef __cplusplus } #endif //DownloadURL 下载 szURL 中指定网站的文件，并将其保存在 szFile 目录。 BOOL DownloadURL(LPCTSTR szURL, LPCTSTR szFile) { BOOL bRet = FALSE; HINTERNET hInternet = NULL, hURL = NULL; BYTE pBuf[DEF_BUF_SIZE] = { 0, }; DWORD dwBytesRead = 0; FILE* pFile = NULL; errno_t err = 0; hInternet = InternetOpen(L&amp;#34;ReverseCore&amp;#34;, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0); if (NULL == hInternet) { OutputDebugString(L&amp;#34;InternetOpen() failed!&amp;#34;); return FALSE; } hURL = InternetOpenUrl(hInternet, szURL, NULL, 0, INTERNET_FLAG_RELOAD, 0); if (NULL == hURL) { OutputDebugString(L&amp;#34;InternetOpenUrl() failed!</description>
+    </item>
+    
+    <item>
+      <title>CVE2020-06-01复现</title>
+      <link>https://niceasiv.cn/posts/cve20200601/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/cve20200601/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

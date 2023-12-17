@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Machine Learning on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/machine-learning/</link>
+    <description>Recent content in Machine Learning on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://niceasiv.cn/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>强化学习笔记</title>
+      <link>https://niceasiv.cn/posts/reinforment_learning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/reinforment_learning/</guid>
+      <description>基础 马尔科夫决策(MDP) 在随机过程中某时刻$t$的状态用$S_t$表示，所以可能的状态组成了状态空间$S$。
+如果已知历史的状态信息即$(S_1,&amp;hellip;,S_t)$,那么下一个时刻状态为$S_{t+1}$的概率为$P(S_{t+1}\mid S_1,&amp;hellip;,S_t)$
+当且仅当某时刻的状态只取决于上一时刻的状态时，一个随机过程被称为具有马尔可夫性质
+$$ P(S_{t+1}\mid S_t)=P(S_{t+1}\mid S_1,&amp;hellip;,S_t) $$ 也就是说当前状态是未来的充分统计量，即下一个状态只取决于当前状态，而不会受到过去状态的影响。
+注意：
+虽然$t+1$时刻的状态只与$t$时刻的状态有关，但是$t$时刻的状态其实包含了$t-1$时刻的状态的信息，通过这种链式的关系，历史的信息被传递到了现在。
+Markov process 通常用两元组$&amp;lt;S,P&amp;gt;$描述一个马尔科夫过程，其中$S$是有限状态集合，$P$是状态转移矩阵
+矩阵$P$中第$i$行第$j$列$P(s_j|s_i)$表示状态$s_i$转移到状态$s_j$的概率，从某个状态出发，到达其他状态的概率和必须为1，即状态转移矩阵的每一行的和为1。
+给定一个马尔可夫过程，我们就可以从某个状态出发，根据它的状态转移矩阵生成一个状态序列（episode），这个步骤也被叫做采样（sampling）。
+Markov reward process(MRP) 一个马尔科夫奖励过程由$\langle \mathcal{S},\mathcal{P},r,\gamma \rangle$
+$\mathcal{S}$ 是有限状态的集合。 $\mathcal{P}$ 是状态转移矩阵。 $r$是奖励函数,某个状态$s$的奖励$r(s)$指转移到该状态时可以获得奖励的期望。 $\gamma$ 是折扣因子,$\gamma$的取值为$[0,1)$ 。引入折扣因子的理由为远期利益具有一定不确定性，有时我们更希望能够尽快获得一些奖励，所以我们需要对远期利益打一些折扣。接近 1 的 $\gamma$ 更关注长期的累计奖励，接近0的$\gamma$ 更考虑短期奖励。 奖励函数的本质:向智能体传达目标(MDP) 强化学习的标准交互过程如下：每个时刻，智能体根据根据其 策略(policy)，在当前所处 状态(state) 选择一个 动作(action)，环境(environment) 对这些动作做出相应的相应的响应，转移到新状态，同时产生一个 奖励信号 (reward)，这通常是一个数值，奖励的折扣累加和称为 收益/回报 (return)，是智能体在动作选择过程中想要最大化的目标
+“奖励 &amp;amp; 收益” 其实是智能体目标的一种形式化、数值化的表征。可以把这种想法非正式地表述为 “收益假设” 收益是通过奖励信号计算的，而奖励函数是我们提供的，奖励函数起到了人与算法沟通的桥梁作用 需要注意的是，智能体只会学习如何最大化收益，如果想让它完成某些指定任务，就必须保证我们设计的奖励函数可以使得智能体最大化收益的同时也能实现我们的目标 回报 在一个马尔可夫奖励过程中，从第$t$时刻状态$S_t$开始，直到终止状态时，所有奖励的衰减之和称为回报（Return）
+假设设置$\gamma =0.5$
+$$ G_t=R_t+\gamma R_{t+1}+\gamma^2 R_{t+2}+\cdots=\sum_{k=0}^{\infty} \gamma^k R_{t+k} $$ 假设路径为1,2,3,6
+import numpy as np np.random.seed(0) #概率转移矩阵 P=[ [0.9,0.1,0.0,0.0,0.0,0.0], [0.5,0.0,0.5,0.0,0.0,0.0], [0.0,0.0,0.0,0.6,0.0,0.4], [0.0,0.0,0.0,0.0,0.3,0.7], [0.0,0.2,0.3,0.5,0.0,0.0], [0.0,0.0,0.0,0.6,0.0,1.0], ] P=np.array(P) rewards=[-1,-2,-2,10,1,0] gamma=0.5 def compute_chain_reward(start_index,chain,gamma): reward=0 for i in range(len(chain)): reward=gamma*reward+rewards[chain[i]-1] return reward chain=[1,2,3,6] start_index=0 reward=compute_chain_reward(start_index,chain,gamma) print(reward) 状态价值函数 一个状态的期望回报(即从这个状态出发的未来累积奖励的期望)-&amp;gt;价值
+即其状态价值函数$V_{\pi}(s)$就等于转移到每个通路上的概率（由策略决定）乘以每条路上得到的回报即
+$V(s)=\mathbb{E}\left[G_t \mid S_t=s\right]$
+展开为: $$ \begin{align} V(s) &amp;amp;=\mathbb{E}[G_t \mid S_t=s] \ &amp;amp;=\mathbb{E}[R_t+\gamma R_{t+1}+\gamma^2 R_{t+2}+&amp;hellip;\mid S_t=s]\ &amp;amp;=\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2})+&amp;hellip; \mid S_t=s]\ &amp;amp;=\mathbb{E}[R_t+\gamma G_{t+1}\mid S_t=s]\ &amp;amp;=\mathbb{E}[R_t+\gamma V(S_{t+1})\mid S_t=s]\ \end{align} $$ 一方面,即时奖励的期望正是奖励函数的输出，即：
+$\mathbb{E}\left[R_t \mid S_t=s\right]=r(s)$
+另一方面，等式中剩余部分 $\mathbb{E}\left[\gamma V\left(S_{t+1}\right) \mid S_t=s\right]$ 可以根据从状态$s$出发的转移概率得到，即可以得到 $$ V(s)=r(s)+\gamma\sum_{s^{\prime} \in S }{p(s^{\prime} \mid s)V(s^\prime)} $$ 上式就是马尔可夫奖励过程中非常有名的贝尔曼方程 (Bellman equation)，对每一个状态都成立。</description>
+    </item>
+    
+  </channel>
+</rss>

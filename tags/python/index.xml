@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Python on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/tags/python/</link>
+    <description>Recent content in Python on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://niceasiv.cn/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python复习</title>
+      <link>https://niceasiv.cn/posts/pythonnote/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/pythonnote/</guid>
+      <description>数据类型 字符串类 删除空白
+rstrip 删除右边空格
+lstrip 删除左边空格
+strip 删除两边空格
+In [1]: str=&amp;#34; python &amp;#34; In [2]: str.rstrip() Out[2]: &amp;#39; python&amp;#39; In [3]: str.lstrip() Out[3]: &amp;#39;python &amp;#39; In [4]: str.strip() Out[4]: &amp;#39;python&amp;#39; 列表 列表的索引从0开始
+元素添加和删除 1.在列表末尾添加元素
+In [5]: bicycles = [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [6]: bicycles[1] Out[6]: &amp;#39;cannondale&amp;#39; In [7]: bicycles.append(&amp;#34;app&amp;#34;) In [8]: bicycles Out[8]: [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;, &amp;#39;app&amp;#39;] 2.在列表任意位置插入元素
+In [9]: bicycles.insert(0,&amp;#34;app&amp;#34;) In [10]: bicycles Out[10]: [&amp;#39;app&amp;#39;, &amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;, &amp;#39;app&amp;#39;] 3.从列表末尾或任意位置删除元素
+pop()会返回弹出的元素
+In [11]: bicycles.pop() Out[11]: &amp;#39;app&amp;#39; In [12]: bicycles Out[12]: [&amp;#39;app&amp;#39;, &amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [14]: bicycles Out[14]: [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [15]: bicycles.pop(0) Out[15]: &amp;#39;trek&amp;#39; 4.从列表删除任意位置元素
+In [12]: bicycles Out[12]: [&amp;#39;app&amp;#39;, &amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [13]: del bicycles[0] In [14]: bicycles Out[14]: [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] 5.删除指定值
+remove()
+In [18]: bicycles Out[18]: [&amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [19]: bicycles.remove(&amp;#39;redline&amp;#39;) In [20]: bicycles Out[20]: [&amp;#39;cannondale&amp;#39;, &amp;#39;specialized&amp;#39;] 元素排序 1.</description>
+    </item>
+    
+  </channel>
+</rss>

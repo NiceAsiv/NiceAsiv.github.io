@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on Asiv&#39;s Blog</title>
+    <link>https://niceasiv.cn/posts/</link>
+    <description>Recent content in Posts on Asiv&#39;s Blog</description>
+    <image>
+      <url>https://niceasiv.cn/images/papermod-cover.png</url>
+      <link>https://niceasiv.cn/images/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 17 Dec 2023 14:28:08 +0800</lastBuildDate><atom:link href="https://niceasiv.cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Helloworld</title>
+      <link>https://niceasiv.cn/posts/helloworld/</link>
+      <pubDate>Sun, 17 Dec 2023 14:28:08 +0800</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/helloworld/</guid>
+      <description>Helloworld world is beautiful
+二级标题 三级标题 四级标题 五级标题 六级标题 公式测试 $$ \sum_{i=1}^n a_i=0 $$
+graph LR A[方形] --&gt;B(圆角) B --&gt; C{条件a} C --&gt;|a=1| D[结果1] C --&gt;|a=2| E[结果2] F[横向流程图] graph TD A[方形] --&amp;gt;B(圆角) B --&amp;gt; C{条件a} C --&amp;gt;|a=1| D[结果1] C --&amp;gt;|a=2| E[结果2] F[纵向流程图] </description>
+    </item>
+    
+    <item>
+      <title>通过修改 PE 装载 DLL 实验</title>
+      <link>https://niceasiv.cn/posts/pe_dll/</link>
+      <pubDate>Mon, 28 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/pe_dll/</guid>
+      <description>参考课件 chap06.pdf 中“通过修改PE装载DLL”一节的内容，以及课本第 5.5节的 内容，实现对notepad.exe（修復並下載Notepad.exe）的修改，使得修改后的 notepad.exe 在双击运行时，能够自动隐式装载 MyDll3.dll，并进而 将一个网页下载到本地index.html 文件。
+本上机作业的目的是让大家深入理解 PE 文件中的导入表、导入地址表等关键结构及相关的功能。
+本实验所使用的notepad.exe 是 Windows 7系统（最好32位版）中的可执行程序，MyDll3.dll 也仅保证在 Windows 7下能正常工作，因此，建议在 Windows 7环境（可预先安装虚拟机）下进行修改。请在虚拟机中禁用所有杀毒软件，确保修改过程不会受到杀毒软件的干扰。保证虚拟机能联网，以便DLL装载后的网页下载动作能正常完成。 下载notepad.exe可能与课本中所描述的notepad.exe版本不一致，应主要参考课件中的修改流程。 使用PEview分析PE文件，使用HxD编辑器修改PE文件。 直接使用本书所附代码编译生成 MyDll3.dll。 PE文件静态注入 这里因为notepad一直注入不成功，换了个win7版本也不行，好像是安全策略的原因，就只好找另外一个textview.exe进行注入
+代码是李承远老师的逆向工程核心原理当中的
+// dllmain.cpp : 定义 DLL 应用程序的入口点。 #include &amp;#34;pch.h&amp;#34; #include &amp;#34;stdio.h&amp;#34; #include &amp;#34;windows.h&amp;#34; #include &amp;#34;shlobj.h&amp;#34; #include &amp;#34;Wininet.h&amp;#34; #include &amp;#34;tchar.h&amp;#34; #pragma comment(lib, &amp;#34;Wininet.lib&amp;#34;) #define DEF_BUF_SIZE (4096) #define DEF_URL L&amp;#34;http://www.baidu.com/index.html&amp;#34; #define DEF_INDEX_FILE L&amp;#34;index.html&amp;#34; HWND g_hWnd = NULL; #ifdef __cplusplus extern &amp;#34;C&amp;#34; { #endif // 导出函数，但是没有任何功能，仅仅保持dll文件的形式上完整。 __declspec(dllexport) void dummy() { return; } #ifdef __cplusplus } #endif //DownloadURL 下载 szURL 中指定网站的文件，并将其保存在 szFile 目录。 BOOL DownloadURL(LPCTSTR szURL, LPCTSTR szFile) { BOOL bRet = FALSE; HINTERNET hInternet = NULL, hURL = NULL; BYTE pBuf[DEF_BUF_SIZE] = { 0, }; DWORD dwBytesRead = 0; FILE* pFile = NULL; errno_t err = 0; hInternet = InternetOpen(L&amp;#34;ReverseCore&amp;#34;, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0); if (NULL == hInternet) { OutputDebugString(L&amp;#34;InternetOpen() failed!&amp;#34;); return FALSE; } hURL = InternetOpenUrl(hInternet, szURL, NULL, 0, INTERNET_FLAG_RELOAD, 0); if (NULL == hURL) { OutputDebugString(L&amp;#34;InternetOpenUrl() failed!</description>
+    </item>
+    
+    <item>
+      <title>RSA 加密体制破译</title>
+      <link>https://niceasiv.cn/posts/rsaattack/</link>
+      <pubDate>Tue, 01 Nov 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/rsaattack/</guid>
+      <description>题目摘要 赛题名称： RSA 加密体制破译 赛题描述 RSA密码算法是使用最为广泛的公钥密码体制。该体制简单且易于实现，只需要选择5个参数即可（两个素数$𝑝$和$𝑞$、模数$𝑁=𝑝𝑞$、加密指数$𝑒$和解密指数$𝑑$。设𝑚为待加密消息RSA体制破译相当于已知$𝑚^𝑒$ $mod$ $𝑁$能否还原𝑚的数论问题。目前模数规模为1024比特的RSA算法一般情况下是安全的，但是如果参数选取不当，同样存在被破译的可能。有人制作了一个RSA加解密软件采用的RSA体制的参数特点描述见密码背景部分）。
+已知该软件发送某个明文的所有参数和加密过程的全部数据（加密案例文件详见附件3-1。Alice使用该软件发送了一个通关密语，且所有加密数据已经被截获，请问能否仅从加密数据恢复该通关密语及RSA体制参数？如能请给出原文和参数，如不能请给出已恢复部分并说明剩余部分不能恢复的理由？
+加密过程 原始明文 This is a test of my RSA system. Frame0
+A5F51EB02EA9C0CC9B96926A08A761FE3E7CDB6E5B348DBEAEC761DBCFCDB15A6C76F8EE08196008AE60E396D7E228C6DAFC3CC1127F16EC87576B89C151F20F99098621FD46872BC92CDA8C915B758E5C0CACB994F55B8705B938126E08589E2502A7B9019C9A62E82392E8449E00CFC7DA17B8CDE92F9516CE9A2009F42DD900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100019726C82FED1E6CD58DE825528AE5634653C9921CAE02AFF7325F20D6E7085B7C8E3DC78D7518A78A8BC7D07E2E837083324579510851827794AE3D1FB9BAB360B1413A8F171A83804CEA73DFBC1248139BB27EB7D5BAD724AD8B08F51888B90562AF950725ACDD698F817AE62746CEA09479A191A6552B0116830355C68D0F61 Frame1
+A5F51EB02EA9C0CC9B96926A08A761FE3E7CDB6E5B348DBEAEC761DBCFCDB15A6C76F8EE08196008AE60E396D7E228C6DAFC3CC1127F16EC87576B89C151F20F99098621FD46872BC92CDA8C915B758E5C0CACB994F55B8705B938126E08589E2502A7B9019C9A62E82392E8449E00CFC7DA17B8CDE92F9516CE9A2009F42DD90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001789018FDB800AD59A54D27A77F280515BB3BFAB1CD75CB0A255A116D4A44849459FD887FF091F87C0B3E6305F019700E4E4CB3646D1DF276DFB87C4F64245F77377508EC6A796236F8ABB125023D3F4B898F55E3342D0A852193AF890990EA82F12FC85917BF132F2A58C449648D6E934B24E80307AB092DB18110D77BBA0F8E Frame2
+BA645145D9DE58B0FFA6FC4624A2815092D2A2DC405E7A2515F985727D3C52F479A4D04694568CA9B08391BE79BD122808CF6034AB7251088687BFF5916A4F4723FE1372DCF9B069CAB269A9F8F47CB50078D3279B9452C9B3B65A07B49C793783EDB8EB8D8F1A220D9EFED33147483103A2551A96932738255493F13B5119530000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001534810A0D1B2F6FB257DC3BBDA30AA76157B89038E52D05EE1E5DB06C2D79FAE84892950EF5FD8ADC4F241C3741AD7C97002902C8CA4D96574F28EDCEF3BEF15303335FA8D250102B4EE77E3B405E30F6B81E92403A8881285B65F29668E05B9CD6AC44FC1CD193CF4A5811A2649BE0EDEFBA91FA7143266286C5EC6EE8077D6 Frame3
+BA645145D9DE58B0FFA6FC4624A2815092D2A2DC405E7A2515F985727D3C52F479A4D04694568CA9B08391BE79BD122808CF6034AB7251088687BFF5916A4F4723FE1372DCF9B069CAB269A9F8F47CB50078D3279B9452C9B3B65A07B49C793783EDB8EB8D8F1A220D9EFED33147483103A2551A96932738255493F13B51195300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100018805A937DABF25FE760F9F398C7D9D5955EF7468FEC89119F8DD69874FB009AB2C424BD6A8E85401C4CD130B48D0490586DFBD81C8154EDCEFC3AFC4F80338432197EB059AB54CF109B231416FB65E2F9BE4F01D455E25486D8E155A5874E8A910E8C65F73ACD953D316B35A148D5AC5834D86F66AD415EBA38AD3908B32780A 2.过程及参数
+RSA 密码算法描述如下，包含体制参数选取和加解密过程。
+1）RSA 体制参数选取
+​ Step1.每个使用者，任意选择两个大素数$𝑝$和$𝑞$，并求出其乘积$𝑁=𝑝𝑞$。
+​ Step2.令$𝜑(𝑁)=(𝑝−1)(𝑞−1)$选择整数$𝑒$，使得$GCD(𝑒,𝜑(𝑁))=1$，并求出$𝑒$模 $𝜑(𝑁)$的逆元$𝑑$，即$𝑒𝑑≡1 mod (𝜑(𝑁))$
+​ Step3.将数对$(𝑒,𝑁)$公布为公钥，$𝑑$保存为私钥。
+2）加解密过程
+​ Bob欲传递明文𝑚给 Alice，则Bob首先由公开途径找出 Alice 的公钥 $(𝑒,𝑁)$，Bob 计算加密的信息$𝑐$为:$𝑐 ≡ 𝑚^𝑒$ $mod$ $𝑁$。
+​ Bob 将密文$𝑐$传送给 Alice。 随后 Alice 利用自己的私钥$𝑑$解密： ​ $𝑐^e ≡ (𝑚^𝑒)^𝑑 ≡ 𝑚^{𝑒𝑑}≡ 𝑚\space mod\space 𝑁$
+Alice 使用的 RSA 密码体制有以下事项需要说明：
+​	1）模数𝑁=𝑝𝑞规模为1024比特，其中𝑝，𝑞为素数；
+​	2）素数𝑝由某一随机数发生器生成；
+​	3）素数𝑞可以随机选择，也可以由2）中的随机数发生器产生；
+​	4）可以对文本加密，每次加密最多8个明文字符；
+​	5）明文超过8个字符时，对明文分片，每个分片不超过8个字符；
+​	6）分片==明文填充为512比特消息后再进行加密，填充规则为高位添加64比特标志位，随后加上32比特通信序号==，再添加若干个0，最后64比特为明文分片字符对应的ASCII码（**注：填充方式参见加密案例，但注意每次通信的标志位可能变化）
+​	7）分片加密后发送一个加密帧数据，帧数据文件名称为FrameXX，其中XX表示接收序号，该序号不一定等于通信序号；
+​	8）帧数据的数据格式如下，其中数据都是16进制表示，结构如下==1024bit模数N | 1024bit加密指数e | 1024bit密文== $m^e\space mod \space N$。
+​	9）由于Alice初次使用该软件，可能会重复发送某一明文分片。
+符号说明： n 模数、p 素数、q素数、e加密指数、d 解密指数、m 明文分片、c 密文分片、“0X”十六进制数据表示
+明文： &amp;ldquo;This is a test of my RSA system.&amp;ldquo;将其分割为4个8字符长度消息(注意：空格也是一个字符)
+This is 该8字符对应的ASCII为	54	68	69	73	20	69	73	20	将其视为64比特整数为==&amp;gt;	0X5468697320697320 a test o	该8字符对应的ASCII为	61	20	74	65	73	74	20	6F	将其视为64比特整数为==&amp;gt;	0X612074657374206F f my RSA	该8字符对应的ASCII为	66	20	6D	79	20	52	53	41	将其视为64比特整数为==&amp;gt;	0X66206D7920525341 system.</description>
+    </item>
+    
+    <item>
+      <title>Week 6 - Programming Assignment</title>
+      <link>https://niceasiv.cn/posts/week6-quiz/</link>
+      <pubDate>Mon, 31 Oct 2022 18:16:09 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/week6-quiz/</guid>
+      <description>Content 更好的效果PDF:pdf文章列表 | Asiv&amp;rsquo;s Blog (niceasiv.cn)
+Factoring challenge #1: Your goal in this project is to break RSA when the public modulus $N$ is generated incorrectly. This should serve as yet another reminder not to implement crypto primitives yourself.
+Normally, the primes that comprise an RSA modulus are generated independently of one another. But suppose a developer decides to generate the first prime $p$ by choosing a random number $R$ and scanning for a prime close by. The second prime $q$ is generated by scanning for some other random prime also close to $R$. We show that the resulting RSA modulus $N=p q$ can be easily factored.
+在公开的N没有被正确的生成时破解RSA。通常在RSA中构成模数N的素数q和p,应该独立生成。如果开发者使用一个随机数R,并选择R附近的两个素数作为q和p，那么这种情况情况下生成的RSA模数N就很容易被破解。
+Suppose you are given a composite(合数) $N$ and are told that $N$ is a product of two relatively close primes $p$ and $q$, namely $p$ and $q$ satisfy $$ |p-q|&amp;lt;2 N^{1 / 4} $$ Your goal is to factor $N$.</description>
+    </item>
+    
+    <item>
+      <title>CVE2020-06-01复现</title>
+      <link>https://niceasiv.cn/posts/cve20200601/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/cve20200601/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python复习</title>
+      <link>https://niceasiv.cn/posts/pythonnote/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/pythonnote/</guid>
+      <description>数据类型 字符串类 删除空白
+rstrip 删除右边空格
+lstrip 删除左边空格
+strip 删除两边空格
+In [1]: str=&amp;#34; python &amp;#34; In [2]: str.rstrip() Out[2]: &amp;#39; python&amp;#39; In [3]: str.lstrip() Out[3]: &amp;#39;python &amp;#39; In [4]: str.strip() Out[4]: &amp;#39;python&amp;#39; 列表 列表的索引从0开始
+元素添加和删除 1.在列表末尾添加元素
+In [5]: bicycles = [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [6]: bicycles[1] Out[6]: &amp;#39;cannondale&amp;#39; In [7]: bicycles.append(&amp;#34;app&amp;#34;) In [8]: bicycles Out[8]: [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;, &amp;#39;app&amp;#39;] 2.在列表任意位置插入元素
+In [9]: bicycles.insert(0,&amp;#34;app&amp;#34;) In [10]: bicycles Out[10]: [&amp;#39;app&amp;#39;, &amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;, &amp;#39;app&amp;#39;] 3.从列表末尾或任意位置删除元素
+pop()会返回弹出的元素
+In [11]: bicycles.pop() Out[11]: &amp;#39;app&amp;#39; In [12]: bicycles Out[12]: [&amp;#39;app&amp;#39;, &amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [14]: bicycles Out[14]: [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [15]: bicycles.pop(0) Out[15]: &amp;#39;trek&amp;#39; 4.从列表删除任意位置元素
+In [12]: bicycles Out[12]: [&amp;#39;app&amp;#39;, &amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [13]: del bicycles[0] In [14]: bicycles Out[14]: [&amp;#39;trek&amp;#39;, &amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] 5.删除指定值
+remove()
+In [18]: bicycles Out[18]: [&amp;#39;cannondale&amp;#39;, &amp;#39;redline&amp;#39;, &amp;#39;specialized&amp;#39;] In [19]: bicycles.remove(&amp;#39;redline&amp;#39;) In [20]: bicycles Out[20]: [&amp;#39;cannondale&amp;#39;, &amp;#39;specialized&amp;#39;] 元素排序 1.</description>
+    </item>
+    
+    <item>
+      <title>策略蒸馏</title>
+      <link>https://niceasiv.cn/posts/policy_distillation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/policy_distillation/</guid>
+      <description>为了理解蒸馏的含义，我们先以DQN为例
+DQN（Deep Q-Network）是一种强化学习算法，它通过深度神经网络来近似Q函数，从而实现智能体的行为决策。下面我们将介绍一个针对DQN网络的案例。
+假设我们有一个小型的迷宫环境，智能体的任务是通过左、右、上、下四个动作来找到宝藏并获得最高的奖励。我们可以使用DQN算法来训练智能体。
+首先，我们需要定义状态空间、动作空间、奖励函数以及转移函数。在这个案例中，状态空间是迷宫中每个位置的坐标，动作空间是四个方向，奖励函数是在找到宝藏时获得的奖励，转移函数是在智能体执行一个动作后转移到下一个状态的过程。
+然后，我们可以使用深度神经网络来近似Q函数。在这个案例中，我们可以使用一个简单的全连接神经网络，它的输入是当前状态，输出是四个动作的Q值。我们使用均方误差损失函数来度量Q值的预测误差，并使用梯度下降算法来优化神经网络参数。
+接下来，我们可以使用经验回放机制来训练DQN网络。经验回放是一种存储智能体的经验，并从中随机抽样的机制。这样可以使得训练数据更加丰富、稳定，并且可以避免连续的训练样本之间的相关性。在每次训练中，我们随机从经验池中选择一个批次的样本，然后用它来更新神经网络参数。
+最后，我们可以通过迭代训练来提高DQN网络的性能。我们通过不断地与环境交互、收集经验、更新神经网络参数来提高DQN网络的预测性能。在训练的过程中，我们可以使用ε-greedy策略来平衡探索和利用，这样可以使得智能体在探索新状态和利用已有知识之间找到一个平衡点。
+通过以上的训练过程，我们可以得到一个训练好的DQN网络，它可以在迷宫环境中通过左、右、上、下四个动作来找到宝藏并获得最高的奖励。
+下面是一个基于DQN算法的伪代码：
+初始化神经网络 Q(s,a;θ) 的参数 θ 初始化目标网络 Q&amp;rsquo;(s,a;θ^-) 的参数 θ^-
+初始化经验池 D
+for episode = 1 to M do: 初始化状态 s for t = 1 to T do: 选择动作 a ： 如果随机数小于 ε，则选择一个随机动作 否则，选择 a = argmax Q(s,a;θ) 执行动作 a 并观察下一个状态 s&amp;#39; 和奖励 r 存储经验 (s, a, r, s&amp;#39;) 到经验池 D 从经验池 D 中随机抽取一个批次的经验 (s_i, a_i, r_i, s&amp;#39;_i) 对于批次中的每个样本 (s_i, a_i, r_i, s&amp;#39;_i) ，计算目标 Q 值： 如果 s&amp;#39;_i 是终止状态，则 Q_target = r_i 否则，Q_target = r_i + γ max Q&amp;#39;(s&amp;#39;_i, a&amp;#39;;θ^-) 使用 Q(s_i, a_i;θ) 和 Q_target 之间的均方误差来更新神经网络 Q(s,a;θ) 的参数 θ 如果 t mod C == 0，那么将目标网络的参数 θ^- 更新为 Q(s,a;θ) 的参数 θ 将状态更新为 s&amp;#39; 减小 ε 保存神经网络 Q(s,a;θ) 的参数 θ 其中，M 是迭代训练的次数，T 是每个 episode 的最大步数，ε 是 ε-greedy 策略中的探索率，γ 是折扣因子，C 是更新目标网络的间隔，D 是经验池，Q 和 Q&amp;rsquo; 分别是当前网络和目标网络。</description>
+    </item>
+    
+    <item>
+      <title>强化学习笔记</title>
+      <link>https://niceasiv.cn/posts/reinforment_learning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://niceasiv.cn/posts/reinforment_learning/</guid>
+      <description>基础 马尔科夫决策(MDP) 在随机过程中某时刻$t$的状态用$S_t$表示，所以可能的状态组成了状态空间$S$。
+如果已知历史的状态信息即$(S_1,&amp;hellip;,S_t)$,那么下一个时刻状态为$S_{t+1}$的概率为$P(S_{t+1}\mid S_1,&amp;hellip;,S_t)$
+当且仅当某时刻的状态只取决于上一时刻的状态时，一个随机过程被称为具有马尔可夫性质
+$$ P(S_{t+1}\mid S_t)=P(S_{t+1}\mid S_1,&amp;hellip;,S_t) $$ 也就是说当前状态是未来的充分统计量，即下一个状态只取决于当前状态，而不会受到过去状态的影响。
+注意：
+虽然$t+1$时刻的状态只与$t$时刻的状态有关，但是$t$时刻的状态其实包含了$t-1$时刻的状态的信息，通过这种链式的关系，历史的信息被传递到了现在。
+Markov process 通常用两元组$&amp;lt;S,P&amp;gt;$描述一个马尔科夫过程，其中$S$是有限状态集合，$P$是状态转移矩阵
+矩阵$P$中第$i$行第$j$列$P(s_j|s_i)$表示状态$s_i$转移到状态$s_j$的概率，从某个状态出发，到达其他状态的概率和必须为1，即状态转移矩阵的每一行的和为1。
+给定一个马尔可夫过程，我们就可以从某个状态出发，根据它的状态转移矩阵生成一个状态序列（episode），这个步骤也被叫做采样（sampling）。
+Markov reward process(MRP) 一个马尔科夫奖励过程由$\langle \mathcal{S},\mathcal{P},r,\gamma \rangle$
+$\mathcal{S}$ 是有限状态的集合。 $\mathcal{P}$ 是状态转移矩阵。 $r$是奖励函数,某个状态$s$的奖励$r(s)$指转移到该状态时可以获得奖励的期望。 $\gamma$ 是折扣因子,$\gamma$的取值为$[0,1)$ 。引入折扣因子的理由为远期利益具有一定不确定性，有时我们更希望能够尽快获得一些奖励，所以我们需要对远期利益打一些折扣。接近 1 的 $\gamma$ 更关注长期的累计奖励，接近0的$\gamma$ 更考虑短期奖励。 奖励函数的本质:向智能体传达目标(MDP) 强化学习的标准交互过程如下：每个时刻，智能体根据根据其 策略(policy)，在当前所处 状态(state) 选择一个 动作(action)，环境(environment) 对这些动作做出相应的相应的响应，转移到新状态，同时产生一个 奖励信号 (reward)，这通常是一个数值，奖励的折扣累加和称为 收益/回报 (return)，是智能体在动作选择过程中想要最大化的目标
+“奖励 &amp;amp; 收益” 其实是智能体目标的一种形式化、数值化的表征。可以把这种想法非正式地表述为 “收益假设” 收益是通过奖励信号计算的，而奖励函数是我们提供的，奖励函数起到了人与算法沟通的桥梁作用 需要注意的是，智能体只会学习如何最大化收益，如果想让它完成某些指定任务，就必须保证我们设计的奖励函数可以使得智能体最大化收益的同时也能实现我们的目标 回报 在一个马尔可夫奖励过程中，从第$t$时刻状态$S_t$开始，直到终止状态时，所有奖励的衰减之和称为回报（Return）
+假设设置$\gamma =0.5$
+$$ G_t=R_t+\gamma R_{t+1}+\gamma^2 R_{t+2}+\cdots=\sum_{k=0}^{\infty} \gamma^k R_{t+k} $$ 假设路径为1,2,3,6
+import numpy as np np.random.seed(0) #概率转移矩阵 P=[ [0.9,0.1,0.0,0.0,0.0,0.0], [0.5,0.0,0.5,0.0,0.0,0.0], [0.0,0.0,0.0,0.6,0.0,0.4], [0.0,0.0,0.0,0.0,0.3,0.7], [0.0,0.2,0.3,0.5,0.0,0.0], [0.0,0.0,0.0,0.6,0.0,1.0], ] P=np.array(P) rewards=[-1,-2,-2,10,1,0] gamma=0.5 def compute_chain_reward(start_index,chain,gamma): reward=0 for i in range(len(chain)): reward=gamma*reward+rewards[chain[i]-1] return reward chain=[1,2,3,6] start_index=0 reward=compute_chain_reward(start_index,chain,gamma) print(reward) 状态价值函数 一个状态的期望回报(即从这个状态出发的未来累积奖励的期望)-&amp;gt;价值
+即其状态价值函数$V_{\pi}(s)$就等于转移到每个通路上的概率（由策略决定）乘以每条路上得到的回报即
+$V(s)=\mathbb{E}\left[G_t \mid S_t=s\right]$
+展开为: $$ \begin{align} V(s) &amp;amp;=\mathbb{E}[G_t \mid S_t=s] \ &amp;amp;=\mathbb{E}[R_t+\gamma R_{t+1}+\gamma^2 R_{t+2}+&amp;hellip;\mid S_t=s]\ &amp;amp;=\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2})+&amp;hellip; \mid S_t=s]\ &amp;amp;=\mathbb{E}[R_t+\gamma G_{t+1}\mid S_t=s]\ &amp;amp;=\mathbb{E}[R_t+\gamma V(S_{t+1})\mid S_t=s]\ \end{align} $$ 一方面,即时奖励的期望正是奖励函数的输出，即：
+$\mathbb{E}\left[R_t \mid S_t=s\right]=r(s)$
+另一方面，等式中剩余部分 $\mathbb{E}\left[\gamma V\left(S_{t+1}\right) \mid S_t=s\right]$ 可以根据从状态$s$出发的转移概率得到，即可以得到 $$ V(s)=r(s)+\gamma\sum_{s^{\prime} \in S }{p(s^{\prime} \mid s)V(s^\prime)} $$ 上式就是马尔可夫奖励过程中非常有名的贝尔曼方程 (Bellman equation)，对每一个状态都成立。</description>
+    </item>
+    
+  </channel>
+</rss>
